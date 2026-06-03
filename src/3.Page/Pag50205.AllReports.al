@@ -94,22 +94,19 @@ page 50205 "All Reports"
         ReportCount: Integer;
         Training: Label 'Training';
         Allowance: Label 'Allowance';
-        PaymentMemo: Report "Payment Memo";
-        TrainerTraningHours: Report "Trainer Traning Hours";
-        TrainingwiseTraningHours: Report "Training wise Traning Hours";
         // TravelRequest: Report "Travel Request";
         // TravelSettlement: Report "Travel Settlement";
         AllowanceAssignment: Report "Allowance Assignment";
     // TraineeTraningHours: Report Settlement;
     begin
 
-        CreateReport(NewReport, ReportCount, 4, Training, CopyStr(PaymentMemo.ObjectId, 8, 250), CopyStr(PaymentMemo.ObjectId, 1, 6));
+        // CreateReport(NewReport, ReportCount, 4, Training, CopyStr(PaymentMemo.ObjectId, 8, 250), CopyStr(PaymentMemo.ObjectId, 1, 6));
         // CreateReport(NewReport, ReportCount, 4, Training, CopyStr(TraineeTraningHours.ObjectId, 8, 250), CopyStr(TraineeTraningHours.ObjectId, 1, 6));
-        CreateReport(NewReport, ReportCount, 4, Training, CopyStr(TrainerTraningHours.ObjectId, 8, 250), CopyStr(TrainerTraningHours.ObjectId, 1, 6));
-        CreateReport(NewReport, ReportCount, 4, Training, CopyStr(TrainingwiseTraningHours.ObjectId, 8, 250), CopyStr(TrainingwiseTraningHours.ObjectId, 1, 6));
+        // CreateReport(NewReport, ReportCount, 4, Training, CopyStr(TrainerTraningHours.ObjectId, 8, 250), CopyStr(TrainerTraningHours.ObjectId, 1, 6));
+        // CreateReport(NewReport, ReportCount, 4, Training, CopyStr(TrainingwiseTraningHours.ObjectId, 8, 250), CopyStr(TrainingwiseTraningHours.ObjectId, 1, 6));
         // CreateReport(NewReport, ReportCount, 4, Travel, CopyStr(TravelRequest.ObjectId, 8, 250), CopyStr(TravelRequest.ObjectId, 1, 6));
         // CreateReport(NewReport, ReportCount, 4, Travel, CopyStr(TravelSettlement.ObjectId, 8, 250), CopyStr(TravelSettlement.ObjectId, 1, 6));
-        CreateReport(NewReport, ReportCount, 4, Allowance, CopyStr(AllowanceAssignment.ObjectId, 8, 250), CopyStr(AllowanceAssignment.ObjectId, 1, 6));
+        // CreateReport(NewReport, ReportCount, 4, Allowance, CopyStr(AllowanceAssignment.ObjectId, 8, 250), CopyStr(AllowanceAssignment.ObjectId, 1, 6));
     end;
 
     local procedure CreateReport(var NewReport: Record Item; var ReportCount: Integer; ReportID: Integer; ReportCategory: Text; ReportName: Text; Type: Text)

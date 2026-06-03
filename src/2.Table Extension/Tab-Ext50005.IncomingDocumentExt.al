@@ -79,17 +79,4 @@ tableextension 50005 "Incoming Document Ext" extends "Incoming Document"
         if IncomingDocument.FindLast() then;
         exit(IncomingDocument."Entry No." + 1);
     end;
-
-    // local procedure CheckSampleAttachment();
-    // var
-    //     IncomingDoc: Record "Incoming Document";
-    // begin
-    //     if Type = Type::Sample then begin
-    //         IncomingDoc.Reset();
-    //         IncomingDoc.SetRange("Attachment Code", "Attachment Code");
-    //         IncomingDoc.SetRange(Type, IncomingDoc.Type::Sample);
-    //         if IncomingDoc.FindFirst() then
-    //             Error('Sample attachment already exist for attachment %1', "Attachment Code");
-    //     end;
-    // end;
 }

@@ -936,13 +936,6 @@ page 50199 "HR Manager Role Center"
                     ToolTip = 'Executes the Employee Profile Details Report action.';
                     ApplicationArea = All;
                 }
-                action("Employee Appraisal Report")
-                {
-                    Image = "Report";
-                    RunObject = report "Appraisal Check Review Report";
-                    ToolTip = 'Executes the Employee Appraisal Report action.';
-                    ApplicationArea = All;
-                }
             }
             group("Payroll Reports")
             {

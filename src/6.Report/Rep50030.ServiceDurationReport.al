@@ -115,12 +115,12 @@ report 50030 "Service Duration Report"
                                 if Employee."Functional Title" <> '' then
                                     EmployeeServiceHistory.SetRange("Functional Title (To)", Employee."Functional Title");
                             end;
-                        SinceInThe::"Salary Level":
-                            begin
-                                if Employee."Job Title Code" <> '' then
-                                    EmployeeServiceHistory.SetRange("Salary Level (To)", Employee."Job Title Code");
-                                EmployeeServiceHistory.SetFilter("Effective Date", '>=%1', LastTransferDate);
-                            end;
+                    // SinceInThe::"Salary Level":
+                    //     begin
+                    //         if Employee."Job Title Code" <> '' then
+                    //             EmployeeServiceHistory.SetRange("Salary Level (To)", Employee."Job Title Code");
+                    //         EmployeeServiceHistory.SetFilter("Effective Date", '>=%1', LastTransferDate);
+                    //     end;
 
                     end;
                 end;

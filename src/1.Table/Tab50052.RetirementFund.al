@@ -66,7 +66,7 @@ table 50052 "Retirement Fund"
 
             trigger OnValidate()
             begin
-                HRMgt.CalculateRetirementFund(Rec, "Projection Month");
+                RetirementFundMgt.CalculateRetirementFund(Rec, "Projection Month");
             end;
         }
         field(15; "CIT Amount (Month)"; Decimal)
@@ -75,7 +75,7 @@ table 50052 "Retirement Fund"
 
             trigger OnValidate()
             begin
-                HRMgt.CalculateRetirementFund(Rec, "Projection Month");
+                RetirementFundMgt.CalculateRetirementFund(Rec, "Projection Month");
             end;
         }
         field(16; "Total Committed Contribution"; Decimal)
@@ -89,7 +89,7 @@ table 50052 "Retirement Fund"
 
             trigger OnValidate()
             begin
-                HRMgt.CalculateRetirementFund(Rec, "Projection Month");
+                RetirementFundMgt.CalculateRetirementFund(Rec, "Projection Month");
             end;
         }
         field(18; "CIT Amount( Lumpsum)"; Decimal)
@@ -98,7 +98,7 @@ table 50052 "Retirement Fund"
 
             trigger OnValidate()
             begin
-                HRMgt.CalculateRetirementFund(Rec, "Projection Month");
+                RetirementFundMgt.CalculateRetirementFund(Rec, "Projection Month");
             end;
         }
         field(19; Difference; Decimal)
@@ -328,6 +328,7 @@ table 50052 "Retirement Fund"
         HRSetup: Record "Human Resources Setup";
         NoSeries: Codeunit "No. Series";
         HRMgt: Codeunit "HR Mgt.";
+        RetirementFundMgt: Codeunit "Retirement Fund Mgt";
         TempRF: Record "Retirement Fund" temporary;
         TempRF2: Record "Retirement Fund" temporary;
         Employee: Record Employee;

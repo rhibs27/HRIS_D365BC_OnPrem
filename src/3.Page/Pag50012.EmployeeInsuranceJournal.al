@@ -1,4 +1,4 @@
-page 50075 "Employee Insurance Journal"
+page 50012 "Employee Insurance Journal"
 {
     ApplicationArea = All;
     Caption = 'Employee Insurance Journal';

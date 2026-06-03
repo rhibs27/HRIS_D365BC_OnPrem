@@ -1211,7 +1211,7 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLineCopy: Record "Assignment Memo Line Copy";
         SalaryLevel: Record "Salary Level";
         Employee: Record Employee;
-
+        PayrollArchive: Record "Payroll Archive";
         FuelLimit, TempFuelLimit, RemainingFuelLimit : Decimal;
         AmountLimit, TempAmountLimit, RemainingAmountLimit : Decimal;
         FuelClaimed, AmountClaimed : Decimal;
@@ -1228,14 +1228,30 @@ codeunit 50030 "Assignment Memo Mgt"
 
         Employee.Get(AssignmentMemoHdr."Employee No.");
         SalaryLevel.Get(Employee."Salary Level");
-
-        if (Employee."Vehicle Type" = Employee."Vehicle Type"::"Four Wheeler")
-            and (SalaryLevel.Rank >= GetAMRank()) then begin
-            FuelLimit := SalaryLevel."Fuel Limit (ltr)";
-            AmountLimit := 0;
+        if SalaryLevel."Effective Date" <= AssignmentMemoHdr."From Date" then begin
+            if (Employee."Vehicle Type" = Employee."Vehicle Type"::"Four Wheeler")
+                and (SalaryLevel.Rank >= GetAMRank()) then begin
+                FuelLimit := SalaryLevel."Fuel Limit (ltr)";
+                AmountLimit := 0;
+            end else begin
+                FuelLimit := 0;
+                AmountLimit := SalaryLevel."Transportation Allowance";
+            end;
         end else begin
-            FuelLimit := 0;
-            AmountLimit := SalaryLevel."Transportation Allowance";
+            PayrollArchive.SetRange("Table No.", SalaryLevel.RecordId.TableNo);
+            PayrollArchive.SetRange("Salary Level", SalaryLevel.Code);
+            PayrollArchive.SetFilter("Effective Date", '..%1', AssignmentMemoHdr."From Date");
+            PayrollArchive.SetFilter("Expire Date", '%1|>=%2', 0D, AssignmentMemoHdr."From Date");
+            if PayrollArchive.Findfirst then begin
+                if (Employee."Vehicle Type" = Employee."Vehicle Type"::"Four Wheeler")
+                and (PayrollArchive.Rank >= GetAMRankFromArchive(PayrollArchive)) then begin
+                    FuelLimit := PayrollArchive."Fuel Limit (ltrs)";
+                    AmountLimit := 0;
+                end else begin
+                    FuelLimit := 0;
+                    AmountLimit := PayrollArchive."Transportation Allowance";
+                end;
+            end;
         end;
 
         //check limit
@@ -1553,6 +1569,17 @@ codeunit 50030 "Assignment Memo Mgt"
         exit(SalaryLevel.Rank);
     end;
 
+    procedure GetAMRankFromArchive(PayrollArchive: Record "Payroll Archive"): Integer
+    var
+        PayrollArchiveCheck: Record "Payroll Archive";
+    begin
+        PayrollArchiveCheck.SetRange("Table No.", PayrollArchive."Table No.");
+        PayrollArchiveCheck.SetRange("Effective Date", PayrollArchive."Effective Date");
+        PayrollArchiveCheck.SetRange("Is AM", true);
+        PayrollArchiveCheck.FindFirst();
+        exit(PayrollArchiveCheck.Rank);
+    end;
+
     procedure ProrateAllowanceAmount(AssignmentMemoLine: Record "Assignment Memo Line"; var AssignmentMemoLedgerEntry: Record "Assignment Memo Ledger Entry")
     var
         AssignmentMemoHdr: Record "Assignment Memo Header";
@@ -1616,12 +1643,39 @@ codeunit 50030 "Assignment Memo Mgt"
         AssignmentMemoLine.Validate("From Date", AssignmentMemoHdr."To date");
         AssignmentMemoLine.Validate("To Date", AssignmentMemoHdr."To Date");
         AssignmentMemoLine.Validate("Payroll Attribute Code", AssignmentMemoHdr."Payroll Attribute Code");
+        GetLeaveEnchashmentAmount(AssignmentMemoHdr, LeaveEarn);
         AssignmentMemoLine.Validate("Allowance Amount", LeaveEarn."Encashment Amount");
         AssignmentMemoLine.Insert();
 
         LeaveEarn."Claimed Document No." := AssignmentMemoHdr."No.";
         LeaveEarn.Claimed := true;
         LeaveEarn.Modify();
+    end;
+
+    procedure GetLeaveEnchashmentAmount(AssignmentMemoHdr: Record "Assignment Memo Header"; var LeaveEarn: Record "Leave Earn"): Decimal
+    var
+        AllowanceConfig: Record "Allowance Configuration";
+        PayrollArchive: Record "Payroll Archive";
+    begin
+        AllowanceConfig.SetRange("Payroll Attribute", AssignmentMemoHdr."Payroll Attribute Code");
+        AllowanceConfig.SetFilter("Effective Date", '<=%1', LeaveEarn."Posted Date");
+        if AllowanceConfig.FindFirst() then begin
+            if AllowanceConfig.Amount <> 0 then
+                LeaveEarn."Encashment Amount" := AllowanceConfig.Amount
+            else if AllowanceConfig.Formula <> '' then
+                LeaveEarn."Encashment Amount" := AllowanceConfig.EvaluateAmountForEmployee(AllowanceConfig.Formula, LeaveEarn."Employee No.");
+        end else begin
+            PayrollArchive.SetRange("Table No.", AllowanceConfig.RecordId.TableNo);
+            PayrollArchive.SetRange("Payroll Attribute", AssignmentMemoHdr."Payroll Attribute Code");
+            PayrollArchive.SetFilter("Effective Date", '..%1', LeaveEarn."Posted Date");
+            PayrollArchive.SetFilter("Expire Date", '%1|>=%2', 0D, LeaveEarn."Posted Date");
+            if PayrollArchive.Findfirst then begin
+                if PayrollArchive."Attribute Amount" <> 0 then
+                    LeaveEarn."Encashment Amount" := PayrollArchive."Attribute Amount"
+                else if AllowanceConfig.Formula <> '' then
+                    LeaveEarn."Encashment Amount" := AllowanceConfig.EvaluateAmountForEmployee(PayrollArchive.Formula, LeaveEarn."Employee No.");
+            end;
+        end;
     end;
 
     procedure LookUpNameofChildren(EmployeeRelative: Record "Employee Relative"; var AssignmentMemoLine: Record "Assignment Memo Line")

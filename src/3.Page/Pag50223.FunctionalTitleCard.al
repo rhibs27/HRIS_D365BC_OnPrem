@@ -1,7 +1,5 @@
 page 50223 "Functional Title Card"
 {
-    // version KPI1.00
-
     PageType = Card;
     SourceTable = "Functional Title";
     ApplicationArea = All;
@@ -114,11 +112,6 @@ page 50223 "Functional Title Card"
                 field("BM/OBM"; Rec."BM/OBM")
                 {
                     ToolTip = 'Specifies the value of the BM/OBM field.';
-                    ApplicationArea = All;
-                }
-                field("KPI Incentive %"; Rec."KPI Incentive %")
-                {
-                    ToolTip = 'Specifies the value of the KPI Incentive % field.';
                     ApplicationArea = All;
                 }
                 field(Blocked; Rec.Blocked)
