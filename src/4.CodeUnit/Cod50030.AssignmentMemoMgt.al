@@ -1467,12 +1467,18 @@ codeunit 50030 "Assignment Memo Mgt"
         end else if AssignemntMemoHeader."Activity Type" = AssignemntMemoHeader."Activity Type"::"Request Allowance" then begin
             //check if payroll is posted
             AssignemntMemoLedgerEntry.SetRange("Document No.", DocNo);
-            AssignemntMemoLedgerEntry.SetFilter("Payroll Document No.", '<>%1', '');
-            if AssignemntMemoLedgerEntry.FindSet() then
+            AssignemntMemoLedgerEntry.SetRange("Payroll Document No.", '');
+            AssignemntMemoLedgerEntry.SetRange("Payroll Posted", false);
+            if AssignemntMemoLedgerEntry.FindSet() then begin
                 repeat
-                    // if PostedPayrollHeader.Get(AssignemntMemoLedgerEntry."Payroll Document No.") then
-                    Error('Cannot reverse the allowance request %1 as payroll for the claimed allowance has been posted in payroll %2. Reverse the payroll first.', DocNo, AssignemntMemoLedgerEntry."Payroll Document No.");
+                    AssignemntMemoLedgerEntry.Reversed := true;
+                    AssignemntMemoLedgerEntry.Open := false;
+                    AssignemntMemoLedgerEntry."Blocked for Payroll" := true;
+                    AssignemntMemoLedgerEntry.Modify();
                 until AssignemntMemoLedgerEntry.Next() = 0;
+            end
+            else
+                Error('Cannot reverse the allowance request %1 as payroll for the claimed allowance has been posted in payroll %2. Reverse the payroll first.', DocNo, AssignemntMemoLedgerEntry."Payroll Document No.");
         end;
 
         //mark lines as reversed
@@ -1539,11 +1545,14 @@ codeunit 50030 "Assignment Memo Mgt"
             AssignemntMemoLedgerEntry.SetRange("Document No.", AllownaceAssignmentMemoLine."Document No.");
             AssignemntMemoLedgerEntry.SetRange("Employee No.", AllownaceAssignmentMemoLine."Employee No.");
             AssignemntMemoLedgerEntry.SetRange("Posting Date", AllownaceAssignmentMemoLine."From Date", AllownaceAssignmentMemoLine."To Date");
-            AssignemntMemoLedgerEntry.SetRange("Employee Work Shift", AllownaceAssignmentMemoLine."Employee Work Shift");
+            if AssignemntMemoHeader."Activity Type" = AssignemntMemoHeader."Activity Type"::"Shift Assignment Memo" then
+                AssignemntMemoLedgerEntry.SetRange("Employee Work Shift", AllownaceAssignmentMemoLine."Employee Work Shift");
             if AssignemntMemoLedgerEntry.FindSet() then
                 repeat
                     if AssignemntMemoLedgerEntry.Claimed then
                         Error('Cannot reverse the assignment %1 as it has been claimed by employee. Reverse the claim first.', AllownaceAssignmentMemoLine."Document No.");
+                    if AssignemntMemoLedgerEntry."Payroll Document No." <> '' then
+                        Error('Cannot reverse the allowance request %1 as payroll for the claimed allowance has been posted in payroll %2. Reverse the payroll first.', AllownaceAssignmentMemoLine."Document No.", AssignemntMemoLedgerEntry."Payroll Document No.");
                     AssignemntMemoLedgerEntry.Reversed := true;
                     AssignemntMemoLedgerEntry.Open := false;
                     AssignemntMemoLedgerEntry."Blocked for Payroll" := true;
