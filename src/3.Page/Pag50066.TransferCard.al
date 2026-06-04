@@ -329,7 +329,7 @@ page 50066 "Transfer Card"
                 }
                 group("Proposed Placement")
                 {
-                    // Editable = not Rec."Is Transfer Details Added" and IsApproved;
+                    Editable = not Rec."Is Transfer Details Added" and IsApproved;
                     field("Deputation On (To)"; Rec."Deputation On (To)")
                     {
                         ToolTip = 'Specifies the value of the Deputation On (To) field.';
@@ -346,7 +346,7 @@ page 50066 "Transfer Card"
                     {
                         ToolTip = 'Specifies the value of the Functional Title (To) field.';
                         ApplicationArea = All;
-                        // Editable = IsApproved and not rec."Is Transfer Details Added";
+                        Editable = IsApproved and not rec."Is Transfer Details Added";
 
                         trigger OnValidate()
                         begin
@@ -402,8 +402,7 @@ page 50066 "Transfer Card"
                     }
                     field("Extension Counter (To)"; Rec."Extension Counter (To)")
                     {
-                        // Editable = ExtensionCounterEdit;
-                        Editable = (IsApproved or IsHold) and rec."Is Transfer Details Added";
+                        Editable = ExtensionCounterEdit;
                         ToolTip = 'Specifies the value of the Extension Counter (To) field.';
                         ApplicationArea = All;
 
@@ -438,7 +437,7 @@ page 50066 "Transfer Card"
                     }
                     field("Unit (To)"; Rec."Unit (To)")
                     {
-                        // Editable = UnitEdit;
+                        Editable = UnitEdit;
                         ToolTip = 'Specifies the value of the Unit (To) field.';
                         ApplicationArea = All;
 
@@ -458,7 +457,6 @@ page 50066 "Transfer Card"
                     {
                         ToolTip = 'Specifies the value of the Incoming Supervisior field.';
                         ApplicationArea = All;
-                        Editable = not Rec."Is Transfer Details Added" and IsApproved;
                     }
                     field("Incoming Supervisior Name"; Rec."Incoming Supervisior Name")
                     {
@@ -469,7 +467,6 @@ page 50066 "Transfer Card"
                     {
                         ToolTip = 'Specifies the value of the Outgoing Branch Rep. Person field.';
                         ApplicationArea = All;
-                        Editable = not Rec."Is Transfer Details Added" and IsApproved;
 
                         // trigger OnValidate()
                         // begin
