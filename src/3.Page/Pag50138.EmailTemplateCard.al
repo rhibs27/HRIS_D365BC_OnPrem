@@ -32,12 +32,6 @@ page 50138 "Email Template Card"
                     ToolTip = 'Specifies the value of the Email Reciepent field.';
                     ApplicationArea = All;
                 }
-                field("Document Profile"; Rec."Document Profile")
-                {
-                    Visible = false;
-                    ToolTip = 'Specifies the value of the Document Profile field.';
-                    ApplicationArea = All;
-                }
                 field("Document Type"; Rec."Document Type")
                 {
                     ToolTip = 'Specifies the value of the Document Type field.';
@@ -58,18 +52,6 @@ page 50138 "Email Template Card"
                     ToolTip = 'Specifies the value of the Loan Type field.';
                     ApplicationArea = All;
                 }
-                field("Memo Type"; Rec."Memo Type")
-                {
-                    Visible = false;
-                    ToolTip = 'Specifies the value of the Memo Type field.';
-                    ApplicationArea = All;
-                }
-                // field("Product Segment"; Rec."Product Segment")
-                // {
-                //     Visible = false;
-                //     ToolTip = 'Specifies the value of the Product Segment field.';
-                //     ApplicationArea = All;
-                // }
             }
             part(Message; "Email Template Messages")
             {

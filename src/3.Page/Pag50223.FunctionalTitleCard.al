@@ -1,7 +1,5 @@
 page 50223 "Functional Title Card"
 {
-    // version KPI1.00
-
     PageType = Card;
     SourceTable = "Functional Title";
     ApplicationArea = All;
@@ -20,12 +18,6 @@ page 50223 "Functional Title Card"
                 field(Description; Rec.Description)
                 {
                     ToolTip = 'Specifies the value of the Description field.';
-                    ApplicationArea = All;
-                }
-                field("COPO/COSPO Allowance"; Rec."COPO/COSPO Allowance")
-                {
-                    ToolTip = 'Specifies the value of the PH/ DPH Allowance field.';
-                    Caption = 'PH/ DPH Allowance';
                     ApplicationArea = All;
                 }
                 field("BM Allowance"; Rec."BM Allowance")
@@ -116,9 +108,9 @@ page 50223 "Functional Title Card"
                     ToolTip = 'Specifies the value of the BM/OBM field.';
                     ApplicationArea = All;
                 }
-                field("KPI Incentive %"; Rec."KPI Incentive %")
+                field("Functional Title Role"; Rec."Functional Title Role")
                 {
-                    ToolTip = 'Specifies the value of the KPI Incentive % field.';
+                    ToolTip = 'Specifies the value of the Functional Title Role field.';
                     ApplicationArea = All;
                 }
                 field(Blocked; Rec.Blocked)

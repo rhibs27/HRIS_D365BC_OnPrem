@@ -40,7 +40,10 @@ table 50025 "Payroll Attributes"
         }
         field(9; "Usage Flexible"; Boolean) { }
         field(10; "Plan Flexible"; Boolean) { }
-        field(11; Status; enum "Payroll Status") { }
+        field(11; Status; enum "Employee Status")
+        {
+            ValuesAllowed = Active, InActive;
+        }
         field(12; "Apply Every Month"; Boolean)
         {
             trigger OnValidate()

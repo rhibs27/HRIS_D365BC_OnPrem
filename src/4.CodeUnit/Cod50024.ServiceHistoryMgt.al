@@ -7,24 +7,9 @@ codeunit 50024 "Service History Mgt"
     procedure AddToServiceHistory(DocNo: Code[20]; ServiceEvent: Enum "Service Event"; RemarksVar: Text; EffectiveDate: Date): Code[20]
     var
         EmpServiceHis: Record "Employee Service History";
-        Candidate: Record Candidate;
         EmployeeTransfer: Record "Employee Transfer";
     begin
         case ServiceEvent of
-            ServiceEvent::Appointment:
-                begin
-                    Candidate.Get(DocNo);
-                    EmpServiceHis.Init;
-                    EmpServiceHis.Validate("Service Event", EmpServiceHis."Service Event"::Appointment);
-                    EmpServiceHis.Validate("Employee No.", Candidate."Employee No.");
-                    EmpServiceHis.Validate("Functional Title (To)", Candidate."Functional Title");
-                    EmpServiceHis.Validate("Salary Level (To)", Candidate."Job Title");
-                    EmpServiceHis.Validate("Salary Grade (From)", Candidate."Salary Grade");
-                    EmpServiceHis.Validate("Salary Grade (To)", Candidate."Salary Grade");
-                    EmpServiceHis.Validate("Effective Date", EffectiveDate);
-                    EmpServiceHis.Validate(Remarks, RemarksVar);
-                    EmpServiceHis.Insert(true);
-                end;
             ServiceEvent::Confirmation, ServiceEvent::"Contract Renew", ServiceEvent::"Addition in Job Function",
             ServiceEvent::"Assignment in Job Function", ServiceEvent::"Formation of Department/Unit/Functional Title",
             ServiceEvent::"Internal Appointment", ServiceEvent::"Back From Deputation":
@@ -87,7 +72,7 @@ codeunit 50024 "Service History Mgt"
                 begin
                     Employee.Get(DocNo);
                     EmpServiceHis.Init;
-                    EmpServiceHis.Validate("Service Event", EmpServiceHis."Service Event"::Appointment);
+                    EmpServiceHis.Validate("Service Event", EmpServiceHis."Service Event"::Resignation);
                     EmpServiceHis.Validate("Employee No.", Employee."No.");
                     EmpServiceHis.Validate("Effective Date", EffectiveDate);
                     EmpServiceHis.Validate(Remarks, RemarksVar);
@@ -124,23 +109,8 @@ codeunit 50024 "Service History Mgt"
     procedure AddToServiceHistoryAppointment(DocNo: Code[20]; ServiceEvent: Enum "Service Event"; RemarksVar: Text; EffectiveDate: Date; VacanyNo: Code[20]; EmployeeNo: Code[20]): Code[20]
     var
         EmpServiceHis: Record "Employee Service History";
-        Candidate: Record Candidate;
     begin
         case ServiceEvent of
-            ServiceEvent::Appointment:
-                begin
-                    Candidate.Get(DocNo, VacanyNo);
-                    EmpServiceHis.Init;
-                    EmpServiceHis.Validate("Service Event", EmpServiceHis."Service Event"::Appointment);
-                    EmpServiceHis.Validate("Employee No.", EmployeeNo);
-                    EmpServiceHis.Validate("Functional Title (To)", Candidate."Functional Title");
-                    EmpServiceHis.Validate("Salary Level (To)", Candidate."Job Title");
-                    EmpServiceHis.Validate("Salary Grade (From)", Candidate."Salary Grade");
-                    EmpServiceHis.Validate("Salary Grade (To)", Candidate."Salary Grade");
-                    EmpServiceHis.Validate("Effective Date", EffectiveDate);
-                    EmpServiceHis.Validate(Remarks, RemarksVar);
-                    EmpServiceHis.Insert(true);
-                end;
             ServiceEvent::Confirmation, ServiceEvent::"Contract Renew", ServiceEvent::"Addition in Job Function",
             ServiceEvent::"Assignment in Job Function", ServiceEvent::"Formation of Department/Unit/Functional Title",
             ServiceEvent::"Internal Appointment", ServiceEvent::Transfer, ServiceEvent::"Temporary Deputation", ServiceEvent::"Back From Deputation", ServiceEvent::"Officiating Arrangement":

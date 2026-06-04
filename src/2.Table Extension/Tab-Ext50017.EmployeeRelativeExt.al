@@ -249,10 +249,16 @@ tableextension 50017 "Employee Relative Ext" extends "Employee Relative"
             caption = 'Access Token';
             DataClassification = CustomerContent;
         }
+        field(50302; "Is Medical Insurance Eligible"; Boolean)
+        {
+            caption = 'Is Medical Insurance Eligible';
+            DataClassification = CustomerContent;
+        }
     }
     keys
     {
         key(key2; "Relative Code") { }
+        key(key3; "Full Name") { }
     }
     fieldgroups
     {

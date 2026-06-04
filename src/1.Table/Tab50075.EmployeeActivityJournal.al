@@ -99,18 +99,27 @@ table 50075 "Employee Activity Journal"
             var
                 LeaveMgt: Codeunit "Leave Mgt.";
             begin
-                if "Employee Act Type" = "Employee Act Type"::"Leave Request" then begin
-                    if ("Leave Code" = '') or ("Leave Type" = "Leave Type"::" ") then
-                        Error('Leave code and leave type cannot be blank')
-                end;
                 Validate("End Date (BS)", EngNepDate.getNepaliDate("End Date"));
-                if "End Date" <> 0D then begin
-                    if "Employee Act Type" = "Employee Act Type"::"Leave Request" then
-                        Validate("No. of Days", LeaveMgt.CalculateNoOfDays("Start Date", "End Date", "Leave Code", "Employee Act Type", "Leave Type", "Employee No."))
-                end
-                else begin
-                    Clear("End Date (BS)");
-                    Clear("No. of Days");
+                case "Employee Act Type" of
+                    "Employee Act Type"::"Leave Request":
+                        begin
+
+                            if ("Leave Code" = '') or ("Leave Type" = "Leave Type"::" ") then
+                                Error('Leave code and leave type cannot be blank');
+
+                            if "End Date" <> 0D then begin
+                                Validate("No. of Days", LeaveMgt.CalculateNoOfDays("Start Date", "End Date", "Leave Code", "Employee Act Type", "Leave Type", "Employee No."))
+                            end
+                        end;
+                    "Employee Act Type"::Insurance:
+                        begin
+                            if "Start Date" > "End Date" then
+                                Error('Insurance Expiry Date must be greater then Insurance Start Date %1.', "Start Date");
+                        end;
+                    else begin
+                        Clear("End Date (BS)");
+                        Clear("No. of Days");
+                    end;
                 end;
             end;
         }
@@ -170,11 +179,11 @@ table 50075 "Employee Activity Journal"
         {
             Editable = false;
         }
-        field(19; "Branch Name"; Text[50])
+        field(19; "Branch Name"; Text[100])
         {
             Editable = false;
         }
-        field(20; "Department Name"; Text[50])
+        field(20; "Department Name"; Text[100])
         {
             Editable = false;
         }
@@ -771,6 +780,69 @@ table 50075 "Employee Activity Journal"
         {
             DataClassification = ToBeClassified;
         }
+
+        //employee Insurance
+        field(160; "Insurance Type"; Enum "Employee Insurance Type")
+        {
+            trigger OnValidate()
+            begin
+                if rec."Insurance Type" <> xRec."Insurance Type" then begin
+                    Clear("Insurance Company Code");
+                    Clear("Insurance Company Name");
+                end;
+            end;
+        }
+        field(161; "Insurance Company Code"; Code[20])
+        {
+            TableRelation = if ("Insurance Type" = const("Life Insurance")) "Insurance Company".code where(Blocked = const(false), Type = const("Life Insurance"))
+            else
+            "Insurance Company".code where(Blocked = const(false), Type = const("Non-Life Insurance"));
+            trigger OnValidate()
+            var
+                InsuranceCompany: Record "Insurance Company";
+            begin
+                if "Insurance Company Code" <> '' then begin
+                    if not InsuranceCompany.Get("Insurance Company Code") then
+                        Error('Kindly select the company from the dropdown list');
+                    Validate("Insurance Company Name", InsuranceCompany.Name);
+                end else
+                    Clear("Insurance Company Name");
+            end;
+        }
+        field(162; "Insurance Company Name"; Text[50])
+        {
+            Editable = false;
+        }
+        field(163; "Premium Payment Frequency"; Enum "Premium Payment Frequency")
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(164; "Premium Paid By"; enum "Premium Paid By")
+        {
+            Caption = 'Premium Paid By';
+        }
+        field(165; "Insurance Amount"; Decimal)
+        {
+            trigger OnValidate()
+            begin
+                if Rec."Insurance Amount" <> xRec."Insurance Amount" then begin
+                    Clear("Annual Premium Amount");
+                    Clear("Premium Amount");
+                end;
+            end;
+        }
+        field(166; "Premium Amount"; Decimal) { }
+        field(167; "Annual Premium Amount"; Decimal)
+        {
+            trigger OnValidate()
+            begin
+                if "Annual Premium Amount" <> 0 then begin
+                    if "Annual Premium Amount" > "Insurance Amount" then
+                        Error('Annual Premium Amount Should be less than Insurance Amount.');
+                end;
+            end;
+        }
+
     }
     keys
     {

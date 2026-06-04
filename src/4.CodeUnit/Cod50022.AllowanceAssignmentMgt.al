@@ -339,6 +339,8 @@ codeunit 50022 "Allowance Assignment Mgt"
     var
         PayCyclePeriod: Record "Pay Cycle Period";
         NoOfDays: Decimal;
+        Amount: Decimal;
+        Ishandled: Boolean;
     begin
         PGSetup.Get;
         if FromDate = 0D then
@@ -350,6 +352,10 @@ codeunit 50022 "Allowance Assignment Mgt"
             NoOfDays := PGSetup."Total Days" / 12;
         end else
             NoOfDays := CalcDate('CM', FromDate) - CalcDate('-CM', FromDate) + 1;
+
+        calculateAmountFromAllowanceConfiguration(AllowanceType, EmpNo, FromDate, Amount, Ishandled);
+        if Ishandled then
+            exit(Amount);
         case AllowanceType of
             PGSetup."Evening Counter":
                 begin
@@ -791,6 +797,11 @@ codeunit 50022 "Allowance Assignment Mgt"
 
     [IntegrationEvent(false, false)]
     procedure OnAfterCheckAllowanceLine(AllowanceLineCheck: Record "Allowance Assignment Line")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure calculateAmountFromAllowanceConfiguration(AllowanceType: Code[20]; Employee: Code[20]; FromDate: Date; var Amount: Decimal; var IsHandeled: Boolean)
     begin
     end;
 }

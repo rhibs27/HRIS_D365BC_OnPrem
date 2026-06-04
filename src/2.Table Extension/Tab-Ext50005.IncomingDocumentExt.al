@@ -37,6 +37,20 @@ tableextension 50005 "Incoming Document Ext" extends "Incoming Document"
             TableRelation = "Payroll Attributes".Code where("Activity Type" = filter("Employee Activity Type"::"Transfer Claim"));
         }
     }
+    trigger OnAfterModify()
+    var
+        BlankPlaceholder: Record "Incoming Document";
+    begin
+        if "Employee Activity Type" = "Employee Activity Type"::"Medical Insurance Claim" then
+            if (Rec."File Name" <> '') and (xRec."File Name" = '') then begin
+                BlankPlaceholder.SetRange("No.", Rec."No.");
+                BlankPlaceholder.SetRange("File Name", '');
+                BlankPlaceholder.SetFilter("Entry No.", '<>%1', Rec."Entry No.");
+                if BlankPlaceholder.FindFirst() then
+                    BlankPlaceholder.Delete();
+            end;
+    end;
+
     trigger OnDelete()
     begin
         if "File Name" <> '' then
@@ -65,17 +79,4 @@ tableextension 50005 "Incoming Document Ext" extends "Incoming Document"
         if IncomingDocument.FindLast() then;
         exit(IncomingDocument."Entry No." + 1);
     end;
-
-    // local procedure CheckSampleAttachment();
-    // var
-    //     IncomingDoc: Record "Incoming Document";
-    // begin
-    //     if Type = Type::Sample then begin
-    //         IncomingDoc.Reset();
-    //         IncomingDoc.SetRange("Attachment Code", "Attachment Code");
-    //         IncomingDoc.SetRange(Type, IncomingDoc.Type::Sample);
-    //         if IncomingDoc.FindFirst() then
-    //             Error('Sample attachment already exist for attachment %1', "Attachment Code");
-    //     end;
-    // end;
 }

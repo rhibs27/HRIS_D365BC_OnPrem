@@ -18,4 +18,8 @@ enum 50078 "Transfer Category"
     {
         Caption = 'Officiating';
     }
+    value(4; "Return from Temporary Transfer")
+    {
+        Caption = 'Return from Temporary Transfer';
+    }
 }

@@ -11,7 +11,7 @@
       <am:Name>MSRB</am:Name>
       <am:Version>15.1.30001.02</am:Version>
     </am:UpdatedBy>
-    <am:LastModifiedTimestamp>2026-01-22T05:52:46.3791391Z</am:LastModifiedTimestamp>
+    <am:LastModifiedTimestamp>2026-05-22T06:51:37.3947863Z</am:LastModifiedTimestamp>
   </am:AuthoringMetadata>
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
@@ -1342,7 +1342,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!BenefitAmount.Value) - Sum(Fields!DeductionAmount.Value) </Value>
+                                  <Value>=Sum(Fields!BenefitAmount.Value) + Sum(Fields!DeductionAmount.Value)</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -1381,7 +1381,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=Sum(Fields!BenefitAmount.Value) - Sum(Fields!DeductionAmount.Value) </Value>
+                                  <Value>=Sum(Fields!BenefitAmount.Value) + Sum(Fields!DeductionAmount.Value)</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>
@@ -4011,7 +4011,6 @@
                     </TablixCell>
                     <TablixCell>
                       <CellContents>
-                        <rd:Selected>true</rd:Selected>
                         <Textbox Name="Textbox184">
                           <rd:DefaultName>Textbox79</rd:DefaultName>
                           <CanGrow>true</CanGrow>
@@ -5946,7 +5945,7 @@
                             <Paragraph>
                               <TextRuns>
                                 <TextRun>
-                                  <Value>=iif((First(Fields!TotalTax.Value) - First(Fields!TaxRebate.Value) - First(Fields!TotalTaxPaid.Value)) &gt; 0, First(Fields!TotalTax.Value) - First(Fields!TaxRebate.Value) - First(Fields!TotalTaxPaid.Value), 0)</Value>
+                                  <Value>=iif((First(Fields!TotalTax.Value) + First(Fields!TaxRebate.Value) + First(Fields!TotalTaxPaid.Value)) &gt; 0, First(Fields!TotalTax.Value) + First(Fields!TaxRebate.Value) + First(Fields!TotalTaxPaid.Value), 0)</Value>
                                   <Style>
                                     <FontFamily>Segoe UI</FontFamily>
                                     <FontSize>8pt</FontSize>

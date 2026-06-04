@@ -1,7 +1,5 @@
 page 50141 "Email Templates"
 {
-    // version NP16.04
-
     CardPageId = "Email Template Card";
     Editable = false;
     PageType = List;
@@ -23,11 +21,6 @@ page 50141 "Email Templates"
                 field(Description; Rec.Description)
                 {
                     ToolTip = 'Specifies the value of the Description field.';
-                    ApplicationArea = All;
-                }
-                field("Document Profile"; Rec."Document Profile")
-                {
-                    ToolTip = 'Specifies the value of the Document Profile field.';
                     ApplicationArea = All;
                 }
                 field("Document Type"; Rec."Document Type")

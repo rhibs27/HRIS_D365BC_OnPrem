@@ -44,6 +44,10 @@ table 50112 "Grade Entry"
                 GetTotalGradepercentage();
             end;
         }
+        field(13; "Fiscal Year"; Code[20])
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys

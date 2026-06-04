@@ -42,4 +42,8 @@ enum 50040 "Pay Frequency"
     {
         Caption = 'Other';
     }
+    value(10; " ")
+    {
+        Caption = ' ';
+    }
 }

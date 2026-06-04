@@ -175,6 +175,9 @@ codeunit 50000 "Leave Mgt."
                             isNonWorkingDay := isNonWorkingDay and (Employee.Disabled = disabled);
                         //check OR condition
                         GetNonWorkingDaysOR(PayrollSetup."Base Calendar", CalendarDate."Period Start", Employee, isNonWorkingDay);
+
+                        OnAfterCheckNonWorkingDayFilters(Employee, CalendarDate."Period Start", PayrollSetup."Base Calendar", isNonWorkingDay);
+
                         if isNonWorkingDay then  //The day is holiday for that employee
                             Counter += 1;
                     end;
@@ -1108,6 +1111,11 @@ codeunit 50000 "Leave Mgt."
         CancelDocument.Get(CancelLeaveCode);
         CancelDocument.TestField(Type, CancelDocument.Type::"Leave Request");
         if CancelDocument.Type = CancelDocument.Type::"Leave Request" then begin
+
+            LeaveTypeSetup.get(CancelDocument."Leave Code");
+            if LeaveTypeSetup."Credit Method" = LeaveTypeSetup."Credit Method"::"On Approval" then
+                CreateLeaveLedger(CancelDocument."Employee No.", CancelDocument."Leave Code", CancelDocument."Start Date", leaveEarn.Type::Used, -CancelDocument."No. of Days", GetNextLeaveLedgerEntryNo(), CancelLeaveCode, CancelDocument.Remarks, '');
+
             CreateLeaveLedger(CancelDocument."Employee No.",
                      CancelDocument."Leave Code",
                      CancelDocument."Start Date",
@@ -1117,7 +1125,6 @@ codeunit 50000 "Leave Mgt."
                      CancelDocument."No.",
                      CancelDocument.Remarks,
                      '');
-            LeaveTypeSetup.get(CancelDocument."Leave Code");
             if LeaveTypeSetup."Exclude in Service Period" then begin
                 ServiceInactivity.SetRange("Source Doc No", CancelDocument."Cancelled Document No.");
                 ServiceInactivity.SetRange("Employee No.", CancelDocument."Employee No.");
@@ -2181,6 +2188,11 @@ codeunit 50000 "Leave Mgt."
 
     [IntegrationEvent(false, false)]
     local procedure OnInsertLeaveEarnfromJournal(var leaveJournal: Record "Employee Activity Journal"; Var IsHandled: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterCheckNonWorkingDayFilters(Employee: Record Employee; CalendarDate: Date; CalendarCode: Code[20]; var isNonWorkingDay: Boolean)
     begin
     end;
 

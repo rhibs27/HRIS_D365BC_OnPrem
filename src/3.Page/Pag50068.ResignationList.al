@@ -7,7 +7,8 @@ page 50068 "Resignation List"
     ModifyAllowed = false;
     PageType = List;
     SourceTable = "Resignation";
-    SourceTableView = WHERE(Type = filter("Employee Activity Type"::Resignation));
+    SourceTableView = sorting("No.") order(descending)
+    WHERE(Type = filter("Employee Activity Type"::Resignation));
     UsageCategory = Lists;
     ApplicationArea = All;
     layout
