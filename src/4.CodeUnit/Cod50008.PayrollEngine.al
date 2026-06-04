@@ -3179,6 +3179,8 @@ codeunit 50008 "Payroll Engine"
         EmployeePayrollAdjustment: Record "Employee Payroll Adjustment";
         EmployeeNo: Code[20];
         LeaveDays: Decimal;
+        LeaveDaysTaken: Decimal;
+        LFAAmount: Decimal;
         LeavePeriod: Record "Accounting Period";
     begin
         LeaveTypeSetup.Reset();
@@ -3210,12 +3212,16 @@ codeunit 50008 "Payroll Engine"
         foreach EmployeeNo in TotalAnnualLeaveByEmployee.Keys do begin
             LeaveTypeSetup.get(TempLeaveCode);
             TotalAnnualLeaveByEmployee.Get(EmployeeNo, LeaveDays);
-            if -LeaveDays = LeaveTypeSetup."Days Earned Per Year" then begin
+            LeaveDaysTaken := -LeaveDays;
+            if (LeaveDaysTaken > 0) and (LeaveTypeSetup."Days Earned Per Year" > 0) then begin
+                LFAAmount := GetLFAAmount(EmployeeNo, PayrollDocumentNo, LeavePostingDateByEmployee.Get(EmployeeNo));
+                if LeaveDaysTaken < LeaveTypeSetup."Days Earned Per Year" then
+                    LFAAmount := Round(LFAAmount * LeaveDaysTaken / LeaveTypeSetup."Days Earned Per Year", 0.01, '=');
                 EmployeePayrollAdjustment.Init();
                 EmployeePayrollAdjustment."Payroll Document No." := PayrollDocumentNo;
                 EmployeePayrollAdjustment.Validate("Employee No.", EmployeeNo);
                 EmployeePayrollAdjustment.Validate("Attribute Code", PGSetup."Leave Fare Allowance");
-                EmployeePayrollAdjustment.Validate(Amount, GetLFAAmount(EmployeeNo, PayrollDocumentNo, LeavePostingDateByEmployee.Get(EmployeeNo)));
+                EmployeePayrollAdjustment.Validate(Amount, LFAAmount);
                 OnBeforeInsertEmployeePayrollAdjustment(EmployeePayrollAdjustment);
                 if EmployeePayrollAdjustment.Amount <> 0 then
                     EmployeePayrollAdjustment.Insert(true);
