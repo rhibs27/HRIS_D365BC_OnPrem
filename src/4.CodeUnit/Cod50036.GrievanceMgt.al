@@ -108,6 +108,8 @@ codeunit 50036 "Grievance Mgt"
         GrievanceComment.Validate("Grievance No.", GrievanceNo);
         if not isAnonymous then
             GrievanceComment.Validate("Commented By", HRMgt.GetEmployeeNo())
+        else if GuiAllowed then
+            GrievanceComment.Validate("Commented By", HRMgt.GetEmployeeNo())
         else
             GrievanceComment.Validate("Commented By", '');
         GrievanceComment.Validate("Comment Date", CurrentDateTime);
