@@ -565,8 +565,10 @@ codeunit 50008 "Payroll Engine"
         PayrollAttributes: Record "Payroll Attributes";
         PayrollColumnConfiguration: Record "Payroll Column Configuration";
         UsageAmount: Decimal;
+        PayingFrequency: Decimal;
         RecRefs: RecordRef;
         FieldRefs: FieldRef;
+        IsHandle: Boolean;
     begin
         ProjectionEarning := 0;
         ProjectedNonPaymentBenefit := 0;
@@ -598,10 +600,13 @@ codeunit 50008 "Payroll Engine"
                                     ProjectionEarning += UsageAmount * GetAttributeWiseProjectionMonth(PayrollAttributesUsage, RemainingMonth)
                                 else
                                     ProjectionEarning += UsageAmount * RemainingMonth;
-
-                            end else
-                                ProjectionEarning += UsageAmount * GetPayFrequency(PayrollAttributesUsage, PayrollAttributes);
-
+                            end else begin
+                                IsHandle := false;
+                                PayingFrequency := GetPayFrequency(PayrollAttributesUsage, PayrollAttributes);
+                                OnAfterCalcProjectionEarning(PayrollAttributesUsage, UsageAmount, ProjectionEarning, ProjectedNonPaymentBenefit, RemainingMonth, PayingFrequency, IsHandle);
+                                if not IsHandle then
+                                    ProjectionEarning += UsageAmount * PayingFrequency;
+                            end;
                         if PayrollAttributes.Type = PayrollAttributes.Type::"Non-Payment" then
                             if PayrollAttributes."Apply Every Month" then begin
                                 if PayrollAttributesUsage."End Date" <> 0D then
@@ -612,7 +617,6 @@ codeunit 50008 "Payroll Engine"
                                 ProjectedNonPaymentBenefit += UsageAmount * GetPayFrequency(PayrollAttributesUsage, PayrollAttributes);
                     end;
                 end;
-                OnAfterCalcProjectionEarning(PayrollAttributesUsage, UsageAmount, ProjectionEarning, ProjectedNonPaymentBenefit, RemainingMonth);
             until PayrollAttributesUsage.Next = 0;
     end;
 
@@ -913,6 +917,11 @@ codeunit 50008 "Payroll Engine"
                 exit(PayrollHeader."Pay Cycle Period")
             else
                 exit(LastPayCyclePeriod);
+    end;
+
+    procedure GetPayingFrequency(PayrollAttributesUsage: Record "Payroll Attributes Usage"; PayrollAttributes: Record "Payroll Attributes"): Integer
+    begin
+        GetPayFrequency(PayrollAttributesUsage, PayrollAttributes);
     end;
 
     local procedure GetPayFrequency(PayrollAttributesUsage: Record "Payroll Attributes Usage"; PayrollAttributes: Record "Payroll Attributes"): Integer
@@ -2318,8 +2327,10 @@ codeunit 50008 "Payroll Engine"
         PayrollAttributes: Record "Payroll Attributes";
         PayrollColumnConfiguration: Record "Payroll Column Configuration";
         UsageAmount: Decimal;
+        PayingFrequency: Integer;
         RecRefs: RecordRef;
         FieldRefs: FieldRef;
+        IsHandle: Boolean;
     begin
         TaxAtOnceProjectionEarning := 0;
         TaxAtOnceProjectedNonPayments := 0;
@@ -2329,7 +2340,7 @@ codeunit 50008 "Payroll Engine"
         PayrollAttributesUsage.SetRange(Type, PayrollAttributesUsage.Type::Benefits);
         if PayrollAttributesUsage.FindFirst then
             repeat
-                PayrollAttributesUsage.CalcFields("Formula Exists");
+                PayrollAttributesUsage.CalcFields("Formula Exists", Subtype);
                 UsageAmount := 0;
                 if PayrollAttributes.Get(PayrollAttributesUsage.Code) then begin
                     if (PayrollAttributes.Status = PayrollAttributes.Status::Active) and
@@ -2347,7 +2358,11 @@ codeunit 50008 "Payroll Engine"
                             else
                                 TaxAtOnceProjectionEarning += UsageAmount * RemainingMonth
                         end else begin
-                            TaxAtOnceProjectionEarning += UsageAmount * GetPayFrequency(PayrollAttributesUsage, PayrollAttributes);
+                            IsHandle := false;
+                            PayingFrequency := GetPayFrequency(PayrollAttributesUsage, PayrollAttributes);
+                            OnAfterCalcTaxOnProjectionEarning(PayrollAttributesUsage, UsageAmount, TaxAtOnceProjectionEarning, ProjectedNonPaymentBenefit, RemainingMonth, PayingFrequency, IsHandle);
+                            if not IsHandle then
+                                TaxAtOnceProjectionEarning += UsageAmount * PayingFrequency;
                         end;
                     end;
                 end;
@@ -3256,6 +3271,7 @@ codeunit 50008 "Payroll Engine"
             end;
         end;
     end;
+
     procedure EvaluateAmountAtDate(Expression: Code[100]; EmpNo: Code[20]; AtDate: Date): Decimal
     var
         OperatorStack: array[100] of Code[20];
@@ -3873,8 +3889,12 @@ codeunit 50008 "Payroll Engine"
     end;
 
     [IntegrationEvent(false, false)]
-    local procedure OnAfterCalcProjectionEarning(PayrollAttributesUsage: Record "Payroll Attributes Usage"; var UsageAmount: Decimal; var ProjectionEarning: Decimal; var ProjectedNonPaymentBenefit: Decimal; RemainingMonth: Decimal)
+    local procedure OnAfterCalcProjectionEarning(PayrollAttributesUsage: Record "Payroll Attributes Usage"; var UsageAmount: Decimal; var ProjectionEarning: Decimal; var ProjectedNonPaymentBenefit: Decimal; RemainingMonth: Decimal; PayingFrequency: Integer; var IsHandle: Boolean)
     begin
     end;
 
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterCalcTaxOnProjectionEarning(PayrollAttributesUsage: Record "Payroll Attributes Usage"; var UsageAmount: Decimal; var TaxAtOnceProjectionEarning: Decimal; var ProjectedNonPaymentBenefit: Decimal; RemainingMonth: Decimal; PayingFrequency: Integer; var IsHandle: Boolean)
+    begin
+    end;
 }
