@@ -458,6 +458,7 @@ page 50066 "Transfer Card"
                     {
                         ToolTip = 'Specifies the value of the Incoming Supervisior field.';
                         ApplicationArea = All;
+                        Editable = not Rec."Is Transfer Details Added" and IsApproved;
                     }
                     field("Incoming Supervisior Name"; Rec."Incoming Supervisior Name")
                     {
@@ -468,6 +469,7 @@ page 50066 "Transfer Card"
                     {
                         ToolTip = 'Specifies the value of the Outgoing Branch Rep. Person field.';
                         ApplicationArea = All;
+                        Editable = not Rec."Is Transfer Details Added" and IsApproved;
 
                         // trigger OnValidate()
                         // begin
