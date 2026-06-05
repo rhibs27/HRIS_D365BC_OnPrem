@@ -6,7 +6,7 @@ page 50200 "Retirement Funds"
     UsageCategory = Lists;
     ApplicationArea = All;
     InsertAllowed = false;
-    ModifyAllowed=false;
+    ModifyAllowed = false;
 
     layout
     {
@@ -88,6 +88,16 @@ page 50200 "Retirement Funds"
                 field("CIT Amount (Month)"; Rec."CIT Amount (Month)")
                 {
                     ToolTip = 'Specifies the value of the CIT Amount (Month) field.';
+                    ApplicationArea = All;
+                }
+                field("Self Deposited CIT Amount"; Rec."Self Deposited CIT Amount")
+                {
+                    ToolTip = 'Specifies the value of the Self Deposited CIT Amount field.';
+                    ApplicationArea = All;
+                }
+                field("Self Deposited RF Amount"; Rec."Self Deposited RF Amount")
+                {
+                    ToolTip = 'Specifies the value of the Self Deposited RF Amount field.';
                     ApplicationArea = All;
                 }
                 field("Total Committed Contribution"; Rec."Total Committed Contribution")
