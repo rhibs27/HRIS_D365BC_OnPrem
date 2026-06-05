@@ -1503,10 +1503,14 @@ codeunit 50000 "Leave Mgt."
                                                             end;
                                                         end;
                                                         if not SkipLeaveEarn then begin
-                                                            if HRSetup."Leave Rounding Precision" <> 0 then
-                                                                ActualCreditLimit := Round(ActualCreditLimit, HRSetup."Leave Rounding Precision", '>')
-                                                            else
-                                                                ActualCreditLimit := Round(ActualCreditLimit, 0.5, '>');
+                                                            if LeaveTypeSetup."Leave Category" = LeaveTypeSetup."Leave Category"::"Annual Leave" then begin
+                                                                LeaveDaysToCredit := Round(LeaveDaysToCredit, 1)
+                                                            end else begin
+                                                                if HRSetup."Leave Rounding Precision" <> 0 then
+                                                                    ActualCreditLimit := Round(ActualCreditLimit, HRSetup."Leave Rounding Precision", '>')
+                                                                else
+                                                                    ActualCreditLimit := Round(ActualCreditLimit, 0.5, '>');
+                                                            end;
                                                         end;
                                                         if not SkipLeaveEarn then begin
                                                             LeaveLedgerEntry.Reset();
@@ -1631,14 +1635,17 @@ codeunit 50000 "Leave Mgt."
                                                     LeaveDaysToCredit := ActualCreditLimit - LeaveLedgerEntry."Balancing Days";
                                                     OnBeforeCalculateLeaveDaysToCredit(LeaveTypeSetup, LeaveDaysToCredit, IsHandled);
                                                     if not IsHandled then begin
-
-                                                        if HRSetup."Leave Rounding Precision" <> 0 then
-                                                            LeaveDaysToCredit := Round(LeaveDaysToCredit, HRSetup."Leave Rounding Precision", '=')
-                                                        else
-                                                            LeaveDaysToCredit := Round(LeaveDaysToCredit, 0.5, '<')
-                                                    end;
-                                                end else
-                                                    LeaveDaysToCredit := 0;
+                                                        if LeaveTypeSetup."Leave Category" = LeaveTypeSetup."Leave Category"::"Annual Leave" then begin
+                                                            LeaveDaysToCredit := Round(LeaveDaysToCredit, 1)
+                                                        end else begin
+                                                            if HRSetup."Leave Rounding Precision" <> 0 then
+                                                                LeaveDaysToCredit := Round(LeaveDaysToCredit, HRSetup."Leave Rounding Precision", '=')
+                                                            else
+                                                                LeaveDaysToCredit := Round(LeaveDaysToCredit, 0.5, '<')
+                                                        end;
+                                                    end else
+                                                        LeaveDaysToCredit := 0;
+                                                end;
                                             end;
                                             if LeaveDaysToCredit > 0 then
                                                 if LeaveTypeSetup."Credit Frequency" = LeaveTypeSetup."Credit Frequency"::Quarterly then
@@ -1668,7 +1675,7 @@ codeunit 50000 "Leave Mgt."
                                                 OnBeforeCalculateLeaveDaysToCredit(LeaveTypeSetup, LeaveDaysToCredit, IsHandled);
                                                 if not IsHandled then begin
                                                     if LeaveTypeSetup."Leave Category" = LeaveTypeSetup."Leave Category"::"Annual Leave" then begin
-                                                        LeaveDaysToCredit := Round(LeaveDaysToCredit, 0.5, '<')
+                                                        LeaveDaysToCredit := Round(LeaveDaysToCredit, 1)
                                                     end else begin
                                                         if HRSetup."Leave Rounding Precision" <> 0 then
                                                             LeaveDaysToCredit := Round(ActualCreditLimit - LeaveLedgerEntry."Balancing Days", HRSetup."Leave Rounding Precision", '=')
