@@ -64,7 +64,7 @@ page 50365 "Allowance Configurations"
                 {
                     ToolTip = 'Specifies the value of the Earning Cycle field.', Comment = '%';
                 }
-                field("Day Type";Rec."Day Type")
+                field("Day Type"; Rec."Day Type")
                 {
                     ToolTip = 'Specifies the value of the Day Type field.', Comment = '%';
                 }
@@ -100,6 +100,10 @@ page 50365 "Allowance Configurations"
                 {
                     ToolTip = 'Specifies the value of the Specific Payroll Attribute field.', Comment = '%';
                 }
+                field("Effective Date"; Rec."Effective Date")
+                {
+                    ToolTip = 'Specifies the value of the Effective Date field.', Comment = '%';
+                }
             }
         }
     }
@@ -120,10 +124,9 @@ page 50365 "Allowance Configurations"
                     PayrollArchive: Record "Payroll Archive";
                     RecRef: RecordRef;
                 begin
-
                     RecRef.Open(Database::"Allowance Configuration");
                     RecRef.Get(Rec.RecordId);
-                    PayrollArchive.RunArchive(RecRef.Number);
+                    PayrollArchive.RunArchive(RecRef.Number, Rec."Effective Date");
                 end;
             }
         }

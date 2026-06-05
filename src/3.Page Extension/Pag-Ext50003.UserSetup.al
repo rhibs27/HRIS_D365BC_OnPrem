@@ -61,11 +61,6 @@ pageextension 50003 UserSetup extends "User Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the For Salary Advance field.';
             }
-            field("Run Back Date Daily Attend."; Rec."Run Back Date Daily Attend.")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Run Back Date Daily Attend. field.', Comment = '%';
-            }
             field("Is Admin"; Rec."Is Admin")
             {
                 ApplicationArea = All;
@@ -75,17 +70,6 @@ pageextension 50003 UserSetup extends "User Setup"
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Allow Previous Year Payroll field.', Comment = '%';
-            }
-            field("Can View Appraisal List"; Rec."Can View Appraisal List")
-            {
-                ApplicationArea = All;
-                Visible = false;
-                ToolTip = 'Specifies the value of the Can View Appraisal List field.', Comment = '%';
-            }
-            field("Can View Confirmation Appraisal"; Rec."Can View Confirm Appraisal")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Can View Confirmation Appraisa field.', Comment = '%';
             }
             field("Can View Change Log"; Rec."Can View Change Log")
             {

@@ -379,16 +379,6 @@ page 50031 "Payroll General Setup"
                     ToolTip = 'Specifies the value of the Salary Advance field.';
                     ApplicationArea = All;
                 }
-                field("COPO Functional Title"; Rec."COPO Functional Title")
-                {
-                    ToolTip = 'Specifies the value of the COPO Functional Title field.';
-                    ApplicationArea = All;
-                }
-                field("COSPO Functioal Title"; Rec."COSPO Functioal Title")
-                {
-                    ToolTip = 'Specifies the value of the COSPO Functioal Title field.';
-                    ApplicationArea = All;
-                }
                 field("Contract Basic"; Rec."Contract Basic")
                 {
                     ToolTip = 'Specifies the value of the Contract Basic field.';
@@ -423,29 +413,6 @@ page 50031 "Payroll General Setup"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Dashain Allowance field.';
-                }
-            }
-            group("Encashment Code Group")
-            {
-                field("Extra Mileage"; Rec."Extra Mileage")
-                {
-                    ToolTip = 'Specifies the value of the Extra Mileage field.';
-                    ApplicationArea = All;
-                }
-                field(Overtime; Rec.Overtime)
-                {
-                    ToolTip = 'Specifies the value of the Overtime field.';
-                    ApplicationArea = All;
-                }
-                field("Compensatory Leave"; Rec."Compensatory Leave")
-                {
-                    ToolTip = 'Specifies the value of the Compensatory Leave field.';
-                    ApplicationArea = All;
-                }
-                field("Year End Encashment"; Rec."Year End Encashment")
-                {
-                    ToolTip = 'Specifies the value of the Year End Encashment field.';
-                    ApplicationArea = All;
                 }
             }
             group("Basic For PF on Adjustment")
@@ -827,25 +794,6 @@ page 50031 "Payroll General Setup"
             {
                 Caption = 'Payroll Setup Lines';
                 ApplicationArea = all;
-            }
-        }
-    }
-
-    actions //Temporary Code to Update User Settings Time Zone to UTC
-    {
-        area(Promoted)
-        {
-            actionref("UpdateTimeZone"; "Update Time Zone To UTC") { }
-        }
-        area(Processing)
-        {
-            action("Update Time Zone To UTC")
-            {
-                ToolTip = 'Executes the Update Time Zone To UTC action.';
-                trigger OnAction()
-                begin
-                    Rec.UpdateTimeZoneInUserSettings();
-                end;
             }
         }
     }

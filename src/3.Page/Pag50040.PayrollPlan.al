@@ -167,24 +167,6 @@ page 50040 "Payroll Plan"
                     ToolTip = 'Specifies the value of the OverTime To field.';
                     ApplicationArea = All;
                 }
-                field("Encashment Code"; Rec."Encashment Code")
-                {
-                    Visible = AjustmentVisible;
-                    ToolTip = 'Specifies the value of the Encashment Code field.';
-                    ApplicationArea = All;
-                }
-                field("Encashment Period"; Rec."Encashment Period")
-                {
-                    Visible = AjustmentVisible;
-                    ToolTip = 'Specifies the value of the Encashment Period field.';
-                    ApplicationArea = All;
-                }
-                field("Encashment Description"; Rec."Encashment Description")
-                {
-                    Editable = false;
-                    ToolTip = 'Specifies the value of the Encashment Description field.';
-                    ApplicationArea = All;
-                }
             }
             part(Control26; "Payroll Subform")
             {

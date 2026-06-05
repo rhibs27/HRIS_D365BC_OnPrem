@@ -35,12 +35,6 @@ page 50007 "Functional Title List"
                     ToolTip = 'Specifies the value of the Description field.';
                     ApplicationArea = All;
                 }
-                field("COPO/COSPO Allowance"; Rec."COPO/COSPO Allowance")
-                {
-                    ToolTip = 'Specifies the value of the COPO/COSPO Allowance field.';
-                    Caption = 'PH/ DPH Allowance';
-                    ApplicationArea = All;
-                }
                 field("BM Alllowance"; Rec."BM Allowance")
                 {
                     ToolTip = 'Specifies the value of the BM Allowance field';
@@ -118,12 +112,6 @@ page 50007 "Functional Title List"
                     ToolTip = 'Specifies the value of the BM/OBM field.';
                     ApplicationArea = All;
                 }
-                field("KPI Incentive %"; Rec."KPI Incentive %")
-                {
-                    Caption = 'Role Incentive %';
-                    ToolTip = 'Specifies the value of the Role Incentive % field.';
-                    ApplicationArea = All;
-                }
                 field(Blocked; Rec.Blocked)
                 {
                     ToolTip = 'Specifies the value of the Blocked field.';
@@ -144,29 +132,7 @@ page 50007 "Functional Title List"
     }
 
     actions
-    {
-        area(Creation)
-        {
-            action("KPI Setup")
-            {
-                Image = Setup;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                RunObject = page "KPI Setup Functional Bank";
-                RunPageLink = Code = field(Code);
-                ToolTip = 'Executes the KPI Setup action.';
-                ApplicationArea = All;
-
-                trigger OnAction()
-                begin
-                    /*FunctionalTitle := GETFILTER(Code);//KPI1.00
-                    IF FunctionalTitle <> '' THEN
-                      Code := FunctionalTitle;*/
-                end;
-            }
-        }
-    }
+    { }
 
     trigger OnAfterGetRecord()
     begin

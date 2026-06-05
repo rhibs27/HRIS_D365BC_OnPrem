@@ -25,21 +25,6 @@ report 50069 "Payroll Summary Voucher"
             column(PostingDescription; "Posted Payroll Header"."Posting Description") { }
             column(PaymentAmountInWords; TotalAmountText[1] + ' ' + TotalAmountText[2]) { }
             column(Text062; StrSubstNo(Text062, "Nepali Month", HrMgt.ReturnFiscalYear("Posting Date"))) { }
-            dataitem("Document Workflow"; "Document Workflow")
-            {
-                DataItemLink = "Primary Key" = field("No.");
-                column(LineNo; "Document Workflow"."Line No.") { }
-                column(EmployeeNo; "Document Workflow"."Employee No.") { }
-                column(EmployeeName; "Document Workflow"."Employee Name") { }
-                column(HeadingType; "Document Workflow"."Heading Type") { }
-                column(OutputNo; OutputNo) { }
-
-                trigger OnAfterGetRecord()
-                begin
-                    if "Document Workflow"."Employee No." <> '' then
-                        OutputNo += 1;
-                end;
-            }
 
             trigger OnAfterGetRecord()
             begin

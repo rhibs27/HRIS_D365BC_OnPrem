@@ -31,7 +31,7 @@ report 50124 "Employee Profile Details"
             column(TemporaryDistrict_Employee; Employee."Temporary District") { }
             column(PermanentProvince_Employee; Employee."Permanent Province") { }
             column(TemporaryProvince_Employee; Employee."Temporary Province") { }
-            column(PermanentSubProvince_Employee; Employee."KPI Deputation") { }
+            column(PermanentSubProvince_Employee; '') { }
             column(TemporaryWardNo_Employee; Employee."Temporary Ward No") { }
             column(PermanentVDC_Employee; Employee."Permanent VDC") { }
             column(TemporaryVDC_Employee; Employee."Temporary VDC") { }

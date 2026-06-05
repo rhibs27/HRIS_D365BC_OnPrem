@@ -145,22 +145,6 @@ table 50116 "HR Cue"
         }
         field(73; "Field Name"; Text[50]) { }
         field(74; Value; Integer) { }
-        field(75; "To Reviews Appraisal"; Integer)
-        {
-            CalcFormula = count(Appraisal where(Posted = filter(false),
-                                                 "Approval Status" = const(Pending)
-                                                 ));
-            Editable = false;
-            FieldClass = FlowField;
-        }
-        field(76; "To Check Reviews Appraisal"; Integer)
-        {
-            CalcFormula = count(Appraisal where(Posted = filter(false),
-                                                 "Approval Status" = const(Reviewed)
-                                                 ));
-            Editable = false;
-            FieldClass = FlowField;
-        }
         field(78; "Temporary Staff"; Integer)
         {
             CalcFormula = count(Employee where("Employment Type" = const(Temporary),

@@ -52,25 +52,12 @@ tableextension 50003 "User Setup Ext" extends "User Setup"
         {
             DataClassification = CustomerContent;
         }
-        field(50012; "Run Back Date Daily Attend."; Boolean)
-        {
-            DataClassification = CustomerContent;
-        }
         field(50013; "Is Admin"; Boolean)
         {
             DataClassification = CustomerContent;
         }
         field(50014; "Allow Previous Year Payroll"; Boolean)
         {
-            DataClassification = CustomerContent;
-        }
-        field(50015; "Can View Appraisal List"; Boolean)
-        {
-            DataClassification = CustomerContent;
-        }
-        field(50016; "Can View Confirm Appraisal"; Boolean)
-        {
-            Caption = 'Can View Confirmation Appraisal';
             DataClassification = CustomerContent;
         }
         field(50017; "Can View Change Log"; Boolean)
