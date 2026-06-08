@@ -7358,24 +7358,6 @@ End Function
         <Field Name="Stream_Experience">
           <DataField>Stream_Experience</DataField>
         </Field>
-        <Field Name="TrainingDescription_TrainingLine">
-          <DataField>TrainingDescription_TrainingLine</DataField>
-        </Field>
-        <Field Name="Name_of_Organization_TrainingLine">
-          <DataField>Name_of_Organization_TrainingLine</DataField>
-        </Field>
-        <Field Name="Training_Start_Date_TrainingLine">
-          <DataField>Training_Start_Date_TrainingLine</DataField>
-        </Field>
-        <Field Name="Training_End_Date_TrainingLine">
-          <DataField>Training_End_Date_TrainingLine</DataField>
-        </Field>
-        <Field Name="Training_Type_TrainingLine">
-          <DataField>Training_Type_TrainingLine</DataField>
-        </Field>
-        <Field Name="SNTraining">
-          <DataField>SNTraining</DataField>
-        </Field>
         <Field Name="Relation_Relative">
           <DataField>Relation_Relative</DataField>
         </Field>

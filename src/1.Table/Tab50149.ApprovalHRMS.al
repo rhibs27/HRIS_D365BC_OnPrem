@@ -124,17 +124,12 @@ table 50149 "Approval HRMS"
         EncashmentRequest: Record "Encashment Request";
         Insurance: Record "Employee Insurance Information";
         AssignmentMemoHdr: Record "Assignment Memo Header";
-        AppraisalRec: Record Appraisal;
         ResignationRec: Record Resignation;
     begin
         case "Document Type" of
             "Document Type"::"Leave Request":
                 if LeaveRequest.Get("Document No.") then
                     RecRef.GetTable(LeaveRequest);
-            //appraisal
-            "Document Type"::Appraisal:
-                if AppraisalRec.Get("Document No.") then
-                    RecRef.GetTable(AppraisalRec);
             "Document Type"::"Employee Edit":
                 if EmployeeEdit.Get("Document No.") then
                     RecRef.GetTable(EmployeeEdit);
@@ -184,6 +179,8 @@ table 50149 "Approval HRMS"
             "Document Type"::Resignation:
                 if ResignationRec.Get("Document No.") then
                     RecRef.GetTable(ResignationRec);
+            else
+                OnFindShowRecordByDocumentType(RecRef, Rec);
         end;
         RecRef.SetRecFilter();
         PageManagement.PageRun(RecRef);
@@ -208,17 +205,12 @@ table 50149 "Approval HRMS"
         EncashmentRequest: Record "Encashment Request";
         Insurance: Record "Employee Insurance Information";
         AssignmentMemoHdr: Record "Assignment Memo Header";
-        AppraisalRec: Record Appraisal;
         ResignationRec: Record Resignation;
     begin
         case "Document Type" of
             "Document Type"::"Leave Request":
                 if LeaveRequest.Get("Document No.") then
                     RecRef.GetTable(LeaveRequest);
-            //appraisal
-            "Document Type"::Appraisal:
-                if AppraisalRec.Get("Document No.") then
-                    RecRef.GetTable(AppraisalRec);
             "Document Type"::"Employee Edit":
                 if EmployeeEdit.Get("Document No.") then
                     RecRef.GetTable(EmployeeEdit);
@@ -268,6 +260,8 @@ table 50149 "Approval HRMS"
             "Document Type"::Resignation:
                 if ResignationRec.Get("Document No.") then
                     RecRef.GetTable(ResignationRec);
+            else
+                OnFindApproveRecordByDocumentType(RecRef, Rec);
         end;
         ApproverMgt.ApproveRejectDocument(RecRef, true);
     end;
@@ -291,17 +285,12 @@ table 50149 "Approval HRMS"
         EncashmentRequest: Record "Encashment Request";
         Insurance: Record "Employee Insurance Information";
         AssignmentMemoHdr: Record "Assignment Memo Header";
-        AppraisalRec: Record Appraisal;
         ResignationRec: Record Resignation;
     begin
         case "Document Type" of
             "Document Type"::"Leave Request":
                 if LeaveRequest.Get("Document No.") then
                     RecRef.GetTable(LeaveRequest);
-            //appraisal
-            "Document Type"::Appraisal:
-                if AppraisalRec.Get("Document No.") then
-                    RecRef.GetTable(AppraisalRec);
             "Document Type"::"Employee Edit":
                 if EmployeeEdit.Get("Document No.") then
                     RecRef.GetTable(EmployeeEdit);
@@ -354,7 +343,24 @@ table 50149 "Approval HRMS"
             "Document Type"::Resignation:
                 if ResignationRec.Get("Document No.") then
                     RecRef.GetTable(ResignationRec);
+            else
+                OnFindRejectRecordByDocumentType(RecRef, Rec);
         end;
         ApproverMgt.ApproveRejectDocument(RecRef, false);
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnFindRejectRecordByDocumentType(var RecRef: RecordRef; ApprovalHRMS: record "Approval HRMS")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnFindShowRecordByDocumentType(var RecRef: RecordRef; ApprovalHRMS: record "Approval HRMS")
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnFindApproveRecordByDocumentType(var RecRef: RecordRef; ApprovalHRMS: record "Approval HRMS")
+    begin
     end;
 }

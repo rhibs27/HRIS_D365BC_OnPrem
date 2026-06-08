@@ -96,7 +96,7 @@ codeunit 50008 "Payroll Engine"
         HRMgt: Codeunit "HR Mgt.";
         EmpPayOpen: Record "Employee Payroll Opening";
         SlabAmount: Decimal;
-        SlabCount: Integer;
+        SlabCount, RegularSlabCount : Integer;
         RemoteAreaDeduction: Decimal;
         ServiceHistory: Record "Employee Service History";
         TotalTaxRemunPaid: Decimal;
@@ -345,11 +345,12 @@ codeunit 50008 "Payroll Engine"
         TaxSetupLine.Reset;
         TaxSetupLine.SetRange(Code, TaxSetupHeader.Code);
         TaxSetupLine.SetRange("Pay Cycle Term", PayrollHeader."Pay Cycle Term");
-        Clear(SlabCount);
+        Clear(RegularSlabCount);
         if TaxSetupLine.FindSet then
             repeat
                 if RemainingTaxableAmount > 0 then begin
                     TaxSetupLine.TestField("Tax Rate");
+                    RegularSlabCount += 1;
                     SlabAmount := GetTax(TaxSetupLine."Start Amount", TaxSetupLine."End Amount");
                     AnnualTax += SlabAmount * TaxSetupLine."Tax Rate" / 100.0;
                     //GetSlabAmount();
@@ -365,8 +366,14 @@ codeunit 50008 "Payroll Engine"
         TotalTaxRemunPaid := EmpPayOpen."Total Tax Remuneration Opening" + Employee."Remuneration & Benefits Tax";
         TotalSSTPaid := EmpPayOpen."Total Social Security Opening" + Employee."Social Security Tax";
         AnnualTax := AnnualTax - (TotalTaxRemunPaid + TotalSSTPaid);
-        if AnnualTax < 0 then
+        if AnnualTax < 0 then begin
+            if TaxAtOnceAnnualTax > 0 then begin
+                MonthlyTax := TaxAtOnceAnnualTax;
+                if (RegularSlabCount = 1) and (SlabCount = 2) then
+                    SocialSecurityTaxAmount := (PayrollLine."1% Slab" * 100 - TaxableAmount) * 0.01;
+            end;
             AnnualTax := 0;
+        end;
 
         if TaxAtOnceCurrentEarning + CurrentNonTaxableBenefits = 0 then  //do not pay tax if there is no benifit. employee will pay in next month
             if RemainingMonth > 0 then
@@ -2998,7 +3005,6 @@ codeunit 50008 "Payroll Engine"
     var
         InitalDate: Date;
         FirstTime: Boolean;
-        BranchCode: Code[20];
         OrganationStructureList: Record "Organization Structure List";
         RemoteArea: Record "Remote Area Category";
         DimValue: Record "Dimension Value";
@@ -3013,38 +3019,42 @@ codeunit 50008 "Payroll Engine"
         ServiceHistory.Reset;
         ServiceHistory.SetRange("Employee No.", Employee."No.");
         ServiceHistory.SetRange("Effective Date", InitalDate, PGSetup."Payroll Fiscal Year End Date");
-        ServiceHistory.SetFilter("Service Event", '%1|%2|%3|%4', ServiceHistory."Service Event"::"Assignment in Job Function", ServiceHistory."Service Event"::Appointment, ServiceHistory."Service Event"::"Internal Appointment",
-                                        ServiceHistory."Service Event"::Transfer);
+        ServiceHistory.SetFilter("Service Event", '%1|%2|%3|%4|%5', ServiceHistory."Service Event"::"Assignment in Job Function", ServiceHistory."Service Event"::Appointment, ServiceHistory."Service Event"::"Internal Appointment",
+                                        ServiceHistory."Service Event"::Transfer, ServiceHistory."Service Event"::"First Deputation");
 
         ServiceHistory.SetCurrentKey("Effective Date");
         if ServiceHistory.Find('+') then begin
             repeat
-                Clear(BranchCode);
-                if OrganationStructureList.Get(OrganationStructureList.Type::Branch, ServiceHistory."Deputation Code (To)") then;
+                if ServiceHistory."Extension Counter (To)" <> '' then begin
+                    if OrganationStructureList.Get(OrganationStructureList.Type::"Extension Counter", ServiceHistory."Extension Counter (To)") then;
+                end else
+                    if OrganationStructureList.Get(ServiceHistory."Deputation On (To)", ServiceHistory."Deputation Code (To)") then;
                 if RemoteArea.Get(OrganationStructureList."Remote Area Reduction") then begin
                     if FirstTime then begin
                         RemoteAreaDeduction := RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
                                               * (PGSetup."Payroll Fiscal Year End Date" - ServiceHistory."Effective Date" + 1);
-                        FirstTime := false;
-                        FinalDate := ServiceHistory."Effective Date";
                     end else begin
                         RemoteAreaDeduction += RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
                                             * (FinalDate - ServiceHistory."Effective Date");
-                        FinalDate := ServiceHistory."Effective Date";
                     end;
                 end;
+                FinalDate := ServiceHistory."Effective Date";
+                FirstTime := false;
             until ServiceHistory.Next(-1) = 0;
 
             //** to calculate the remote area deduction if employment date is in previous fiscal year...
             if Employee."Employment Date" < PGSetup."Payroll Fiscal Year Start Date" then begin
+                Clear(OrganationStructureList);
                 ServiceHistory.Reset;
                 ServiceHistory.SetRange("Employee No.", Employee."No.");
                 ServiceHistory.SetRange("Effective Date", InitalDate, FinalDate);
                 ServiceHistory.SetFilter("Service Event", '%1', ServiceHistory."Service Event"::Transfer);
                 ServiceHistory.SetCurrentKey("Effective Date");
                 if ServiceHistory.FindFirst then begin
-                    Clear(BranchCode);
-                    If OrganationStructureList.Get(OrganationStructureList.Type::Branch, ServiceHistory."Deputation Code (From)") then;
+                    if ServiceHistory."Extension Counter (From)" <> '' then begin
+                        if OrganationStructureList.Get(OrganationStructureList.Type::"Extension Counter", ServiceHistory."Extension Counter (From)") then;
+                    end else
+                        if OrganationStructureList.Get(ServiceHistory."Deputation On(From)", ServiceHistory."Deputation Code (From)") then;
                     if RemoteArea.Get(OrganationStructureList."Remote Area Reduction") then begin
                         RemoteAreaDeduction += RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
                                                * (ServiceHistory."Effective Date" - InitalDate);
@@ -3052,12 +3062,15 @@ codeunit 50008 "Payroll Engine"
                 end;
             end;
         end else begin
-            if OrganationStructureList.Get(OrganationStructureList.Type::Branch, Employee."Branch Code") then
-                if RemoteArea.Get(OrganationStructureList."Remote Area Reduction") then
-                    RemoteAreaDeduction := RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
-                                            * (PGSetup."Payroll Fiscal Year End Date" - InitalDate + 1);
+            if Employee."Extension Counter Code" <> '' then
+                OrganationStructureList.Get(Employee."Deputation on"::"Extension Counter", Employee."Extension Counter Code")
+            else
+                OrganationStructureList.Get(Employee."Deputation on", Employee."Deputation On Code");
+            if RemoteArea.Get(OrganationStructureList."Remote Area Reduction") then
+                RemoteAreaDeduction := RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
+                                        * (PGSetup."Payroll Fiscal Year End Date" - InitalDate + 1);
         end;
-        PayrollLine."Remote Area Deduction" := RemoteAreaDeduction;
+        PayrollLine."Remote Area Deduction" := Round(RemoteAreaDeduction, 0.01, '=');
     end;
 
     procedure LoadDashainBonus(EmployeeType: enum "Employee Type"; PayrollDocNo: Code[20];

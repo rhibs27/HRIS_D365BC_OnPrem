@@ -257,7 +257,7 @@ page 50201 "Retirement Fund Card"
 
                 trigger OnAction()
                 begin
-                    if HRMgt.ApplyForRetirementFund(Rec) then begin
+                    if RetirementFundMgt.ApplyForRetirementFund(Rec) then begin
                         IsApplied := true;
                         CurrPage.Close;
                     end;
@@ -385,6 +385,7 @@ page 50201 "Retirement Fund Card"
     var
         RecRef: RecordRef;
         HRMgt: Codeunit "HR Mgt.";
+        RetirementFundMgt: Codeunit "Retirement Fund Mgt";
         IsApplied: Boolean;
         IsScreened: Boolean;
         IsOpen: Boolean;

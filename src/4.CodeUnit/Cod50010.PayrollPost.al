@@ -356,7 +356,6 @@ codeunit 50010 "Payroll-Post"
             //PayrollEngine.GetLeaveDaysForSettlement(PayrollLine."Total Adjusted Leave Days",SickLeave,"Annual Leave",PayrollLine."Employee No.",TRUE);
             OnBeforeUpdateEmployeeBaseForALPayment(PayrollHeader);
         end;
-        UpdatePayrollNoInAllowanceAssignment;
         Window.Update(3, CreatingGLEntriesTxt);
         LineCount := 0;
         PostJournal(PayrollJournalLine);
@@ -473,6 +472,8 @@ codeunit 50010 "Payroll-Post"
             OrgStructList.Get(DeputationType, DeputationCode);
             DimensionValue := OrgStructList."Dimension Value Code";
             SolID := OrgStructList."Sol ID";
+            if OrgStructList.Blocked then
+                OnAfterCheckingTransferInServiceHistory(OrgStructList, DeputationType, DeputationCode, DimensionValue, SolID);
             exit(true)
         end;
     end;
@@ -546,6 +547,7 @@ codeunit 50010 "Payroll-Post"
             SalaryDeductionEntry.ModifyAll("Payroll Posted", true);
             SalaryDeductionEntry.ModifyAll("Payroll Document No.", PostedPayrollHeader."No.");
         end;
+        UpdatePayrollNoInAllowanceAssignment;
         OnAfterUpdateSourceDocumentOnPayrollPost(PayrollAttributes, PayrollLineRec, PGSetup, PostedPayrollHeader);
     end;
 
@@ -565,6 +567,11 @@ codeunit 50010 "Payroll-Post"
                                                 PayrollAttributes: Record "Payroll Attributes";
                                                 DocumentNo: Code[20];
                                                 var PriorTrfAttributeAmount: Decimal)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    procedure OnAfterCheckingTransferInServiceHistory(OrgStrList: Record "Organization Structure List"; var DepOn: Enum "Deputation Type"; var DepCode: Code[20]; var DimValue: Code[20]; var Sol: Code[20]);
     begin
     end;
 }

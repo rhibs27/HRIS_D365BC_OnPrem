@@ -185,28 +185,6 @@ report 50050 "Employee KYE Report"
                     SNExperience := 0;
                 end;
             }
-            dataitem("Training Line"; "Training Line")
-            {
-                DataItemTableView = sorting("Training Start Date") order(descending) where(Type = const(Trainee), Posted = const(true));
-                DataItemLinkReference = Employee;
-                DataItemLink = "Employee Code" = field("No.");
-                column(TrainingDescription_TrainingLine; "Training Line"."Training Description") { }
-                column(Name_of_Organization_TrainingLine; "Training Line"."Name of Organization") { }
-                column(Training_Start_Date_TrainingLine; Format("Training Line"."Training Start Date")) { }
-                column(Training_End_Date_TrainingLine; Format("Training Line"."Training End Date")) { }
-                column(Training_Type_TrainingLine; "Training Line"."Sponsorship Type") { }
-                column(SNTraining; SNTraining) { }
-                trigger OnAfterGetRecord()
-                begin
-                    if "Training Line"."Line No" <> 0 then
-                        SNTraining := SNTraining + 1;
-                end;
-
-                trigger OnPreDataItem()
-                begin
-                    SNTraining := 0;
-                end;
-            }
             dataitem(Relative; "Employee Relative")
             {
                 DataItemLinkReference = Employee;

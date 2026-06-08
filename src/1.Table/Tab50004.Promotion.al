@@ -209,20 +209,6 @@ table 50004 Promotion
         ApprovalEntry: Record "Approval HRMS";
         EngNepDate: Record "English-Nepali Date";
 
-    procedure AssistEdit(OldAppraisal: Record Appraisal): Boolean
-    begin
-        Promotion := Rec;
-        HumanResSetup.Get;
-        HumanResSetup.TestField("Promotion No.");
-        if NoSeriesMgt.LookupRelatedNoSeries(HumanResSetup."Promotion No.", OldAppraisal."No. Series", Promotion."No. Series") then begin
-            HumanResSetup.Get;
-            HumanResSetup.TestField("Promotion No.");
-            NoSeriesMgt.GetNextNo(Promotion."No.");
-            Rec := Promotion;
-            exit(true);
-        end;
-    end;
-
     local procedure OnValidateEmployeeNo()
     begin
         Clear("Branch Code");

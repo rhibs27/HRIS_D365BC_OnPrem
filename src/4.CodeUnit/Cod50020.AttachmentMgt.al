@@ -156,7 +156,6 @@ codeunit 50020 "Attachment Mgt."
         EmpLoan: Record "Employee Loan/Advance";
         EmployeeTransfer: Record "Employee Transfer";
         EmpInsurance: Record "Employee Insurance Information";
-        AppraisalEmp: Record Appraisal;
         leave: Record leave;
         Resign: Record Resignation;
         IsHandle: Boolean;
@@ -170,9 +169,6 @@ codeunit 50020 "Attachment Mgt."
                 Error('Cannot delete attachment.');
         end else if EmpInsurance.Get(IncomingDocument."No.") then begin
             if (EmpInsurance."Approval Status" in [EmpInsurance."Approval Status"::Approved, EmpInsurance."Approval Status"::Pending]) then
-                Error('Cannot delete attachment.');
-        end else if AppraisalEmp.Get(IncomingDocument."No.") then begin
-            if AppraisalEmp."Approval Status" = AppraisalEmp."Approval Status"::Pending then
                 Error('Cannot delete attachment.');
         end else if leave.Get(IncomingDocument."No.") then begin
             if leave."Approval Status" = leave."Approval Status"::Approved then
@@ -195,7 +191,6 @@ codeunit 50020 "Attachment Mgt."
         EmpLoan: Record "Employee Loan/Advance";
         EmployeeTransfer: Record "Employee Transfer";
         EmpInsurance: Record "Employee Insurance Information";
-        AppraisalEmp: Record Appraisal;
         leave: Record leave;
         Resign: Record Resignation;
         IsHandle: Boolean;
@@ -210,9 +205,6 @@ codeunit 50020 "Attachment Mgt."
         end else if EmpInsurance.Get(IncomingDocument."No.") then begin
             if EmpInsurance."Approval Status" <> EmpInsurance."Approval Status"::Open then
                 ERROR('Approval status must be Open.');
-        end else if AppraisalEmp.Get(IncomingDocument."No.") then begin
-            if AppraisalEmp."Approval Status" = AppraisalEmp."Approval Status"::Open then
-                Error('Attachment already exist.');
         end else if leave.Get(IncomingDocument."No.") then begin
             if leave."Approval Status" <> leave."Approval Status"::Open then
                 ERROR('Approval status must be Open.')
@@ -310,6 +302,31 @@ codeunit 50020 "Attachment Mgt."
                             Error('Attachment must be uploaded');
                 end;
             until TempIncomingDoc.Next = 0;
+    end;
+
+    procedure InsertAttachmentLines(DocumentNo: Code[20]; employeeAct: Enum "Employee Activity Type"; employeeNo: Code[20])
+    var
+        IncomingDocument: Record "Incoming Document";
+        AttachmentMandatory: Record "Attachment Setup";
+    begin
+        AttachmentMandatory.Reset;
+        AttachmentMandatory.SetFilter(Type, Format(employeeAct));
+        if AttachmentMandatory.FindFirst then
+            repeat
+                IncomingDocument.Reset;
+                IncomingDocument.SetRange("No.", DocumentNo);
+                IncomingDocument.SetRange("Attachment Code", AttachmentMandatory."Attachment Code");
+                if not IncomingDocument.FindFirst then begin
+                    IncomingDocument.Reset;
+                    IncomingDocument.Init;
+                    IncomingDocument."Entry No." := IncomingDocument.GetEntryNo();
+                    IncomingDocument."Attachment Code" := AttachmentMandatory."Attachment Code";
+                    IncomingDocument."No." := DocumentNo;
+                    IncomingDocument."Employee Activity Type" := employeeAct;
+                    IncomingDocument."Employee Code" := employeeNo;
+                    IncomingDocument.Insert(true);
+                end;
+            until AttachmentMandatory.Next = 0;
     end;
 
     [IntegrationEvent(false, false)]

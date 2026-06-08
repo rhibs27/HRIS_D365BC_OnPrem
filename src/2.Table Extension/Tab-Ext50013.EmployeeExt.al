@@ -635,21 +635,10 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
             trigger OnValidate()
             begin
-                //OnValidateFunctionTitle;
                 "Functional Title Desc" := '';
                 if FunctionalTitle.Get("Functional Title") then begin
                     "Functional Title Desc" := FunctionalTitle.Description;
-                    if FunctionalTitle."Is Specific Functional" then begin //Abhiral 01.29.2023
-                        "KPI Functional Title" := "Functional Title";
-                        "KPI Deputation" := "Deputation on";
-                    end else begin
-                        "KPI Functional Title" := '';
-                        "KPI Deputation" := "KPI Deputation"::" ";
-                    end;
                 end;
-                //                                                 {"Functional Title Desc" := '';
-                // IF FunctionalTitle.GET("Functional Title") then
-                //     "Functional Title Desc" := FunctionalTitle.Description;}
             end;
         }
         field(50067; "Out-Station eligible"; Boolean)
@@ -665,25 +654,6 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = CustomerContent;
             Editable = false;
-        }
-        field(50070; "Job Title Code"; Code[20])
-        {
-            TableRelation = "Job Title";
-            DataClassification = CustomerContent;
-            trigger OnValidate()
-            begin
-                CalcFields("Job Title");
-            end;
-        }
-        field(50071; "KPI Deputation Value"; Code[20])
-        {
-            TableRelation = "Organization Structure List".Code where(Type = filter("Deputation Type"::Department));
-            DataClassification = CustomerContent;
-            Description = 'KPI 1.00';
-            trigger OnValidate()
-            begin
-                //HRMgt.GetEmployeeName("KPI Deputation Value", "Recommender Name");
-            end;
         }
         field(50072; "Sub Unit Code"; Code[20])
         {
@@ -771,11 +741,9 @@ tableextension 50013 "Employee Ext" extends Employee
                     HrSetup.Get();
                     IF HrSetup."Validate Permanent Address" then
                         HRMgt.CheckProvience("Permanent Province");
-                    Clear("KPI Deputation");
                     Clear("Permanent District");
                 end;
                 if "Permanent Province" = '' then begin
-                    Clear("KPI Deputation");
                     Clear("Permanent District");
                 end;
                 Address := ReturnAddress("Permanent VDC", "Permanent Ward No", "Permanent Locality", "Permanent District", "Permanent Province");
@@ -809,26 +777,6 @@ tableextension 50013 "Employee Ext" extends Employee
             trigger OnLookup()
             begin
                 Validate("Temporary Province", HRMgt.LookupProvience("Temporary Province"));
-            end;
-        }
-        field(50084; "KPI Deputation"; Enum "Deputation Type")
-        {
-            DataClassification = CustomerContent;
-            Description = 'KPI1.00';
-            trigger OnValidate()
-            begin
-                //                                                 {IF (Rec."KPI Deputation Code" <> xRec."KPI Deputation Code") AND ("KPI Deputation Code" <> '') then begin
-                //     HRMgt.CheckSubProvience("KPI Deputation Code");
-                //     CLEAR("Permanent District");
-                // end;
-                // IF "KPI Deputation Code" = '' then
-                //     CLEAR("Permanent District");
-                // "Permanent Address" := ReturnAddress("Permanent Province", "KPI Deputation Code", "Permanent District", "Permanent VDC", "Ward No");}
-            end;
-
-            trigger OnLookup()
-            begin
-                //VALIDATE("Permanent Sub Province",HRMgt.LookupSubProvience("Permanent Province","Permanent Sub Province"));
             end;
         }
         field(50085; "Temporary Ward No"; Integer)
@@ -1292,19 +1240,6 @@ tableextension 50013 "Employee Ext" extends Employee
         {
             DataClassification = CustomerContent;
         }
-        field(50153; "KPI Functional Title"; Code[20])
-        {
-            DataClassification = CustomerContent;
-            Description = 'KPI1.00';
-            TableRelation = "Functional Title";
-            trigger OnValidate()
-            begin
-                //OnValidateFunctionTitle;
-                "Functional Title Desc" := '';
-                if FunctionalTitle.Get("Functional Title") then
-                    "Functional Title Desc" := FunctionalTitle.Description;
-            end;
-        }
         field(50154; Saved; Boolean)
         {
             DataClassification = CustomerContent;
@@ -1610,6 +1545,7 @@ tableextension 50013 "Employee Ext" extends Employee
         Text003: Label 'ENU=%1 is not a contract Employee.';
         EngNepDate: Record "English-Nepali Date";
         HRMgt: Codeunit "HR Mgt.";
+        RetirementFundMgt: Codeunit "Retirement Fund Mgt";
         ResignMgt: Codeunit "Resignation Mgt";
         TravelMgt: Codeunit "Travel Mgt.";
         TransferMgt: Codeunit "Transfer Mgt.";
@@ -1796,7 +1732,7 @@ tableextension 50013 "Employee Ext" extends Employee
     var
         RF: Record "Retirement Fund";
     begin
-        HRMgt.OpenRFRequest("No.", RF);
+        RetirementFundMgt.OpenRFRequest("No.", RF);
     end;
 
     procedure UpdateDimensionBasedOnDeputation(DeputationOn: Enum "Deputation Type"; DeputationCode: Code[20])

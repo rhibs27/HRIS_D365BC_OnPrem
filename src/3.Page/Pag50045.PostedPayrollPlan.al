@@ -160,11 +160,6 @@ page 50045 "Posted Payroll Plan"
                     ToolTip = 'Specifies the value of the OverTime To field.';
                     ApplicationArea = All;
                 }
-                field("Encashment Code"; Rec."Encashment Code")
-                {
-                    ToolTip = 'Specifies the value of the Encashment Code field.';
-                    ApplicationArea = All;
-                }
                 field("Encashment Period"; Rec."Encashment Period")
                 {
                     ToolTip = 'Specifies the value of the Encashment Period field.';

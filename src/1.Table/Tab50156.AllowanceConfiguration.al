@@ -71,6 +71,11 @@ table 50156 "Allowance Configuration"
             Caption = 'Attribute Description';
             Editable = false;
         }
+        field(11; "Day Type"; Enum "Day Type")
+        {
+            DataClassification = ToBeClassified;
+            InitValue = " ";
+        }
         field(12; "Min Service Yr. Eligibility"; Decimal) { }
         field(13; "Functional Title"; Code[20])
         {
@@ -97,10 +102,9 @@ table 50156 "Allowance Configuration"
             FieldClass = FlowField;
             CalcFormula = lookup("Payroll Attributes"."Specific Attributes" where(Code = field("Payroll Attribute")));
         }
-        field(11; "Day Type"; Enum "Day Type")
+        field(23; "Effective Date"; Date)
         {
-            DataClassification = ToBeClassified;
-            InitValue = " ";
+            Caption = 'Effective Date';
         }
     }
     keys
@@ -410,6 +414,67 @@ table 50156 "Allowance Configuration"
             if Month < 0 then
                 ServiceYear := ServiceYear - 1;
             if ServiceYear < AllowanceConfiguration."Min Service Yr. Eligibility" then
+                exit(false);
+        end;
+        exit(true);
+    end;
+
+    procedure IsValidAllowanceConfigurationForEmployee(PayrollArchive: Record "Payroll Archive"; EmployeeCode: Code[20]; AsOfDate: Date): Boolean
+    var
+        EmpVar: Record Employee;
+        OrgStructureList: Record "Organization Structure List";
+        ServiceYear: Decimal;
+        Month: Integer;
+        Days: Integer;
+    begin
+        EmpVar.SetRange("No.", EmployeeCode);
+        if PayrollArchive."Province Code" <> '' then
+            EmpVar.SetFilter("Province Code", PayrollArchive."Province Code");
+        if PayrollArchive."Branch Code" <> '' then
+            EmpVar.SetFilter("Branch Code", PayrollArchive."Branch Code");
+        if PayrollArchive."Department Code" <> '' then
+            EmpVar.SetFilter("Department Code", PayrollArchive."Department Code");
+        if not EmpVar.FindFirst() then
+            exit(false);
+
+        if PayrollArchive."Employment Type" <> PayrollArchive."Employment Type"::" " then
+            EmpVar.SetRange("Employment Type", PayrollArchive."Employment Type");
+        if PayrollArchive."Employee Work Shift" <> '' then
+            EmpVar.SetRange("Employee Work Shift", PayrollArchive."Employee Work Shift");
+        if PayrollArchive."Salary Level" <> '' then
+            EmpVar.SetRange("Salary Level", PayrollArchive."Salary Level");
+        if PayrollArchive."Functional Title" <> '' then
+            EmpVar.SetRange("Functional Title", PayrollArchive."Functional Title");
+        if not EmpVar.FindFirst() then
+            exit(false);
+
+        EmpVar.FindFirst();
+        if OrgStructureList.Get(OrgStructureList.Type::Branch, EmpVar."Branch Code") then begin
+            if (PayrollArchive.Region <> PayrollArchive.Region::" ") and (OrgStructureList.Region <> PayrollArchive.Region) then
+                exit(false);
+
+            if (PayrollArchive."Outside/Inside Valley" <> PayrollArchive."Outside/Inside Valley"::" ") and
+            (OrgStructureList."InsideOutside Valley" <> PayrollArchive."Outside/Inside Valley") then
+                exit(false);
+
+            if PayrollArchive."Remote Area Category" <> '' then
+                if OrgStructureList."Remote Area Category" <> PayrollArchive."Remote Area Category" then
+                    exit(false);
+        end
+        else if (PayrollArchive.Region <> PayrollArchive.Region::" ") or
+                (PayrollArchive."Outside/Inside Valley" <> PayrollArchive."Outside/Inside Valley"::" ") or
+                (PayrollArchive."Remote Area Category" <> '') then
+            exit(false);
+
+        if PayrollArchive."Min Service Yr. Eligibility" <> 0 then begin
+            ServiceYear := Date2DMY(AsOfDate, 3) - Date2DMY(EmpVar."Employment Date", 3);
+            Month := Date2DMY(AsOfDate, 2) - Date2DMY(EmpVar."Employment Date", 2);
+            Days := Date2DMY(AsOfDate, 1) - Date2DMY(EmpVar."Employment Date", 1);
+            if Days < 0 then
+                Month := month - 1;
+            if Month < 0 then
+                ServiceYear := ServiceYear - 1;
+            if ServiceYear < PayrollArchive."Min Service Yr. Eligibility" then
                 exit(false);
         end;
         exit(true);

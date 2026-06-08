@@ -238,15 +238,15 @@ table 50106 "Employee Loan/Advance"
                 "Estimated Cost of Construction" := 0;
             end;
         }
-        field(47; "Insurance Tieup"; Enum "Insurance Tieup")
+        field(47; "Insurance Tieup"; Code[20])
         {
             trigger OnValidate()
             var
                 InsurancePremiumSetup: Record "Insurance Premium Setup";
             begin
-                if "Insurance Tieup" <> "Insurance Tieup"::" " then begin
+                if "Insurance Tieup" <> '' then begin
                     InsurancePremiumSetup.Reset;
-                    //InsurancePremiumSetup.SetRange("Insurance Company", "Insurance Tieup");
+                    InsurancePremiumSetup.SetRange("Insurance Company", "Insurance Tieup");
                     InsurancePremiumSetup.SetRange(Age, Age);
                     InsurancePremiumSetup.SetRange(Period, "Repayment Period");
                     if not InsurancePremiumSetup.FindFirst then

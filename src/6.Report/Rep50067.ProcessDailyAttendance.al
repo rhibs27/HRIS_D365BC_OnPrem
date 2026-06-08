@@ -231,8 +231,10 @@ report 50067 "Process Daily Attendance"
         ServiceHistory: Record "Employee Service History";
     begin
         ServiceHistory.SetLoadFields("Province Code (To)", "Province Description (To)", "Branch Code (To)", "Branch Description (To)", "Department Code (To)", "Department Description (To)", "Unit Code (To)", "Extension Description (To)");
+        ServiceHistory.SetCurrentKey("Effective Date");
+        ServiceHistory.SetAscending("Effective Date", true);
         ServiceHistory.SetRange("Employee No.", Employee."No.");
-        ServiceHistory.SetRange("Service Event", ServiceHistory."Service Event"::Transfer);
+        ServiceHistory.SetFilter("Service Event", '%1|%2|%3|%4', ServiceHistory."Service Event"::Transfer, ServiceHistory."Service Event"::"Temporary Deputation", ServiceHistory."Service Event"::"Temporary Deputation Return", ServiceHistory."Service Event"::"Branch Merge");
         ServiceHistory.SetFilter("Effective Date", '<=%1', Date."Period Start");
         if ServiceHistory.FindLast() then begin
             EmpAttendance."Deputation On" := ServiceHistory."Deputation On (To)";

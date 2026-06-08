@@ -94,12 +94,6 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
         {
             DataClassification = CustomerContent;
         }
-        field(50020; "Training Question"; Code[20])
-        {
-            TableRelation = "No. Series";
-            DataClassification = CustomerContent;
-            Description = 'Training Question No series';
-        }
         field(50021; "No Leave Approved Days"; Integer)
         {
             DataClassification = CustomerContent;
@@ -197,14 +191,6 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             DataClassification = CustomerContent;
             Description = 'No. series';
         }
-        field(50039; "Written Exam Weightage"; Decimal)
-        {
-            DataClassification = CustomerContent;
-        }
-        field(50040; "Interview Weightage"; Decimal)
-        {
-            DataClassification = CustomerContent;
-        }
         field(50041; "Promotion No."; Code[20])
         {
             TableRelation = "No. Series";
@@ -290,26 +276,6 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
         {
             DataClassification = CustomerContent;
         }
-        field(50059; "Reschedule Vacancy Mail Cand."; Code[20])
-        {
-            TableRelation = "Email Template";
-            DataClassification = CustomerContent;
-        }
-        field(50060; "ReSchedule Vancacy Mail Int."; Code[20])
-        {
-            TableRelation = "Email Template";
-            DataClassification = CustomerContent;
-        }
-        field(50061; "Excellent Serivce Period"; Integer)
-        {
-            DataClassification = CustomerContent;
-            Description = 'Promotion';
-        }
-        field(50062; "Very Good Service Period"; Integer)
-        {
-            DataClassification = CustomerContent;
-            Description = 'Promotion';
-        }
         field(50063; "Employee Insurance No."; Code[20])
         {
             TableRelation = "No. Series";
@@ -334,11 +300,6 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             TableRelation = "Email Template";
             DataClassification = CustomerContent;
         }
-        field(50068; "KRA Setup No."; Code[20])
-        {
-            TableRelation = "No. Series";
-            DataClassification = CustomerContent;
-        }
         field(50069; "Attendance Email"; Code[80])
         {
             TableRelation = "Email Template";
@@ -358,144 +319,13 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             TableRelation = "Email Template";
             DataClassification = CustomerContent;
         }
-        field(50073; "Use Additional Date"; Boolean)
-        {
-            DataClassification = CustomerContent;
-        }
-        field(50074; "Application Nos."; Code[20])
-        {
-            TableRelation = "No. Series";
-            DataClassification = CustomerContent;
-        }
-        field(50075; "Automatic Shortlisting"; Boolean)
-        {
-            DataClassification = CustomerContent;
-        }
-        field(50076; "Apply System Restriction"; Boolean)
-        {
-            DataClassification = CustomerContent;
-        }
-        field(50077; "Vacancy Nos."; Code[20])
-        {
-            TableRelation = "No. Series";
-            DataClassification = CustomerContent;
-        }
-        field(50079; "Grace Period"; Time)
-        {
-            DataClassification = CustomerContent;
-        }
-        field(50080; "Office Start Time"; Time)
-        {
-            DataClassification = CustomerContent;
-        }
-        field(50081; "Office End Time"; Time)
-        {
-            DataClassification = CustomerContent;
-        }
-        field(50082; "Maximum Leave Days"; Integer)
-        {
-            DataClassification = CustomerContent;
-        }
-        field(50083; "Training Request No."; Code[20])
-        {
-            TableRelation = "No. Series";
-            DataClassification = CustomerContent;
-        }
-        field(50084; "Applicant No."; Code[20])
-        {
-            TableRelation = "No. Series";
-            DataClassification = CustomerContent;
-        }
-        field(50085; "Attachment Storage Type"; Enum "Attachment Storage Type")
-        {
-            DataClassification = CustomerContent;
-        }
         field(50086; "Attachment Storage Location"; Text[250])
         {
-            DataClassification = CustomerContent;
-        }
-        field(50087; "Incident No."; Code[20])
-        {
-            TableRelation = "No. Series";
-            DataClassification = CustomerContent;
-        }
-        field(50088; "Appraisal No."; Code[20])
-        {
-            TableRelation = "No. Series";
-            DataClassification = CustomerContent;
-        }
-        field(50089; "Employee Req. No."; Code[20])
-        {
-            TableRelation = "No. Series";
-            DataClassification = CustomerContent;
-        }
-        field(50090; "HR Approver Email I"; Text[100])
-        {
-            DataClassification = CustomerContent;
-        }
-        field(50091; "HR Approver Email II"; Text[100])
-        {
-            DataClassification = CustomerContent;
-        }
-        field(50092; "HR Approver Email III"; Text[100])
-        {
-            DataClassification = CustomerContent;
-        }
-        field(50093; "HR Start From Month"; Enum "Nepali Month")
-        {
-            DataClassification = CustomerContent;
-        }
-        field(50095; "EmpActivity No."; Code[20])
-        {
-            TableRelation = "No. Series";
-            DataClassification = CustomerContent;
-        }
-        field(50096; "Training No."; Code[20])
-        {
-            TableRelation = "No. Series";
             DataClassification = CustomerContent;
         }
         field(50097; "Salary Advance No."; Code[20])
         {
             TableRelation = "No. Series";
-            DataClassification = CustomerContent;
-        }
-        field(50098; "No. of days to hire"; Integer)
-        {
-            DataClassification = CustomerContent;
-        }
-        field(50099; "Candidate Nos."; Code[20])
-        {
-            TableRelation = "No. Series";
-            DataClassification = CustomerContent;
-        }
-        field(50100; "Punctuality Tolerance"; Integer)
-        {
-            DataClassification = CustomerContent;
-        }
-        field(50101; "Recruitment No. Series"; Code[20])
-        {
-            TableRelation = "No. Series";
-            DataClassification = CustomerContent;
-        }
-        field(50102; "KPI No. Series"; Code[20])
-        {
-            TableRelation = "No. Series";
-            DataClassification = CustomerContent;
-        }
-        field(50103; "Interview Schedule Candidate"; Code[20])
-        {
-            TableRelation = "Email Template";
-            DataClassification = CustomerContent;
-        }
-        field(50104; "Interview Schedule Interviewer"; Code[20])
-        {
-            TableRelation = "Email Template";
-            DataClassification = CustomerContent;
-        }
-        field(50105; "Offer Letter Sent"; Code[20])
-        {
-            TableRelation = "Email Template";
             DataClassification = CustomerContent;
         }
         field(50106; "Leave No. Series"; Code[20])
@@ -509,11 +339,6 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             DataClassification = CustomerContent;
         }
         field(50108; "Travel Claimed No."; Code[20])
-        {
-            TableRelation = "No. Series";
-            DataClassification = CustomerContent;
-        }
-        field(50109; "Training Calendar No."; Code[20])
         {
             TableRelation = "No. Series";
             DataClassification = CustomerContent;
@@ -599,11 +424,6 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             TableRelation = "Email Template";
             DataClassification = CustomerContent;
         }
-        field(50129; "Appointment Letter Sent"; Code[20])
-        {
-            TableRelation = "Email Template";
-            DataClassification = CustomerContent;
-        }
         field(50130; "Loan Disbursement Email"; Code[80])
         {
             TableRelation = "Email Template";
@@ -636,29 +456,10 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             TableRelation = "No. Series";
             DataClassification = CustomerContent;
         }
-        field(50139; "Location Incentive 1"; Decimal)
-        {
-            DataClassification = CustomerContent;
-            Description = 'KPI1.00';
-        }
-        field(50140; "Location Incentive 2"; Decimal)
-        {
-            DataClassification = CustomerContent;
-            Description = 'KPI1.00';
-        }
-        field(50141; "Location Incentive 3"; Decimal)
-        {
-            DataClassification = CustomerContent;
-            Description = 'KPI1.00';
-        }
-        field(50142; "KPI Appriasal No."; Code[20])
-        {
-            TableRelation = "No. Series";
-            DataClassification = CustomerContent;
-        }
         field(50143; "Cancel Document Upto (Days)"; Integer)
         {
-            DataClassification = CustomerContent;//cancel allowed upto how many days from approved date
+            DataClassification = CustomerContent;
+            Description = 'Cancel allowed upto how many days from approved date';
         }
         field(50144; "Allowance Assignment Series"; Code[20])
         {
@@ -713,10 +514,6 @@ tableextension 50018 "HR Setup Ext" extends "Human Resources Setup"
             Description = 'Validate Permanent Address as per the province and district master. The main reason to add this setup is to allow user to input as per citizenship address which may not be in the master.';
         }
         field(50156; "Validate Temporary Address"; Boolean)
-        {
-            DataClassification = CustomerContent;
-        }
-        field(50157; "Branch Appraisal Criteria"; DateFormula)
         {
             DataClassification = CustomerContent;
         }

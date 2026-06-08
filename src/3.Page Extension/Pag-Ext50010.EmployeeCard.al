@@ -960,21 +960,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Disabled field.', Comment = '%';
                 }
-                field("KPI Functional Title"; Rec."KPI Functional Title")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the KPI Functional Title field.', Comment = '%';
-                }
-                field("KPI Deputation Value"; Rec."KPI Deputation Value")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the KPI Deputation Value field.', Comment = '%';
-                }
-                field("KPI Deputation"; Rec."KPI Deputation")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the KPI Deputation field.', Comment = '%';
-                }
             }
         }
 #if not CLEAN25
@@ -1138,23 +1123,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 image = ServiceLedger;
                 PromotedCategory = Process;
             }
-            action("Pay Employee")  //no trigger?
-            {
-                ApplicationArea = All;
-                ToolTip = 'View employee ledger entries for the record with remaining amount that have not been paid yet.';
-                RunObject = page "Employee Ledger Entries";
-                RunPageLink = "Employee No." = FIELD("No."),
-                                                  "Remaining Amount" = FILTER(< 0),
-                                  "Applies-to ID" = FILTER('');
-                Promoted = true;
-                Visible = false;
-                PromotedIsBig = true;
-                Image = SuggestVendorPayments;
-                PromotedCategory = Process;
-                trigger OnAction()
-                begin
-                end;
-            }
             action("Permission Needed Leave")
             {
                 ApplicationArea = All;
@@ -1171,24 +1139,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         CurrPage.SETSELECTIONFILTER(Rec);
                         REPORT.RUN(REPORT::"Grant Permission Needed Leave", TRUE, FALSE, Rec);
                     end;
-                end;
-            }
-            action("Generate New Employee Card")  //do we need it?
-            {
-                ApplicationArea = All;
-                Promoted = true;
-                PromotedIsBig = true;
-                Image = Archive;
-                PromotedCategory = Process;
-                PromotedOnly = true;
-                ToolTip = 'Executes the Generate New Employee Card action.';
-                Visible = false;
-
-                trigger OnAction()
-                begin
-                    IF NOT CONFIRM('Do you want to create new employee card?', FALSE) THEN
-                        EXIT;
-                    Employee.GenerateNewEmployeeCard(Rec);
                 end;
             }
             action("Language Proficiency")
@@ -1247,7 +1197,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 ToolTip = 'Executes the Payroll Attributes Usage action.';
             }
         }
-        addafter("Pay Employee")
+        addafter("Permission Needed Leave")
         {
             group("Employee Activity")
             {
@@ -1475,21 +1425,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         InsuranceMgt.OpenEmployeeInsurance(Rec."No.");
                     end;
                 }
-                action("Bulk Cash")
-                {
-                    ApplicationArea = All;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    Image = CashFlow;
-                    PromotedCategory = Category4;
-                    PromotedOnly = true;
-                    Visible = false;
-                    ToolTip = 'Executes the Bulk Cash action.';
-                    trigger OnAction()
-                    begin
-                        CurrPage.CLOSE;
-                    end;
-                }
                 action("OT Form")
                 {
                     ApplicationArea = All;
@@ -1522,63 +1457,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         CurrPage.CLOSE;
                     end;
                 }
-                action("Apply for Promotion")
-                {
-                    ApplicationArea = All;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    Image = PhysicalInventory;
-                    PromotedCategory = Category4;
-                    ToolTip = 'Executes the Apply for Promotion action.';
-                    trigger OnAction()
-                    var
-                        Candidate: Record Candidate;
-                    begin
-                        Candidate.Reset();
-                        Candidate.SetRange("No.", Rec."No.");
-                        IF NOT Candidate.FindFirst() THEN begin
-                            Candidate.INIT;
-                            Candidate."No." := Rec."No.";
-                            Candidate."First Name" := Rec."First Name";
-                            Candidate."Middle Name" := Rec."Middle Name";
-                            Candidate."Last Name" := Rec."Last Name";
-                            Candidate."Birth Date" := Rec."Birth Date";
-                            Candidate."Employment Type" := Rec."Employment Type";
-                            Candidate.Gender := Rec.Gender;
-                            Candidate."Phone No." := Rec."Phone No.";
-                            Candidate."E-Mail" := Rec."E-Mail";
-                            Candidate."Mobile No." := Rec."Mobile Phone No.";
-                            //Candidate."Permanent Address" := Rec."Permanent Address";
-                            Candidate.Initials := FORMAT(Rec.Salutation);
-                            Candidate."Candidate Type" := Candidate."Candidate Type"::Internal;
-                            Candidate.INSERT;
-                        end;
-                        PAGE.RUN(PAGE::"Candidate Card", Candidate);
-                    end;
-                }
-                action("Request Appraisal")
-                {
-                    ApplicationArea = All;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    Image = List;
-                    PromotedCategory = Category4;
-                    PromotedOnly = true;
-                    ToolTip = 'Executes the Request Appraisal action.';
-                    trigger OnAction()
-                    begin
-                        AppraisalRec.Reset();
-                        AppraisalRec.SetRange("Employee Code", Rec."No.");
-                        IF NOT AppraisalRec.FindFirst() THEN begin
-                            AppraisalRec.INIT;
-                            AppraisalRec.VALIDATE("Employee Code", Rec."No.");
-                            AppraisalRec.INSERT(TRUE);
-                            PAGE.RUN(Page::"Appraisal Form Card", AppraisalRec);
-                        END
-                        ELSE
-                            PAGE.RUN(Page::"Appraisal Form Card", AppraisalRec);
-                    end;
-                }
                 action("Promote Employee")
                 {
                     ApplicationArea = All;
@@ -1590,9 +1468,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     ToolTip = 'Executes the Promote Employee action.';
 
                     trigger OnAction()
+                    var
+                        PromotionMgt: Codeunit "Promotion Mgt";
                     begin
                         IF CONFIRM('Do you want to promote employee %1 ?', FALSE, Rec."Full Name") THEN
-                            HRMgt.UpdatePromotion(Rec."No.");
+                            PromotionMgt.UpdatePromotion(Rec."No.");
                     end;
                 }
                 action("Generate Leave Balance")
@@ -1611,25 +1491,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         Report.RunModal(Report::"Generate Leave Balance", true, false, Employee);
                     end;
                 }
-
-                // action("Confirmation Employee")
-                // {
-                //     ApplicationArea = All;
-                //     Promoted = true;
-                //     PromotedIsBig = true;
-                //     Image = Confirm;
-                //     PromotedCategory = Category4;
-                //     PromotedOnly = true;
-                //     ToolTip = 'Executes the Confirmation Employee action.';
-                //     trigger OnAction()
-                //     begin
-                //         Employee.Reset();
-                //         Employee.SetRange("No.", Rec."No.");
-                //         Employee.FindFirst();
-                //         Employee.TestField("Employment Type", Rec."Employment Type"::Probation);
-                //         REPORT.RUN(REPORT::"Generate Leave Balance", TRUE, FALSE, Employee);
-                //     end;
-                // }
                 action("Request Retirement Fund")
                 {
                     ApplicationArea = All;
@@ -1660,7 +1521,7 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 }
             }
         }
-        addafter("Request Appraisal")
+        addafter("Promote Employee")
         {
             group("Loan/Advance")
             {
@@ -1775,40 +1636,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         {
             group("Other Information")
             {
-                action("Training History")
-                {
-                    ApplicationArea = All;
-                    RunObject = Page "List of Training by Employee";
-                    RunPageLink = "Employee Code" = FIELD("No."),
-                                                  Type = CONST(Trainee);
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    Image = AllLines;
-                    PromotedCategory = Category6;
-                    PromotedOnly = true;
-                    RunPageMode = View;
-                    ToolTip = 'Executes the Training History action.';
-                    trigger OnAction()
-                    begin
-                    end;
-                }
-                action("Training Given")
-                {
-                    ApplicationArea = All;
-                    RunObject = Page "List of Training by Employee";
-                    RunPageLink = "Employee Code" = FIELD("No."),
-                                                  Type = CONST(Trainer);
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    Image = Allocations;
-                    PromotedCategory = Category6;
-                    PromotedOnly = true;
-                    RunPageMode = View;
-                    ToolTip = 'Executes the Training Given action.';
-                    trigger OnAction()
-                    begin
-                    end;
-                }
                 action("Transfer History")
                 {
                     ApplicationArea = All;
@@ -1883,48 +1710,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         {
             group("Update Information")
             {
-                action(Save)
-                {
-                    ApplicationArea = All;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    Image = Save;
-                    PromotedCategory = Category7;
-                    PromotedOnly = true;
-                    ToolTip = 'Executes the Save action.';
-                    Visible = false;
-                    trigger OnAction()
-                    begin
-                        CheckEmployee;
-                        IF NOT CheckForLeaveEarnExist THEN begin
-                            IF rec."Employment Type" = rec."Employment Type"::Contract THEN
-                                LeaveMgt.UpdateLeaveEmployeeContract(Rec."No.", Rec."Employment Date", rec."Employment Type", rec.Gender, rec."Marital Status")
-                            ELSE IF rec."Employment Type" IN [rec."Employment Type"::Permanent, rec."Employment Type"::Probation] THEN
-                                LeaveMgt.UpdateLeaveEmployee(rec."No.", rec."Employment Date", rec."Employment Type", rec.Gender, rec."Marital Status");
-                        end;
-                        //PayrollEngine.InsertPayrollAttributesUsage("No.");
-                        rec.Saved := TRUE;
-                        rec.MODIFY;
-                        MESSAGE('Saved');
-                    end;
-                }
-                action("Assign Job Function")
-                {
-                    ApplicationArea = All;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    Image = AddWatch;
-                    PromotedCategory = Category7;
-                    PromotedOnly = true;
-                    ToolTip = 'Executes the Assign Job Function action. Which updates info based on deputation';
-                    Visible = false;
-
-                    trigger OnAction()
-                    begin
-                        IF CONFIRM('Do you want to assign job function?', false) THEN
-                            ServiceHistoryMgt.PopUpForJobAssignment(Rec);
-                    end;
-                }
                 action("Update Service Event")
                 {
                     ApplicationArea = All;
@@ -2005,23 +1790,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                         end;
                     end;
                 }
-                action("Add Job Function")
-                {
-                    ApplicationArea = All;
-                    Promoted = true;
-                    PromotedIsBig = true;
-                    Image = Insert;
-                    PromotedCategory = Category7;
-                    PromotedOnly = true;
-                    ToolTip = 'Executes the Add Job Function action.';
-                    Visible = false;
-                    trigger OnAction()
-                    begin
-                        IF CONFIRM('Do you want to add job function?', FALSE) THEN
-                            ServiceHistoryMgt.PopUpForJobAddition(Rec);
-                    end;
-                }
-
                 action("Insert Payroll Attributes")
                 {
                     ApplicationArea = All;
@@ -2034,24 +1802,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     begin
                         IF CONFIRM('Do you want to update payroll attributes usage ?', FALSE) THEN
                             PayrollEngine.InsertPayrollAttributes;
-                    end;
-                }
-                action("Update Employment Date")
-                {
-                    ApplicationArea = All;
-                    Promoted = true;
-                    Visible = False;
-                    PromotedIsBig = true;
-                    Image = UpdateUnitCost;
-                    PromotedCategory = Category7;
-                    PromotedOnly = true;
-                    ToolTip = 'Executes the Upate Employment Date action.';
-
-                    trigger OnAction()
-                    begin
-                        IF NOT CONFIRM('Do you want to upate employment date?', FALSE) THEN
-                            EXIT;
-                        HRMgt.UpdateEmploymentDate(Rec."No.");
                     end;
                 }
             }
@@ -2141,7 +1891,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
         Employee: Record Employee;
         LoanMgt: Codeunit "Loan Mgt.";
         Type: Enum "Loan Type";
-        AppraisalRec: Record Appraisal;
         HRMgt: Codeunit "HR Mgt.";
         LeaveMgt: Codeunit "Leave Mgt.";
         ResignationMgt: Codeunit "Resignation Mgt";
@@ -2266,81 +2015,6 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                     DepartmentVisible := false;
                 end;
         end;
-    end;
-
-    local procedure CheckEmployee();
-    begin
-        IF Rec."New Employee" THEN begin
-            Rec.TestField("Full Name");
-            Rec.TestField("Deputation on");
-            Rec.TestField("Salary Level");
-            Rec.TestField("Salary Grade");
-            Rec.TestField(Gender);
-            Rec.TestField("Marital Status");
-            Rec.TestField("Employment Type");
-            Rec.TestField("NAV Login ID");
-            Rec.TestField("Functional Title");
-            Rec.TestField("Employment Date");
-            Rec.TestField("Tax Code");
-            Rec.TestField("Inside/Outside Valley");
-            Rec.TestField("Posting Region");
-            Rec.TestField("Date of Birth (B.S.)");
-            Rec.TestField("PAN No.");
-            Rec.TestField("Citizen Number");
-            IF Rec."Employment Type" = Rec."Employment Type"::Permanent THEN
-                Rec.TestField("Confirmation Date");
-            IF Rec."Employment Type" = Rec."Employment Type"::Contract THEN
-                Rec.TestField("Contract Salary Amount");
-            IF Rec."Employment Type" = Rec."Employment Type"::Probation THEN
-                Rec.TestField("Probation Period");
-            IF Rec."Employment Type" = Rec."Employment Type"::Contract THEN begin
-                Rec.TestField("Contract Expiry Month");
-            end;
-
-            CASE Rec."Deputation on" OF
-                Rec."Deputation on"::Branch:
-                    begin
-                        Rec.TestField("Branch Name");
-                        Rec.TestField("Global Dimension 1 Code");
-                        Rec.TestField("Province Code");
-                    end;
-
-                Rec."Deputation on"::Department:
-                    begin
-                        Rec.TestField("Department Code");
-                        Rec.TestField("Department Name");
-                    end;
-
-                Rec."Deputation on"::"Extension Counter":
-                    begin
-                        Rec.TestField("Extension Counter Code");
-                        Rec.TestField("Extension Counter Name");
-                        Rec.TestField("Global Dimension 1 Code");
-                        Rec.TestField("Province Code");
-                    end;
-
-                Rec."Deputation on"::Province:
-                    begin
-                        Rec.TestField("Province Code");
-                        Rec.TestField("Province Name");
-                    end;
-                Rec."Deputation on"::Unit:
-                    begin
-                        Rec.TestField("Unit Code");
-                        Rec.TestField("Unit Name");
-                    end;
-            end;
-        end;
-    end;
-
-    local procedure CheckForLeaveEarnExist(): Boolean;
-    VAR
-        LeaveEarn: Record "Leave Earn";
-    begin
-        LeaveEarn.Reset();
-        LeaveEarn.SetRange("Employee No.", Rec."No.");
-        IF LeaveEarn.FindFirst() THEN
-            EXIT(TRUE);
     end;
 
     local procedure CopyPermanentAddress()

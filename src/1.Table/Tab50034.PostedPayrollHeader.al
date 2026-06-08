@@ -1,7 +1,5 @@
 table 50034 "Posted Payroll Header"
 {
-    // version PRM19.01.01
-
     DrillDownPageId = "Posted Payroll Plan List";
     LookupPageId = "Posted Payroll Plan List";
     DataClassification = CustomerContent;
@@ -93,10 +91,6 @@ table 50034 "Posted Payroll Header"
         field(33; "Previous Year Payroll"; Boolean) { }
         field(34; "OverTime From"; Date) { }
         field(35; "OverTime To"; Date) { }
-        field(36; "Encashment Code"; Code[20])
-        {
-            TableRelation = "OT Encashment Setup";
-        }
         field(37; "Encashment Period"; Enum "Encashment Period") { }
         field(39; "Posted Date"; DateTime) { }
         field(40; "Approver Code"; Code[20])
@@ -111,16 +105,9 @@ table 50034 "Posted Payroll Header"
         {
             Description = 'NIC';
         }
-        // field(43; "Approval Status"; Enum "Approve Status")
-        // {
-        //     Description = 'NIC';
-
-        // }
         field(44; "Posting User ID"; Code[50])
         {
             TableRelation = User."User Name";
-            //This property is currently not supported
-            //TestTableRelation = false;
         }
         field(45; "Pre-Assigned No."; Code[20]) { }
         field(46; Reversed; Boolean) { }
@@ -247,6 +234,7 @@ table 50034 "Posted Payroll Header"
             repeat
                 AllowanceAssignmentLine.Validate("Payroll Doc No.", '');
                 AllowanceAssignmentLine.Validate("Payroll Posted", false);
+                AllowanceAssignmentLine.Modify();
             until AllowanceAssignmentLine.Next() = 0;
 
         PGSetup.Get();
