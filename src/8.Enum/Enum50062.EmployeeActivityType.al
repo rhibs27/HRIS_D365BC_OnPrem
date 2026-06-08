@@ -156,4 +156,12 @@ enum 50062 "Employee Activity Type"
     {
         Caption = 'Loan Settlement';
     }
+    value(40; "Appraisal Supervisor")
+    {
+        Caption = 'Appraisal Supervisor';
+    }
+    value(41; "Interview Schedule")
+    {
+        Caption = 'Interview Schedule';
+    }
 }

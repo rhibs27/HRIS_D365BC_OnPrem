@@ -12,6 +12,7 @@ table 50008 "Remote Area Category"
         {
             Description = 'KPI1.00';
         }
+        field(7; "Effective Date"; Date) { }
     }
 
     keys

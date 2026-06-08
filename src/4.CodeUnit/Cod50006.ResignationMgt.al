@@ -215,7 +215,7 @@ codeunit 50006 "Resignation Mgt"
         Resignation.TestField("Approved Last Working Day");
         if not HRSetup."Hide Clearance Approver" then
             InsertResignationApprover(Resignation."Employee No.", Resignation."No.", Resignation.Type::Resignation); //resignation clearance approver
-        HrMgt.InsertAttachmentLines(Resignation."No.", Resignation.Type, Resignation."Employee No.");
+        AttachmentMgt.InsertAttachmentLines(Resignation."No.", Resignation.Type, Resignation."Employee No.");
         ServiceHistoryMgt.AddToServiceHistory(Resignation."Employee No.", ServiceEvent::Resignation, Resignation.Remarks, Resignation."Approved Last Working Day");
     end;
 

@@ -14,31 +14,10 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Service History No. Series field.';
             }
-            field("Candidate Nos."; Rec."Candidate Nos.")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Candidate Nos. field.';
-            }
-            field("Vacancy Nos."; Rec."Vacancy Nos.")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Vacancy Nos. field.';
-            }
             field("Employee Insurance No."; Rec."Employee Insurance No.")
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Employee Insurance No. field.';
-            }
-
-            field("Recruitment No. Series"; Rec."Recruitment No. Series")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Recruitment No. Series field.';
-            }
-            field("Appointment Letter Sent"; Rec."Appointment Letter Sent")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Appointment Letter Sent field.';
             }
             field("Travel Request No."; Rec."Travel Request No.")
             {
@@ -69,22 +48,6 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
             {
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Employee Act. Journal field.';
-            }
-
-            field("Training No."; Rec."Training No.")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Training No. field.';
-            }
-            field("Training Calendar No."; Rec."Training Calendar No.")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Training Calendar No. field.';
-            }
-            field("Training Question"; Rec."Training Question")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the Training Question field.';
             }
 
             field("OT No."; Rec."OT No.")
@@ -193,11 +156,6 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 ApplicationArea = All;
                 ToolTip = 'Specifies the value of the Employee Change No. Series field.';
             }
-            field("KRA Setup No."; Rec."KRA Setup No.")
-            {
-                ApplicationArea = All;
-                ToolTip = 'Specifies the value of the KRA Setup No. field.';
-            }
             field("Residential No."; Rec."Residential No.")
             {
                 ApplicationArea = All;
@@ -264,59 +222,6 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                     ToolTip = 'Specifies the value of the Grievance No. Nos. field.', Comment = '%';
                 }
             }
-            group("Mail For Recruitement")
-            {
-                field("Offer Letter Sent"; Rec."Offer Letter Sent")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Offer Letter Sent field.';
-                }
-                field("Interview Schedule Candidate"; Rec."Interview Schedule Candidate")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Interview Schedule Candidate field.';
-                }
-                field("Interview Schedule Interviewer"; Rec."Interview Schedule Interviewer")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Interview Schedule Interviewer field.';
-                }
-                field("Reschedule Vacancy Mail Cand."; Rec."Reschedule Vacancy Mail Cand.")
-                {
-                    ApplicationArea = All;
-                    Caption = 'Reschedule Vacancy Mai For Candidate';
-                    ToolTip = 'Specifies the value of the Reschedule Vacancy Mai For Candidate field.';
-                }
-                field("ReSchedule Vancacy Mail Int."; Rec."ReSchedule Vancacy Mail Int.")
-                {
-                    ApplicationArea = All;
-                    Caption = 'Reschedule Vacancy Mai For Interviewer';
-                    ToolTip = 'Specifies the value of the Reschedule Vacancy Mai For Interviewer field.';
-                }
-            }
-            group("Appraisal")
-            {
-                field("KPI No. Series"; Rec."KPI No. Series")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the KPI No. Series field.';
-                }
-                field("Appraisal No."; Rec."Appraisal No.")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Appraisal No. field.';
-                }
-                Field("Branch Appraisal Criteria"; Rec."Branch Appraisal Criteria")
-                {
-                    ApplicationArea = All;
-                }
-                field("KPI Appriasal No."; Rec."KPI Appriasal No.")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the KPI Appriasal No. field.';
-                }
-            }
-
             group("Out Of Pocket")
             {
                 field("Half Limit (out expense)"; Rec."Half Limit (out expense)")
@@ -342,29 +247,6 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                     ApplicationArea = All;
                     Caption = 'Out of Pocket(Full Limit Value)';
                     ToolTip = 'Specifies the value of the Out of Pocket(Full Limit Value) field.';
-                }
-            }
-            group(Recruitement)
-            {
-                field("Written Exam Weightage"; Rec."Written Exam Weightage")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Written Exam Weightage field.';
-                }
-                field("Interview Weightage"; Rec."Interview Weightage")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Interview Weightage field.';
-                }
-                field("Excellent Serivce Period"; Rec."Excellent Serivce Period")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Excellent Serivce Period field.';
-                }
-                field("Very Good Service Period"; Rec."Very Good Service Period")
-                {
-                    ApplicationArea = All;
-                    ToolTip = 'Specifies the value of the Very Good Service Period field.';
                 }
             }
             group("Loan SetUp")
@@ -730,6 +612,21 @@ pageextension 50016 "Human Resources Setup" extends "Human Resources Setup"
                 {
                     ApplicationArea = All;
                     ToolTip = 'Specifies the value of the Medical Insurance Premium field.';
+                }
+                field("Skip Medical Approval Setup"; Rec."Skip Medical Approval Setup")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Skip Approval Setup field. If set to true, the system will skip approval for medical insurance claims.';
+                }
+                field("CBS GL Code"; Rec."CBS GL Code")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the CBS G\L Code field.';
+                }
+                field("CBS GL Name"; Rec."CBS GL Name")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the CBS G\L Name field.';
                 }
             }
             group("Portal Database Connection")

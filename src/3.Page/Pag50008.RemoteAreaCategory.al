@@ -36,6 +36,11 @@ page 50008 "Remote Area Category"
                     ToolTip = 'Specifies the value of the Remote Area Deduction field.';
                     ApplicationArea = All;
                 }
+                field("Effective Date"; Rec."Effective Date")
+                {
+                    ToolTip = 'Specifies the value of the Effective Date field.';
+                    ApplicationArea = All;
+                }
                 field("KPI Incentive %"; Rec."KPI Incentive %")
                 {
                     ToolTip = 'Specifies the value of the KPI Incentive % field.';
@@ -65,7 +70,7 @@ page 50008 "Remote Area Category"
 
                     RecRef.Open(Database::"Remote Area Category");
                     RecRef.Get(Rec.RecordId);
-                    PayrollArchive.RunArchive(RecRef.Number);
+                    PayrollArchive.RunArchive(RecRef.Number, Rec."Effective Date");
                 end;
             }
         }

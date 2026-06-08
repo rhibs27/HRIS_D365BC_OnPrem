@@ -13,6 +13,10 @@ table 50145 "Approval Role"
         {
             Caption = 'Description';
         }
+        field(3; "Is HRD"; Boolean)
+        {
+            Caption = 'Is HRD';
+        }
     }
     keys
     {

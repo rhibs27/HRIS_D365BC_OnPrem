@@ -206,14 +206,6 @@ pageextension 50011 "Employee List" extends "Employee List"
         Rec.SetCurrentKey(Seniority);
         Rec.Ascending(false);
     end;
-
-    trigger OnAfterGetRecord()
-    begin
-        Rec."Contract Expiry Remaining Days" := 0;
-        if Rec."Contract Expiry Date" > Today then
-            Rec."Contract Expiry Remaining Days" := Rec."Contract Expiry Date" - Today;
-    end;
-
 }
 
 
