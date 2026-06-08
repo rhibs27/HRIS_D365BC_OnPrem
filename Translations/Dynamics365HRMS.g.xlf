@@ -533,6 +533,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Approval Role - Field Description - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 1946267045 - Field 1005895448 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Is HRD</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Approval Role - Field Is HRD - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3978185820 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Approval Setup</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -7953,11 +7958,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Functional Title - Field Communication Rein. - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Table 3975378601 - Field 1100262936 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>COPO/COSPO Allowance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Table Functional Title - Field COPO/COSPO Allowance - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Table 3975378601 - Field 3068680635 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Department Code</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -7977,6 +7977,11 @@
           <source>Evening Counter Eligible</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Functional Title - Field Evening Counter Eligible - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 3975378601 - Field 3571137821 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Functional Title Role</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Functional Title - Field Functional Title Role - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 3975378601 - Field 1443966257 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Group Discussion</source>
@@ -28828,16 +28833,6 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Functional Title Card - Control Communication Rein. - Property Caption</note>
         </trans-unit>
-        <trans-unit id="Page 4220065141 - Control 1100262936 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the PH/ DPH Allowance field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Functional Title Card - Control COPO/COSPO Allowance - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 4220065141 - Control 1100262936 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>PH/ DPH Allowance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Functional Title Card - Control COPO/COSPO Allowance - Property Caption</note>
-        </trans-unit>
         <trans-unit id="Page 4220065141 - Control 3461834954 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Description field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -28852,6 +28847,11 @@
           <source>Specifies the value of the Evening Counter Eligible field.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Functional Title Card - Control Evening Counter Eligible - Property ToolTip</note>
+        </trans-unit>
+        <trans-unit id="Page 4220065141 - Control 3571137821 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Specifies the value of the Functional Title Role field.</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Functional Title Card - Control Functional Title Role - Property ToolTip</note>
         </trans-unit>
         <trans-unit id="Page 4220065141 - Control 1443966257 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Group Discussion field.</source>
@@ -28942,16 +28942,6 @@
           <source>Communication Reimbursement</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Functional Title List - Control Communication Rein. - Property Caption</note>
-        </trans-unit>
-        <trans-unit id="Page 4267332767 - Control 1100262936 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
-          <source>Specifies the value of the COPO/COSPO Allowance field.</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Functional Title List - Control COPO/COSPO Allowance - Property ToolTip</note>
-        </trans-unit>
-        <trans-unit id="Page 4267332767 - Control 1100262936 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
-          <source>PH/ DPH Allowance</source>
-          <note from="Developer" annotates="general" priority="2"></note>
-          <note from="Xliff Generator" annotates="general" priority="3">Page Functional Title List - Control COPO/COSPO Allowance - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 4267332767 - Control 3068680635 - Property 1295455071" size-unit="char" translate="yes" xml:space="preserve">
           <source>Specifies the value of the Department Code field.</source>
@@ -55823,6 +55813,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Appraisal - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Enum 4154710913 - EnumValue 3995923847 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Appraisal Supervisor</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Appraisal Supervisor - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Enum 4154710913 - EnumValue 3549385734 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Attendance Missed</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -55872,6 +55867,11 @@
           <source>HR Transfer</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue HR Transfer - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Enum 4154710913 - EnumValue 3126669832 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Interview Schedule</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Enum Employee Activity Type - EnumValue Interview Schedule - Property Caption</note>
         </trans-unit>
         <trans-unit id="Enum 4154710913 - EnumValue 357109573 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Late Attendance</source>
