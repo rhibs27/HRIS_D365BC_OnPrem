@@ -437,8 +437,10 @@ codeunit 50005 "Transfer Mgt."
                         EmployeeRec.Validate("Province Code", EmpHrTransfer."Province Code (To)");
                     end;
             end;
-            EmployeeRec.Validate("Approver Role", EmpHrTransfer."Approver Role To");
-            EmployeeRec.Validate("Functional Title", EmpHrTransfer."Functional Title (To)");
+            if EmpHrTransfer."Approver Role To" <> '' then
+                EmployeeRec.Validate("Approver Role", EmpHrTransfer."Approver Role To");
+            if EmpHrTransfer."Functional Title (To)" <> '' then
+                EmployeeRec.Validate("Functional Title", EmpHrTransfer."Functional Title (To)");
             EmployeeRec.Validate("Last Placement Date", EmpHrTransfer."Date of Joining Of Transfer"); // this should be update based on transfer type
         end;
         OnAfterTransferAcknowledge(EmpHrTransfer, EmployeeRec);
