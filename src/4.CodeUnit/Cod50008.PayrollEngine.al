@@ -3017,18 +3017,18 @@ codeunit 50008 "Payroll Engine"
                     if FirstTime then begin
                         RemoteAreaDeduction := RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
                                               * (PGSetup."Payroll Fiscal Year End Date" - ServiceHistory."Effective Date" + 1);
-                        FirstTime := false;
-                        FinalDate := ServiceHistory."Effective Date";
                     end else begin
                         RemoteAreaDeduction += RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
                                             * (FinalDate - ServiceHistory."Effective Date");
-                        FinalDate := ServiceHistory."Effective Date";
                     end;
                 end;
+                FinalDate := ServiceHistory."Effective Date";
+                FirstTime := false;
             until ServiceHistory.Next(-1) = 0;
 
             //** to calculate the remote area deduction if employment date is in previous fiscal year...
             if Employee."Employment Date" < PGSetup."Payroll Fiscal Year Start Date" then begin
+                Clear(OrganationStructureList);
                 ServiceHistory.Reset;
                 ServiceHistory.SetRange("Employee No.", Employee."No.");
                 ServiceHistory.SetRange("Effective Date", InitalDate, FinalDate);
@@ -3039,7 +3039,6 @@ codeunit 50008 "Payroll Engine"
                         if OrganationStructureList.Get(OrganationStructureList.Type::"Extension Counter", ServiceHistory."Extension Counter (From)") then;
                     end else
                         if OrganationStructureList.Get(ServiceHistory."Deputation On(From)", ServiceHistory."Deputation Code (From)") then;
-
                     if RemoteArea.Get(OrganationStructureList."Remote Area Reduction") then begin
                         RemoteAreaDeduction += RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
                                                * (ServiceHistory."Effective Date" - InitalDate);
@@ -3055,7 +3054,7 @@ codeunit 50008 "Payroll Engine"
                 RemoteAreaDeduction := RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
                                         * (PGSetup."Payroll Fiscal Year End Date" - InitalDate + 1);
         end;
-        PayrollLine."Remote Area Deduction" := RemoteAreaDeduction;
+        PayrollLine."Remote Area Deduction" := Round(RemoteAreaDeduction, 0.01, '=');
     end;
 
     procedure LoadDashainBonus(EmployeeType: enum "Employee Type"; PayrollDocNo: Code[20];
