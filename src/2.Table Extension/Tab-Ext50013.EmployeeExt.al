@@ -1573,6 +1573,11 @@ tableextension 50013 "Employee Ext" extends Employee
             DataClassification = CustomerContent;
 
         }
+        field(50209; "Probation Start Date"; Date)
+        {
+            Caption = 'Probation Start Date';
+            DataClassification = CustomerContent;
+        }
     }
     keys
     {

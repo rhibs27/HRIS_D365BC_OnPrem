@@ -673,6 +673,11 @@ pageextension 50010 "Employee Card" extends "Employee Card"
                 {
                     ApplicationArea = All;
                 }
+                field("Probation Start Date"; Rec."Probation Start Date")
+                {
+                    ApplicationArea = All;
+                    ToolTip = 'Specifies the value of the Probation Start Date field.';
+                }
                 field("Trainee/Probation End date"; Rec."Trainee/Probation End date")
                 {
                     ApplicationArea = All;
