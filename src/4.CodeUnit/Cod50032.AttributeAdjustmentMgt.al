@@ -412,7 +412,7 @@ codeunit 50032 "Attribute Adjustment Mgt"
         exit(0);
     end;
 
-    procedure ImportEmployeeAsPerServiceEvent(DocumentNo: Code[20]; AdjustmentType: Enum "Employee Activity Type"; AttributeCode: Code[20]; FromDate: Date; ToDate: Date)
+    procedure ImportEmployeeAsPerServiceEvent(DocumentNo: Code[20]; AdjustmentType: Enum "Service Event"; AttributeCode: Code[20]; FromDate: Date; ToDate: Date)
     var
         ServiceHistory: Record "Employee Service History";
         AttributeAdjLine: Record "Attribute Adjustment Line";
@@ -443,7 +443,7 @@ codeunit 50032 "Attribute Adjustment Mgt"
             Message('Promoted Employees added for selected month.')
         else if AdjustmentType = AdjustmentType::Confirmation then
             Message('Confirmed Employees added for selected month.')
-        else if AdjustmentType = AdjustmentType::"Employee Transfer" then
+        else if AdjustmentType = AdjustmentType::"Transfer" then
             Message('Transferred Employees added for selected month.');
     end;
 }

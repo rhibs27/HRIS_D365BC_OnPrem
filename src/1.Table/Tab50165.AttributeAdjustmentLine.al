@@ -36,10 +36,10 @@ table 50165 "Attribute Adjustment Line"
         {
             Caption = 'Employee Name';
         }
-        field(5; "Adjustment Type"; Enum "Employee Activity Type")
+        field(5; "Adjustment Type"; Enum "Service Event")
         {
             Caption = 'Adjustment Type';
-            ValuesAllowed = " ", Promotion, Confirmation, "Employee Transfer";
+            ValuesAllowed = " ", Promotion, Confirmation, "Transfer";
 
             trigger OnValidate()
             var
