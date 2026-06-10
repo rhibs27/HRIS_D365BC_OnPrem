@@ -58,6 +58,29 @@ page 50376 "Attribute Adjustment Lines"
                     CurrPage.Update();
                 end;
             }
+            action("Get Amount from Attribute Formula")
+            {
+                Caption = 'Get Amt. from Formula';
+                ApplicationArea = All;
+                Image = GetLines;
+                trigger OnAction()
+                var
+                    AttributeAdjustmentMgt: Codeunit "Attribute Adjustment Mgt";
+                    PayrollAttributes: Record "Payroll Attributes";
+                    AttributeAdjLine: Record "Attribute Adjustment Line";
+                begin
+                    CurrPage.SetSelectionFilter(AttributeAdjLine);
+                    repeat
+                        if PayrollAttributes.Get(AttributeAdjLine."Attribute Code") then
+                            if PayrollAttributes.Formula <> '' then begin
+                                AttributeAdjLine.Validate("New Amount", AttributeAdjustmentMgt.GetAmountFromAttributeFormula(PayrollAttributes.Formula, Rec."Employee No."));
+                                AttributeAdjLine.Modify(true);
+                            end;
+                    until AttributeAdjLine.Next() = 0;
+                    CurrPage.Update();
+                    Message('Amount has been updated successfully.');
+                end;
+            }
             action("Payroll Attributes Usage")
             {
                 Image = PaymentDays;
