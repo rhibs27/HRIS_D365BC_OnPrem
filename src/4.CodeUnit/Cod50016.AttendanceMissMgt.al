@@ -266,6 +266,7 @@ codeunit 50016 "AttendanceMiss Mgt"
             leaveDay.SetRange("Employee No.", AttendanceJRN."Employee No.");
             leaveDay.SetRange(Type, AttendanceJRN.Type::"Leave Request");
             leaveDay.SetFilter("Approval Status", '<>%1&<>%2', leaveDay."Approval Status"::Rejected, leaveDay."Approval Status"::Withdrawn);
+            leaveDay.SetRange(Cancelled, true);
             if leaveDay.FindSet then
                 repeat
                     if ((AttendanceJRN."Start Date" > leaveDay."Start Date") and (AttendanceJRN."Start Date" < leaveDay."End Date")) or ((AttendanceJRN."End Date" > leaveDay."Start Date") and (AttendanceJRN."End Date" < leaveDay."End Date")) then

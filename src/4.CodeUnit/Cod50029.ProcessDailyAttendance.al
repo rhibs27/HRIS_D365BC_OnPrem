@@ -25,6 +25,7 @@ codeunit 50029 "Process Daily Attendance"
     procedure UpdateEmpAttendance()
     begin
         ResetDays();
+        IsHoliday(EmpAttendance."Attendance Date", EmpAttendance."Employee No.");
         ProcessHolidayAndShiftNormal();
         GetCheckInandOutFromAttendanceLog();
         UpdateCheckInDifference();
@@ -34,24 +35,22 @@ codeunit 50029 "Process Daily Attendance"
             EmpAttendance."Present Day" := 1;
             EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::Present;
         end;
-        // Need to discuss
-        // if (EmpAttendance."Present Day" > 0) and (EmpAttendance."Shift Start Time" <> 0T) then
-        //     EmpAttendance."OT Hrs" := Round((EmpAttendance."Check Out Time" - EmpAttendance."Shift End Time") / (60 * 60000), 0.01, '=') + Round((EmpAttendance."Shift Start Time" - EmpAttendance."Check In Time") / (60 * 60000), 0.01, '=');
-        if EmpAttendance."Day Type" = EmpAttendance."Day Type"::"Working Day" then begin
+        if EmpAttendance."Day Type" = EmpAttendance."Day Type"::"Working Day" then
             if (EmpAttendance."Check In Time" = 0T) and (EmpAttendance."Check Out Time" = 0T) then begin
                 EmpAttendance."Absent Day" := 1;
                 EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::Absent;
             end;
 
-            ProcessDayFromEmpActLedgerEntry(); // Prcoess data from Employee Act Ledger Entry according to document type.
+        ProcessDayFromEmpActLedgerEntry(); // Prcoess data from Employee Act Ledger Entry according to document type.
 
-            if (EmpAttendance."Check In Time" = 0T) and (EmpAttendance."Check Out Time" = 0T) and (EmpAttendance."Leave Day" <> 0) and (EmpAttendance."Tour Day" <> 0) then begin
-                EmpAttendance."Absent Day" := (1 - EmpAttendance."Leave Day");
-                EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::Absent;
-            end;
-        end;
+        // if EmpAttendance."Day Type" = EmpAttendance."Day Type"::"Working Day" then begin
+        //     if (EmpAttendance."Check In Time" = 0T) and (EmpAttendance."Check Out Time" = 0T) and (EmpAttendance."Leave Day" <> 0) and (EmpAttendance."Tour Day" <> 0) and (EmpAttendance."Training Day" <> 0) then begin
+        //         EmpAttendance."Absent Day" := (1 - EmpAttendance."Leave Day");
+        //         EmpAttendance."Entry Type" := EmpAttendance."Entry Type"::Absent;
+        //     end;
+        // end;
 
-        if IsHoliday(EmpAttendance."Attendance Date", EmpAttendance."Employee No.") then begin
+        if IsHolidayTemp then begin
             if EmpAttendance."Present Day" <> 0 then
                 EmpAttendance."Week Off Day" := (1 - EmpAttendance."Present Day");
         end;
@@ -105,7 +104,7 @@ codeunit 50029 "Process Daily Attendance"
         WorkShiftCode: Code[20];
         ShiftAssignmentMgt: Codeunit "Shift Assignment Mgt";
     begin
-        if IsHoliday(EmpAttendance."Attendance Date", EmpAttendance."Employee No.") then begin
+        if IsHolidayTemp then begin
             EmpAttendance."Day Type" := EmpAttendance."Day Type"::Holiday;
             EmpAttendance."Week Off Day" := 1;
             EmpAttendance."Holiday Remarks" := CalendarDescription;
@@ -186,11 +185,14 @@ codeunit 50029 "Process Daily Attendance"
                     EmpActLedgerEntry."Document Type"::"Leave Request":
                         begin
                             EmpAttendance."Leave Day" += EmpActLedgerEntry.Day;
-                            EmpAttendance."Absent Day" := 0;
 
                             if EmpAttendance."Leave Day" <> 0 then begin
-                                if IsHoliday(EmpAttendance."Attendance Date", EmpAttendance."Employee No.") then
+                                if IsHolidayTemp then
                                     EmpAttendance."Week Off Day" := (1 - EmpAttendance."Leave Day")
+                                else                //for working day when no check in and check out is found.
+                                    if EmpAttendance."Absent Day" = 1 then
+                                        EmpAttendance."Absent Day" := 1 - EmpAttendance."Leave Day";
+
                             end;
                             EmpAttendance."Leave Type" := EmpActLedgerEntry."Leave Type";
                             if LeaveRequest.Get(EmpActLedgerEntry."Document No.") then begin
@@ -294,14 +296,13 @@ codeunit 50029 "Process Daily Attendance"
         end;
     end;
 
-    procedure IsHoliday(Date: Date; EmpNo: Code[20]): Boolean
+    procedure IsHoliday(Date: Date; EmpNo: Code[20])
     var
         AttendanceMgt: Codeunit "Attendance Mgt";
     begin
         Clear(CalendarDescription);
         IsHolidayTemp := AttendanceMgt.GetNonWorkingDaysFromAttendance(Date, Date, EmpAttendance."Deputation On", EmpAttendance."Deputation On Code", EmpAttendance."Province Code", EmpNo) <> 0;
         CalendarDescription := AttendanceMgt.ReturnCalendarDescription;
-        exit(IsHolidayTemp);
     end;
 
     procedure GetSetup()
