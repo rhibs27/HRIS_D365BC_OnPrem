@@ -460,6 +460,7 @@ codeunit 50008 "Payroll Engine"
                 end;
             end;
         end;
+        PayrollLine.RoundAmount(MonthlyTax);
         PayrollLine.RoundAmount(SocialSecurityTaxAmount);
         if SocialSecurityTaxAmount >= MonthlyTax then
             MonthlyTax := SocialSecurityTaxAmount;
