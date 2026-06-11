@@ -1003,7 +1003,7 @@ table 50140 "Employee Transfer"
             "Deputation on"::Province:
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Province, "Province Code (to)") then begin
                     Validate("Deputation On Code To", OrganizationStructureList.Code);
-                    Validate("Province Name To", OrganizationStructureList."Province Name");
+                    Validate("Province Name To", OrganizationStructureList.Name);
                 end;
         end;
     end;
