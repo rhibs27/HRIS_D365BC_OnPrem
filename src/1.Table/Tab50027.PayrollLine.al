@@ -1752,12 +1752,11 @@ table 50027 "Payroll Line"
 
                         if PayrollAttributes."Deduct on Absent" then begin
 
-                            PostResignationDeductionAmount := AttributeAmount / FindTotalDays() * "Post Resignation Days";
+                            PostResignationDeductionAmount := AttributeAmount / FindTotalDays(PayrollHeader."From Date") * "Post Resignation Days";
                             if PGSetup."Skip Attribute Adjustment" then
                                 Attributeamount := AttributeAmount
                                                     + AttributeAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * "Prior Present Days"
-                                                    - AttributeAmount / FindTotalDays() * "Days Before Joining";
-
+                                                    - AttributeAmount / FindTotalDays(PayrollHeader."From Date") * "Days Before Joining";
                             if PGSetup."Deduction Entries" then begin
                                 if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then
                                     OnBeforeCalculateTotalAmount("Total Days", "Total Unpaid Days", AttributeAmount, IsHandled);
@@ -3175,21 +3174,25 @@ table 50027 "Payroll Line"
             OnBeforeExitOfDifferentialAmount(PayrollHeader, ToDate, OldAmount, DifferentialAmount, IsHandled);
         if not IsHandled then begin
             NoOfDays := ToDate - FromDate + 1;
-            OneDayAmount := (NewAmount - OldAmount) / FindTotalDays();
+            OneDayAmount := (NewAmount - OldAmount) / FindTotalDays(FromDate);
             DifferentialAmount := OneDayAmount * NoOfDays;
         end;
         exit(DifferentialAmount)
     end;
 
-    local procedure FindTotalDays(): Decimal
+    local procedure FindTotalDays(FromDate: Date): Decimal
     var
         PayrollGenSetup: Record "Payroll General Setup";
+        HRMgt: Codeunit "HR Mgt.";
+        PayCyclePeriod: Record "Pay Cycle Period";
+
     begin
         PayrollGenSetup.Get();
         if PayrollGenSetup."Total Days From" = PayrollGenSetup."Total Days From"::Year then
             exit(PayrollGenSetup."Total Days" / 12)
         else
-            exit("Total Days"); // from payroll line
+            HRMgt.GetPayCyclePeriod(FromDate, PayCyclePeriod);
+        exit(PayCyclePeriod."End Date" - PayCyclePeriod."Start Date" + 1);
     end;
 
     local procedure PreviouslyPaidAmountToBeReduced(EmpCode: Code[20]; AttrCode: Code[20]; EffectiveDate: Date): Decimal
