@@ -98,6 +98,10 @@ table 50165 "Attribute Adjustment Line"
         {
             DataClassification = ToBeClassified;
         }
+        field(13; "Monthly Adjustment"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys

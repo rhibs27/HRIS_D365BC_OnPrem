@@ -15,10 +15,11 @@ page 50376 "Attribute Adjustment Lines"
                 field("Employee Name"; Rec."Employee Name") { ApplicationArea = All; }
                 field("Adjustment Type"; Rec."Adjustment Type") { ApplicationArea = All; }
                 field("Attribute Code"; Rec."Attribute Code") { ApplicationArea = All; }
-                field("Old Amount"; Rec."Old Amount") { ApplicationArea = All; }
+                field("Monthly Adjustment"; Rec."Monthly Adjustment") { ApplicationArea = All; }
+                field("Old Amount"; Rec."Old Amount") { ApplicationArea = All; Enabled = not Rec."Monthly Adjustment"; }
                 field("New Amount"; Rec."New Amount") { ApplicationArea = All; }
-                field("Effective Start Date"; Rec."Effective Start Date") { ApplicationArea = All; }
-                field("Effective End Date"; Rec."Effective End Date") { ApplicationArea = All; }
+                field("Effective Start Date"; Rec."Effective Start Date") { ApplicationArea = All; Enabled = not Rec."Monthly Adjustment"; }
+                field("Effective End Date"; Rec."Effective End Date") { ApplicationArea = All; Enabled = not Rec."Monthly Adjustment"; }
             }
         }
     }

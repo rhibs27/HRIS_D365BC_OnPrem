@@ -1773,7 +1773,11 @@ table 50027 "Payroll Line"
                         CalculateProRataAmtFromStartDate("Employee No.", PayrollAttributes.Code, AttributeAmount);
                         CalculateProRataAmtFromEndDate("Employee No.", PayrollAttributes.Code, AttributeAmount);
 
-                        AttributeAmount := AttributeAmount + GetBackdatedAmountEmployeeWiseDateWise("Employee No.", PayrollAttributes.Code) + GetAmountFromDeductionEntries("Employee No.", PayrollAttributes.Code, true) - PostResignationDeductionAmount;
+                        AttributeAmount := AttributeAmount
+                                        + GetBackdatedAmountEmployeeWiseDateWise("Employee No.", PayrollAttributes.Code)
+                                        + GetAmountFromDeductionEntries("Employee No.", PayrollAttributes.Code, true)
+                                        + GetMonthlyAdjustmentAmount("Employee No.", PayrollAttributes.Code)
+                                        - PostResignationDeductionAmount;
                         if PayrollAttributes.Subtype in [PayrollAttributes.Subtype::CIT, PayrollAttributes.Subtype::RF] then
                             AttributeAmount := AttributeAmount + GetOneTimeRFContributionAmount(PayrollAttributes.Code);
                         RoundAmount(AttributeAmount);
@@ -3105,6 +3109,7 @@ table 50027 "Payroll Line"
         PayrollAttrUsageHistory.SetRange("Attribute Code", AttrCode);
         PayrollAttrUsageHistory.SetFilter("Entry Date", '%1..%2', PayrollHeader."From Date", PayrollHeader."To Date");
         PayrollAttrUsageHistory.SetFilter("Start Date", '<>%1&<%2', 0D, PayrollHeader."From Date");
+        PayrollAttrUsageHistory.SetRange("Monthly Adjustment", false);
         PayrollAttrUsageHistory.SetRange(Reversed, false);
         if PayrollAttrUsageHistory.FindFirst() then begin
             GetPayCyclePeriodStart := HrMgt.GetPayCyclePeriod(PayrollAttrUsageHistory."Start Date", PayCyclePeriodBackdated);
@@ -3127,6 +3132,19 @@ table 50027 "Payroll Line"
                                             false) + ((PayrollAttrUsageHistory."New Amount" - PayrollAttrUsageHistory."Old Amount") * (NoOfMonths - 1)))
             end;
         end;
+    end;
+
+    local procedure GetMonthlyAdjustmentAmount(EmpCode: Code[20]; AttrCode: Code[20]): Decimal
+    var
+        PayrollAttrUsageHistory: Record "Attributes Usage History";
+    begin
+        PayrollAttrUsageHistory.SetRange("Employee No.", EmpCode);
+        PayrollAttrUsageHistory.SetRange("Attribute Code", AttrCode);
+        PayrollAttrUsageHistory.SetFilter("Entry Date", '%1..%2', PayrollHeader."From Date", PayrollHeader."To Date");
+        PayrollAttrUsageHistory.SetRange("Monthly Adjustment", true);
+        PayrollAttrUsageHistory.SetRange(Reversed, false);
+        if PayrollAttrUsageHistory.FindFirst() then
+            exit(PayrollAttrUsageHistory."New Amount");
     end;
 
     local procedure GetAmountFromDeductionEntries(EmployeeNo: Code[20]; AttributeCode: Code[20]; ForReversedEntries: Boolean): Decimal

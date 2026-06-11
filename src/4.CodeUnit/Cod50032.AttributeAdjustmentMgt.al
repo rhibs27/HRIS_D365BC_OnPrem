@@ -24,6 +24,7 @@ codeunit 50032 "Attribute Adjustment Mgt"
         AttributesUsageHistory."Employee No." := AttributeAdjustmentLine."Employee No.";
         AttributesUsageHistory."Employee Name" := AttributeAdjustmentLine."Employee Name";
         AttributesUsageHistory."Attribute Code" := AttributeAdjustmentLine."Attribute Code";
+        AttributesUsageHistory."Monthly Adjustment" := AttributeAdjustmentLine."Monthly Adjustment";
         AttributesUsageHistory."Old Amount" := AttributeAdjustmentLine."Old Amount";
         AttributesUsageHistory."New Amount" := AttributeAdjustmentLine."New Amount";
         AttributesUsageHistory."Start Date" := AttributeAdjustmentLine."Effective Start Date";
@@ -32,7 +33,7 @@ codeunit 50032 "Attribute Adjustment Mgt"
         AttributesUsageHistory."Source Document No." := AttributeAdjustmentLine."Document No.";
         AttributesUsageHistory.Insert(true);
 
-        if not AttributeAdjustmentLine."System Calculated" then
+        if (not AttributeAdjustmentLine."System Calculated") and (not AttributeAdjustmentLine."Monthly Adjustment") then
             UpdatePayrollAttributeUsage(AttributeAdjustmentLine."Employee No.", AttributeAdjustmentLine."Attribute Code", AttributeAdjustmentLine."New Amount");
     end;
 
