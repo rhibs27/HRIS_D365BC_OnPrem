@@ -41,7 +41,7 @@ tableextension 50005 "Incoming Document Ext" extends "Incoming Document"
     var
         BlankPlaceholder: Record "Incoming Document";
     begin
-        if "Employee Activity Type" = "Employee Activity Type"::"Medical Insurance Claim" then
+        if "Employee Activity Type" in ["Employee Activity Type"::"Medical Insurance Claim", "Employee Activity Type"::Insurance] then
             if (Rec."File Name" <> '') and (xRec."File Name" = '') then begin
                 BlankPlaceholder.SetRange("No.", Rec."No.");
                 BlankPlaceholder.SetRange("File Name", '');

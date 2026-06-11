@@ -181,11 +181,11 @@ table 50141 OverTime
         {
             Editable = false;
         }
-        field(19; "Branch Name"; Text[50])
+        field(19; "Branch Name"; Text[100])
         {
             Editable = false;
         }
-        field(20; "Department Name"; Text[50])
+        field(20; "Department Name"; Text[100])
         {
             Editable = false;
         }
@@ -244,7 +244,7 @@ table 50141 OverTime
         {
             Editable = false;
         }
-        field(29; "Province Name"; Code[50])
+        field(29; "Province Name"; Code[100])
         {
             Editable = false;
         }

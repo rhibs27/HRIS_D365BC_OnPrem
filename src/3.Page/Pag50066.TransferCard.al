@@ -700,7 +700,7 @@ page 50066 "Transfer Card"
 
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want to hold this document?', false) then begin
+                    if Confirm('Do you want to resume this document?', false) then begin
                         Rec.Validate("Approval Status", Rec."Approval Status"::Approved);
                         Rec.Modify();
                         Message('Transfer Document is Resumed');
