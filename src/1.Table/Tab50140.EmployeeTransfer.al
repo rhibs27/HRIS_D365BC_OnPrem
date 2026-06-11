@@ -620,7 +620,7 @@ table 50140 "Employee Transfer"
         }
         field(104; "Transfer Claim"; Boolean)
         {
-            // Editable = false;
+            Editable = false;
         }
         field(105; "On Employee Request"; Boolean)
         {

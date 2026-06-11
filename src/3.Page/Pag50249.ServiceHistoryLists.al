@@ -1,6 +1,6 @@
 page 50249 "Service History Lists"
 {
-    // Editable = false;
+    Editable = false;
     PageType = List;
     SourceTable = "Employee Service History";
     UsageCategory = Lists;

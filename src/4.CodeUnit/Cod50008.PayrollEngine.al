@@ -107,6 +107,7 @@ codeunit 50008 "Payroll Engine"
         HLInsAmt: Decimal;
         Text001: Label 'Over Time Employee Import Successfully.';
         HomeLoanInsuranceTieUP: Record "Employee Loan/Advance";
+        LeavePeriod: Record "Accounting Period";
 
     local procedure GetAttendanceSetup()
     begin
@@ -810,7 +811,7 @@ codeunit 50008 "Payroll Engine"
         exit(NumberStack[NsNo]);
     end;
 
-    local procedure CalculateValue(Number1: Decimal; Number2: Decimal; Opt: Code[20]): Decimal
+    procedure CalculateValue(Number1: Decimal; Number2: Decimal; Opt: Code[20]): Decimal
     begin
         case Opt of
             '*':
@@ -824,7 +825,7 @@ codeunit 50008 "Payroll Engine"
         end;
     end;
 
-    local procedure CheckPrecedence(Opt: Code[20]): Integer
+    procedure CheckPrecedence(Opt: Code[20]): Integer
     begin
         if (Opt = '*') or (Opt = '/') then
             exit(2);
@@ -3187,14 +3188,10 @@ codeunit 50008 "Payroll Engine"
         Employee: Record Employee;
         LeaveEarn: Record "Leave Earn";
         TotalAnnualLeaveByEmployee: Dictionary of [Code[20], Decimal];
-        LeavePostingDateByEmployee: Dictionary of [Code[20], Date];
         TempLeaveCode: Code[20];
         EmployeePayrollAdjustment: Record "Employee Payroll Adjustment";
         EmployeeNo: Code[20];
         LeaveDays: Decimal;
-        LeaveDaysTaken: Decimal;
-        LFAAmount: Decimal;
-        LeavePeriod: Record "Accounting Period";
     begin
         LeaveTypeSetup.Reset();
         LeaveTypeSetup.SetRange("Leave Category", LeaveTypeSetup."Leave Category"::"Annual Leave");
@@ -3216,25 +3213,16 @@ codeunit 50008 "Payroll Engine"
                     TotalAnnualLeaveByEmployee.Set(EmployeeNo, LeaveDays + LeaveEarn."Balancing Days")
                 else
                     TotalAnnualLeaveByEmployee.Add(EmployeeNo, LeaveDays);
-                if LeavePostingDateByEmployee.ContainsKey(EmployeeNo) then begin
-                    if LeaveEarn."Posted Date" > LeavePostingDateByEmployee.Get(EmployeeNo) then
-                        LeavePostingDateByEmployee.Set(EmployeeNo, LeaveEarn."Posted Date");
-                end else
-                    LeavePostingDateByEmployee.Add(EmployeeNo, LeaveEarn."Posted Date");
             until LeaveEarn.Next() = 0;
         foreach EmployeeNo in TotalAnnualLeaveByEmployee.Keys do begin
             LeaveTypeSetup.get(TempLeaveCode);
             TotalAnnualLeaveByEmployee.Get(EmployeeNo, LeaveDays);
-            LeaveDaysTaken := -LeaveDays;
-            if (LeaveDaysTaken > 0) and (LeaveTypeSetup."Days Earned Per Year" > 0) then begin
-                LFAAmount := GetLFAAmount(EmployeeNo, PayrollDocumentNo, LeavePostingDateByEmployee.Get(EmployeeNo));
-                if LeaveDaysTaken < LeaveTypeSetup."Days Earned Per Year" then
-                    LFAAmount := Round(LFAAmount * LeaveDaysTaken / LeaveTypeSetup."Days Earned Per Year", 0.01, '=');
+            if -LeaveDays = LeaveTypeSetup."Days Earned Per Year" then begin
                 EmployeePayrollAdjustment.Init();
                 EmployeePayrollAdjustment."Payroll Document No." := PayrollDocumentNo;
                 EmployeePayrollAdjustment.Validate("Employee No.", EmployeeNo);
                 EmployeePayrollAdjustment.Validate("Attribute Code", PGSetup."Leave Fare Allowance");
-                EmployeePayrollAdjustment.Validate(Amount, LFAAmount);
+                EmployeePayrollAdjustment.Validate(Amount, GetLFAAmount(EmployeeNo, PayrollDocumentNo));
                 OnBeforeInsertEmployeePayrollAdjustment(EmployeePayrollAdjustment);
                 if EmployeePayrollAdjustment.Amount <> 0 then
                     EmployeePayrollAdjustment.Insert(true);
@@ -3242,7 +3230,7 @@ codeunit 50008 "Payroll Engine"
         end;
     end;
 
-    local procedure GetLFAAmount(EmpNo: Code[20]; PayrollDocNo: Code[20]; LeavePostingDate: Date): Decimal
+    local procedure GetLFAAmount(EmpNo: Code[20]; PayrollDocNo: Code[20]): Decimal
     var
         PayrollAttributesUsage: Record "Payroll Attributes Usage";
         SalaryLevel: Record "Salary Level";
@@ -3263,7 +3251,7 @@ codeunit 50008 "Payroll Engine"
                     PayrollAttributesUsage.Reset();
                     PGSetup.TestField("Leave Fare Allowance");
                     PayrollAttributes.Get(PGSetup."Leave Fare Allowance");
-                    exit(Round(EvaluateAmountAtDate(PayrollAttributes.Formula, EmpNo, LeavePostingDate), 0.01, '='));
+                    exit(Round(EvaluateAmount(PayrollAttributes.Formula, false), 0.01, '='));
                 end;
             PGSetup."LFA Source"::"as per Salary Level":
                 begin
@@ -3280,7 +3268,7 @@ codeunit 50008 "Payroll Engine"
             PayrollAttributesUsage.Reset();
             PGSetup.TestField("Leave Fare Allowance");
             PayrollAttributes.Get(PGSetup."Leave Fare Allowance");
-            exit(Round(EvaluateAmountAtDate(PayrollAttributes.Formula, EmpNo, LeavePostingDate), 0.01, '='));
+            exit(Round(EvaluateAmount(PayrollAttributes.Formula, false), 0.01, '='));
         end else if PGSetup."LFA Source" = PGSetup."LFA Source"::"as per Salary Level" then begin
             Employee.Reset();
             Employee.SetRange("No.", EmpNo);
@@ -3291,170 +3279,6 @@ codeunit 50008 "Payroll Engine"
         end;
     end;
 
-    procedure EvaluateAmountAtDate(Expression: Code[100]; EmpNo: Code[20]; AtDate: Date): Decimal
-    var
-        OperatorStack: array[100] of Code[20];
-        NumberStack: array[100] of Decimal;
-        DecNumber: Decimal;
-        ContiguousNumber: Boolean;
-        CurrExpr: Code[100];
-        Counter: Integer;
-        Num1: Decimal;
-        Num2: Decimal;
-        operat: Code[20];
-        ExNoLocal: Integer;
-        OsNoLocal: Integer;
-        NsNoLocal: Integer;
-    begin
-        ResolveColumnFromHistory(Expression, EmpNo, AtDate);
-        Expression := DelChr(Expression, '=', ',');
-        Counter := 0;
-        ExNoLocal := StrLen(Expression);
-        OsNoLocal := 0;
-        NsNoLocal := 0;
-        repeat
-            Counter += 1;
-            if Expression[Counter] = '(' then begin
-                OsNoLocal += 1;
-                OperatorStack[OsNoLocal] := Format(Expression[Counter]);
-            end else if Expression[Counter] = ')' then begin
-                if OsNoLocal <> 0 then
-                    while (OperatorStack[OsNoLocal] <> '(') and (OsNoLocal <> 0) do begin
-                        Num2 := NumberStack[NsNoLocal];
-                        NumberStack[NsNoLocal] := 0;
-                        NsNoLocal -= 1;
-                        Num1 := NumberStack[NsNoLocal];
-                        NumberStack[NsNoLocal] := 0;
-                        NsNoLocal -= 1;
-                        operat := OperatorStack[OsNoLocal];
-                        OperatorStack[OsNoLocal] := '';
-                        OsNoLocal -= 1;
-                        NsNoLocal += 1;
-                        NumberStack[NsNoLocal] := CalculateValue(Num1, Num2, operat);
-                        if OsNoLocal = 0 then
-                            break;
-                    end;
-                if (OsNoLocal <> 0) then begin
-                    OperatorStack[OsNoLocal] := '';
-                    OsNoLocal -= 1;
-                end;
-            end
-            else if Expression[Counter] in ['+', '-', '*', '/'] then begin
-                if OsNoLocal <> 0 then
-                    while (OsNoLocal <> 0) and (CheckPrecedence(OperatorStack[OsNoLocal]) >= CheckPrecedence(Format(Expression[Counter]))) do begin
-                        Num2 := NumberStack[NsNoLocal];
-                        NumberStack[NsNoLocal] := 0;
-                        NsNoLocal -= 1;
-                        Num1 := NumberStack[NsNoLocal];
-                        NumberStack[NsNoLocal] := 0;
-                        NsNoLocal -= 1;
-                        operat := OperatorStack[OsNoLocal];
-                        OperatorStack[OsNoLocal] := '';
-                        OsNoLocal -= 1;
-                        NsNoLocal += 1;
-                        NumberStack[NsNoLocal] := CalculateValue(Num1, Num2, operat);
-                        if OsNoLocal = 0 then
-                            break;
-                    end;
-                OsNoLocal += 1;
-                OperatorStack[OsNoLocal] := Format(Expression[Counter]);
-            end else begin
-                CurrExpr := '';
-                repeat
-                    ContiguousNumber := false;
-                    if Expression[Counter] in ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '.'] then
-                        CurrExpr := CurrExpr + Format(Expression[Counter]);
-                    if Counter < ExNoLocal then begin
-                        if Evaluate(DecNumber, Format(Expression[Counter + 1])) or (Expression[Counter + 1] = '.') then begin
-                            ContiguousNumber := true;
-                            Counter += 1;
-                        end;
-                    end;
-                until not ContiguousNumber;
-                Evaluate(DecNumber, CurrExpr);
-                NsNoLocal += 1;
-                NumberStack[NsNoLocal] := DecNumber;
-            end;
-        until Counter = ExNoLocal;
-
-        while (OsNoLocal <> 0) do begin
-            Num2 := NumberStack[NsNoLocal];
-            NumberStack[NsNoLocal] := 0;
-            NsNoLocal -= 1;
-            Num1 := NumberStack[NsNoLocal];
-            NumberStack[NsNoLocal] := 0;
-            NsNoLocal -= 1;
-            operat := OperatorStack[OsNoLocal];
-            OperatorStack[OsNoLocal] := '';
-            OsNoLocal -= 1;
-            NsNoLocal += 1;
-            NumberStack[NsNoLocal] := CalculateValue(Num1, Num2, operat);
-        end;
-        exit(NumberStack[NsNoLocal]);
-    end;
-
-    local procedure ResolveColumnFromHistory(var Expression: Code[100]; EmpNo: Code[20]; AtDate: Date)
-    var
-        StrPosition: Integer;
-        StrLength: Integer;
-        PayrollAttributes: Record "Payroll Attributes";
-        Substring1: Text;
-        SubString2: Text;
-        SubString3: Text;
-        CalculatedAmount: Decimal;
-    begin
-        Expression := DelChr(Expression, '=');
-        StrLength := StrLen(Expression);
-        repeat
-            if Expression[StrLength] in ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X',
-                                      'Y', 'Z'] then begin
-                PayrollAttributes.Reset();
-                PayrollAttributes.SetRange("Column Name", Format(Expression[StrLength]));
-                if PayrollAttributes.FindFirst() then begin
-                    StrPosition := StrPos(Expression, Format(Expression[StrLength]));
-                    Expression := DelStr(Expression, StrPosition, StrLen(Format(Expression[StrLength])));
-
-                    CalculatedAmount := GetHistoricalAttributeAmount(EmpNo, PayrollAttributes.Code, AtDate);
-                    if CalculatedAmount < 0 then begin
-                        Substring1 := CopyStr(Expression, 1, StrPosition - 2);
-                        SubString2 := CopyStr(Expression, StrPosition);
-                        SubString3 := CopyStr(Expression, StrPosition - 1, 1);
-                        if SubString3 = '-' then
-                            Expression := InsStr(Substring1 + SubString2, '+' + Format(Abs(CalculatedAmount)), StrPosition - 1)
-                        else if SubString3 = '+' then
-                            Expression := InsStr(Substring1 + SubString2, '-' + Format(Abs(CalculatedAmount)), StrPosition - 1)
-                    end else
-                        Expression := InsStr(Expression, Format(CalculatedAmount), StrPosition)
-                end;
-            end;
-            StrLength -= 1;
-        until StrLength = 0;
-    end;
-
-    local procedure GetHistoricalAttributeAmount(EmpNo: Code[20]; AttributeCode: Code[20]; AtDate: Date): Decimal
-    var
-        AttributesUsageHistory: Record "Attributes Usage History";
-        PayrollAttributesUsage: Record "Payroll Attributes Usage";
-    begin
-        AttributesUsageHistory.Reset();
-        AttributesUsageHistory.SetCurrentKey("Employee No.", "Attribute Code", "Start Date");
-        AttributesUsageHistory.SetRange("Employee No.", EmpNo);
-        AttributesUsageHistory.SetRange("Attribute Code", AttributeCode);
-        AttributesUsageHistory.SetRange(Reversed, false);
-
-        AttributesUsageHistory.SetFilter("Start Date", '<=%1', AtDate);
-        if AttributesUsageHistory.FindLast() then
-            exit(AttributesUsageHistory."New Amount");
-
-        AttributesUsageHistory.SetRange("Start Date");
-        if AttributesUsageHistory.FindFirst() then
-            exit(AttributesUsageHistory."Old Amount");
-
-        if PayrollAttributesUsage.Get(AttributeCode, EmpNo) then
-            exit(PayrollAttributesUsage.Amount);
-
-        exit(0);
-    end;
 
     local procedure GetSettlementAttendance(var SettlementLine: Record "Payroll Line"; var SettlementHeader: Record "Payroll Header")
     var
