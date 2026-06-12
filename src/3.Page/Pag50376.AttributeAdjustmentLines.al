@@ -71,13 +71,15 @@ page 50376 "Attribute Adjustment Lines"
                     AttributeAdjLine: Record "Attribute Adjustment Line";
                 begin
                     CurrPage.SetSelectionFilter(AttributeAdjLine);
-                    repeat
-                        if PayrollAttributes.Get(AttributeAdjLine."Attribute Code") then
-                            if PayrollAttributes.Formula <> '' then begin
-                                AttributeAdjLine.Validate("New Amount", AttributeAdjustmentMgt.GetAmountFromAttributeFormula(PayrollAttributes.Formula, Rec."Employee No."));
-                                AttributeAdjLine.Modify(true);
-                            end;
-                    until AttributeAdjLine.Next() = 0;
+                    AttributeAdjLine.MarkedOnly(true);
+                    if AttributeAdjLine.FindSet() then
+                        repeat
+                            if PayrollAttributes.Get(AttributeAdjLine."Attribute Code") then
+                                if PayrollAttributes.Formula <> '' then begin
+                                    AttributeAdjLine.Validate("New Amount", AttributeAdjustmentMgt.GetAmountFromAttributeFormula(PayrollAttributes.Formula, AttributeAdjLine."Employee No."));
+                                    AttributeAdjLine.Modify(true);
+                                end;
+                        until AttributeAdjLine.Next() = 0;
                     CurrPage.Update();
                     Message('Amount has been updated successfully.');
                 end;
