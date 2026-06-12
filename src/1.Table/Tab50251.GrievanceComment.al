@@ -41,6 +41,7 @@ table 50182 "Grievance Comment"
     trigger OnInsert()
     var
         GrievanceComment: Record "Grievance Comment";
+        GrievanceHeader: Record "Grievance Header";
     begin
         if "Comment Date" = 0DT then
             "Comment Date" := CurrentDateTime;

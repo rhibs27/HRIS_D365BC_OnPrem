@@ -1039,17 +1039,20 @@
         <Field Name="GrievanceDate">
           <DataField>GrievanceDate</DataField>
         </Field>
-        <Field Name="Category">
-          <DataField>Category</DataField>
+        <Field Name="SubjectCode">
+          <DataField>SubjectCode</DataField>
+        </Field>
+        <Field Name="SubjectDesc">
+          <DataField>SubjectDesc</DataField>
+        </Field>
+        <Field Name="Description">
+          <DataField>Description</DataField>
         </Field>
         <Field Name="Priority">
           <DataField>Priority</DataField>
         </Field>
         <Field Name="Severity">
           <DataField>Severity</DataField>
-        </Field>
-        <Field Name="Subject">
-          <DataField>Subject</DataField>
         </Field>
         <Field Name="ApprovalStatus">
           <DataField>ApprovalStatus</DataField>

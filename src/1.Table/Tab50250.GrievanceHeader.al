@@ -1,4 +1,4 @@
-table 50181 "Grievance Header"
+table 50250 "Grievance Header"
 {
     Caption = 'Grievance Header';
     DataClassification = CustomerContent;
@@ -35,7 +35,19 @@ table 50181 "Grievance Header"
             Editable = false;
         }
         field(4; "Grievance Date"; Date) { }
-        field(5; Category; Enum "Grievance Category") { }
+        field(5; "Subject Code"; Code[20])
+        {
+            TableRelation = "Grievance Category".Code;
+            trigger OnValidate()
+            var
+                GrievanceCategory: Record "Grievance Category";
+            begin
+                if GrievanceCategory.Get("Subject Code") then
+                    Validate("Subject Desc", GrievanceCategory.Description)
+                else
+                    Clear("Subject Desc");
+            end;
+        }
         field(6; Priority; Enum "Grievance Priority")
         {
             trigger OnValidate()
@@ -43,7 +55,7 @@ table 50181 "Grievance Header"
                 UpdateSLADates();
             end;
         }
-        field(7; Subject; Text[250]) { }
+        field(7; "Subject Desc"; Text[50]) { }
         field(8; Description; Text[1000])
         {
             Caption = 'Description';
@@ -113,6 +125,19 @@ table 50181 "Grievance Header"
         field(25; Anonymous; Boolean)
         {
             Caption = 'File Anonymously';
+            trigger OnValidate()
+            var
+                GrievanceCategory: Record "Grievance Category";
+            begin
+                if not Anonymous then
+                    exit
+                else begin
+                    GrievanceCategory.Get("Subject Code");
+                    if not GrievanceCategory."Anonymous Filing" then
+                        Error('Cannot file anonymous grievance in this subject');
+                end;
+
+            end;
         }
         field(26; Severity; Enum "Grievance Severity")
         {
@@ -146,6 +171,10 @@ table 50181 "Grievance Header"
             Editable = false;
             TableRelation = "Dimension Set Entry";
         }
+        field(31; "Grievance Token Hash"; Text[64])
+        {
+            Editable = false;
+        }
     }
 
     keys
@@ -174,6 +203,33 @@ table 50181 "Grievance Header"
                 "No." := NoSeriesMgt.GetNextNo("No. Series");
         end;
         Validate("Fiscal Year", HRMgt.ReturnFiscalYear("Grievance Date"));
+
+        if Anonymous then begin
+            Clear("Employee No.");
+            Clear("Employee Name");
+            Clear(SystemCreatedBy);
+            Clear("Deputation On");
+            Clear("Deputation Code");
+            Clear("Shortcut Dimension 1 Code");
+            Clear("User ID");
+            Clear(SystemModifiedBy);
+            Clear("Dimension Set ID");
+        end;
+    end;
+
+    trigger OnModify()
+    begin
+        if Anonymous then begin
+            Clear("Employee No.");
+            Clear("Employee Name");
+            Clear(SystemCreatedBy);
+            Clear("Deputation On");
+            Clear("Deputation Code");
+            Clear("Shortcut Dimension 1 Code");
+            Clear("User ID");
+            Clear(SystemModifiedBy);
+            Clear("Dimension Set ID");
+        end;
     end;
 
     trigger OnDelete()

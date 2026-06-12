@@ -5,16 +5,18 @@ codeunit 50036 "Grievance Mgt"
         Grievance, Grievance2 : Record "Grievance Header";
         AlreadyOpen: Label 'This employee already has an open grievance. Click Ok to open it.';
     begin
-        Grievance.Reset();
-        Grievance.SetRange("Employee No.", EmpCode);
-        Grievance.SetFilter("Approval Status", '%1|%2', Grievance."Approval Status"::" ", Grievance."Approval Status"::Open);
-        if Grievance.FindFirst() then begin
-            if GuiAllowed then begin
-                Message(AlreadyOpen);
-                Page.Run(Page::"Grievance Card", Grievance);
-                exit;
-            end else
-                Error('You Already have OpenGrievanceRequest %1', Grievance."No.");
+        if GuiAllowed then begin
+            Grievance.Reset();
+            Grievance.SetRange("Employee No.", EmpCode);
+            Grievance.SetFilter("Approval Status", '%1|%2', Grievance."Approval Status"::" ", Grievance."Approval Status"::Open);
+            if Grievance.FindFirst() then begin
+                if GuiAllowed then begin
+                    Message(AlreadyOpen);
+                    Page.Run(Page::"Grievance Card", Grievance);
+                    exit;
+                end else
+                    Error('You Already have OpenGrievanceRequest %1', Grievance."No.");
+            end;
         end;
         Grievance2.Init();
         Grievance2.Validate("Employee No.", EmpCode);
@@ -35,14 +37,17 @@ codeunit 50036 "Grievance Mgt"
         if GuiAllowed then
             if not Confirm(ConfirmSubmit, false) then
                 exit;
-        Grievance.TestField("Employee No.");
-        Grievance.TestField(Subject);
-        Grievance.TestField(Category);
+        if not Grievance.Anonymous then
+            Grievance.TestField("Employee No.");
+        Grievance.TestField("Subject Code");
+        Grievance.TestField(Description);
         Grievance.Validate("Approval Status", "Approval Status"::Submitted);
         Grievance.Modify(true);
-        AddComment(Grievance."No.", 'Grievance submitted for review.');
-        if GuiAllowed then
+        AddComment(Grievance."No.", 'Grievance submitted for review.', Grievance.Anonymous);
+        EmailMgt.SendGrievanceNotificationEmail(Grievance);
+        if GuiAllowed then begin
             Message(SubmitSuccess);
+        end;
         exit(true);
     end;
 
@@ -52,7 +57,7 @@ codeunit 50036 "Grievance Mgt"
     begin
         if Grievance."Approval Status" = Grievance."Approval Status"::Settled then
             Error(AlreadyResolved);
-        AddComment(Grievance."No.", 'Grievance approved and resolved.');
+        AddComment(Grievance."No.", 'Grievance approved and resolved.', Grievance.Anonymous);
         Grievance.TestField("HR Remarks");
         Grievance.Validate("Approval Status", "Approval Status"::Settled);
         if Grievance."Resolution Date" = 0D then
@@ -70,7 +75,7 @@ codeunit 50036 "Grievance Mgt"
         Grievance.TestField("Rejection Remarks");
         Grievance.Validate("Approval Status", "Approval Status"::Rejected);
         Grievance.Modify(true);
-        AddComment(Grievance."No.", StrSubstNo('Grievance rejected. Reason: %1', Grievance."Rejection Remarks"));
+        AddComment(Grievance."No.", StrSubstNo('Grievance rejected. Reason: %1', Grievance."Rejection Remarks"), Grievance.Anonymous);
     end;
 
     procedure WithdrawGrievance(var Grievance: Record "Grievance Header"): Boolean
@@ -82,13 +87,13 @@ codeunit 50036 "Grievance Mgt"
             Error(CannotWithdraw);
         Grievance.Validate("Approval Status", "Approval Status"::Withdrawn);
         Grievance.Modify(true);
-        AddComment(Grievance."No.", 'Grievance withdrawn by employee.');
+        AddComment(Grievance."No.", 'Grievance withdrawn by employee.', Grievance.Anonymous);
         if GuiAllowed then
             Message(WithdrawSuccess);
         exit(true);
     end;
 
-    procedure AddComment(GrievanceNo: Code[20]; CommentText: Text[2000])
+    procedure AddComment(GrievanceNo: Code[20]; CommentText: Text[2000]; isAnonymous: Boolean)
     var
         GrievanceComment: Record "Grievance Comment";
         GrievanceHeader: Record "Grievance Header";
@@ -99,10 +104,14 @@ codeunit 50036 "Grievance Mgt"
         if GrievanceHeader.Get(GrievanceNo) then
             if GrievanceHeader."Approval Status" = GrievanceHeader."Approval Status"::Settled then
                 Error('Grievance is already settled.');
-        EmpNo := HRMgt.GetEmployeeNo();
         GrievanceComment.Init();
         GrievanceComment.Validate("Grievance No.", GrievanceNo);
-        GrievanceComment.Validate("Commented By", HRMgt.GetEmployeeNo());
+        if not isAnonymous then
+            GrievanceComment.Validate("Commented By", HRMgt.GetEmployeeNo())
+        else if GuiAllowed then
+            GrievanceComment.Validate("Commented By", HRMgt.GetEmployeeNo())
+        else
+            GrievanceComment.Validate("Commented By", '');
         GrievanceComment.Validate("Comment Date", CurrentDateTime);
         GrievanceComment.Comment := CommentText;
         GrievanceComment.Insert(true);
@@ -118,6 +127,71 @@ codeunit 50036 "Grievance Mgt"
         exit(not Grievance.IsEmpty);
     end;
 
+    procedure GenerateUserFriendlyToken(): Text
+    var
+        RawGuid: Text;
+        CleanGuid: Text;
+        Token: Text;
+    begin
+        RawGuid := Format(CreateGuid());
+        CleanGuid := UpperCase(DelChr(RawGuid, '=', '{}-')); // 32 hex chars
+
+        // Format as XXXXXXXXXXXX (12 chars + 2 dashes)
+        Token := CopyStr(CleanGuid, 1, 4) + '-' +
+                 CopyStr(CleanGuid, 5, 4) + '-' +
+                 CopyStr(CleanGuid, 9, 4);
+
+        exit(Token); // e.g. A3F9-C2E1-B847
+    end;
+
+    procedure GenerateAnonymousToken(var GrievanceRec: Record "Grievance Header"; UserPIN: Text): Text
+    var
+        HashAlgorithmType: Option MD5,SHA1,SHA256,SHA384,SHA512;
+        PlainToken: Text;
+        TokenHash: Text;
+    begin
+        if StrLen(UserPIN) < 6 then
+            Error('PIN should not be less than 6 characters.');
+        PlainToken := UserPIN + CopyStr(GrievanceRec."No.", 10, 5); //GenerateUserFriendlyToken();
+
+        TokenHash := CryptographyMgmt.GenerateHash(PlainToken, HashAlgorithmType::SHA256);
+
+        GrievanceRec."Grievance Token Hash" := TokenHash;
+        GrievanceRec.Modify(true);
+
+        exit(PlainToken); // Returned once to show the user, never stored
+    end;
+
+    procedure ValidateTokenAndGetGrievance(InputToken: Text; var GrievanceRec: Record "Grievance Header"): Boolean
+    var
+        HashAlgorithmType: Option MD5,SHA1,SHA256,SHA384,SHA512;
+        InputHash: Text;
+        NormalizedToken: Text;
+    begin
+
+        NormalizedToken := InputToken;
+
+        // Normalize: uppercase and strip any spaces the user may have typed
+        // NormalizedToken := UpperCase(DelChr(InputToken, '=', ' '));
+
+        // Re-add dashes if user typed without them e.g. "A3F9C2E1B847"
+        // if StrLen(NormalizedToken) = 12 then
+        //     NormalizedToken := CopyStr(NormalizedToken, 1, 4) + '-' +
+        //                        CopyStr(NormalizedToken, 5, 4) + '-' +
+        //                        CopyStr(NormalizedToken, 9, 4);
+
+        InputHash := CryptographyMgmt.GenerateHash(NormalizedToken, HashAlgorithmType::SHA256);
+
+        GrievanceRec.Reset();
+        GrievanceRec.SetRange(Anonymous, true);
+        GrievanceRec.SetRange("Grievance Token Hash", InputHash);
+
+        exit(GrievanceRec.FindFirst());
+    end;
+
     var
         HRMgt: Codeunit "HR Mgt.";
+        CryptographyMgmt: Codeunit "Cryptography Management";
+        EmailMgt: Codeunit "Email Mgt";
 }
+
