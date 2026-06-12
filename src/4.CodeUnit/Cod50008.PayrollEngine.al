@@ -930,7 +930,7 @@ codeunit 50008 "Payroll Engine"
 
     procedure GetPayingFrequency(PayrollAttributesUsage: Record "Payroll Attributes Usage"; PayrollAttributes: Record "Payroll Attributes"): Integer
     begin
-        GetPayFrequency(PayrollAttributesUsage, PayrollAttributes);
+        exit(GetPayFrequency(PayrollAttributesUsage, PayrollAttributes));
     end;
 
     local procedure GetPayFrequency(PayrollAttributesUsage: Record "Payroll Attributes Usage"; PayrollAttributes: Record "Payroll Attributes"): Integer
