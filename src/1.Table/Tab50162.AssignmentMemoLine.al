@@ -343,10 +343,12 @@ table 50162 "Assignment Memo Line"
         end;
 
         LeaveEarn.SetRange("Claimed Document No.", "Document No.");
-        if LeaveEarn.FindSet() then begin
-            LeaveEarn.ModifyAll("Claimed Document No.", '');
-            LeaveEarn.ModifyAll(Claimed, false);
-        end;
+        if LeaveEarn.FindSet() then
+            repeat
+                LeaveEarn.Validate("Claimed Document No.", '');
+                LeaveEarn.Validate(Claimed, false);
+                LeaveEarn.Modify(True)
+            until LeaveEarn.Next() = 0;
     end;
 
     trigger OnInsert()
