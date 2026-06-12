@@ -3053,6 +3053,11 @@
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attribute Adjustment Line - Field Line No. - Property Caption</note>
         </trans-unit>
+        <trans-unit id="Table 3281230887 - Field 2495471798 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Monthly Adjustment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attribute Adjustment Line - Field Monthly Adjustment - Property Caption</note>
+        </trans-unit>
         <trans-unit id="Table 3281230887 - Field 3021883852 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>New Amount</source>
           <note from="Developer" annotates="general" priority="2"></note>
@@ -3102,6 +3107,11 @@
           <source>Entry No.</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Entry No. - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Table 1462507268 - Field 2495471798 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Monthly Adjustment</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Table Attributes Usage History - Field Monthly Adjustment - Property Caption</note>
         </trans-unit>
         <trans-unit id="Table 1462507268 - Field 3021883852 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>New Amount</source>
@@ -28047,6 +28057,11 @@
           <source>Export to Excel</source>
           <note from="Developer" annotates="general" priority="2"></note>
           <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Lines - Action ExportToExcel - Property Caption</note>
+        </trans-unit>
+        <trans-unit id="Page 1254391634 - Action 2715888594 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
+          <source>Get Amt. from Formula</source>
+          <note from="Developer" annotates="general" priority="2"></note>
+          <note from="Xliff Generator" annotates="general" priority="3">Page Attribute Adjustment Lines - Action Get Amount from Attribute Formula - Property Caption</note>
         </trans-unit>
         <trans-unit id="Page 1254391634 - Action 3545432896 - Property 2879900210" size-unit="char" translate="yes" xml:space="preserve">
           <source>Import from Excel</source>

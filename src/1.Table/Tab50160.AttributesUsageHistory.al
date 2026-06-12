@@ -59,6 +59,10 @@ table 50160 "Attributes Usage History"
         {
             Caption = 'Source Document No.';
         }
+        field(13; "Monthly Adjustment"; Boolean)
+        {
+            Caption = 'Monthly Adjustment';
+        }
     }
     keys
     {

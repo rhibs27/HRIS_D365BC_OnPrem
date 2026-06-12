@@ -15,10 +15,11 @@ page 50376 "Attribute Adjustment Lines"
                 field("Employee Name"; Rec."Employee Name") { ApplicationArea = All; }
                 field("Adjustment Type"; Rec."Adjustment Type") { ApplicationArea = All; }
                 field("Attribute Code"; Rec."Attribute Code") { ApplicationArea = All; }
-                field("Old Amount"; Rec."Old Amount") { ApplicationArea = All; }
+                field("Monthly Adjustment"; Rec."Monthly Adjustment") { ApplicationArea = All; }
+                field("Old Amount"; Rec."Old Amount") { ApplicationArea = All; Enabled = not Rec."Monthly Adjustment"; }
                 field("New Amount"; Rec."New Amount") { ApplicationArea = All; }
-                field("Effective Start Date"; Rec."Effective Start Date") { ApplicationArea = All; }
-                field("Effective End Date"; Rec."Effective End Date") { ApplicationArea = All; }
+                field("Effective Start Date"; Rec."Effective Start Date") { ApplicationArea = All; Enabled = not Rec."Monthly Adjustment"; }
+                field("Effective End Date"; Rec."Effective End Date") { ApplicationArea = All; Enabled = not Rec."Monthly Adjustment"; }
             }
         }
     }
@@ -56,6 +57,31 @@ page 50376 "Attribute Adjustment Lines"
                         Error('No Document selected. Open the Card page and try again.');
                     AttrAdjMgt.ImportLines(Rec."Document No.");
                     CurrPage.Update();
+                end;
+            }
+            action("Get Amount from Attribute Formula")
+            {
+                Caption = 'Get Amt. from Formula';
+                ApplicationArea = All;
+                Image = GetLines;
+                trigger OnAction()
+                var
+                    AttributeAdjustmentMgt: Codeunit "Attribute Adjustment Mgt";
+                    PayrollAttributes: Record "Payroll Attributes";
+                    AttributeAdjLine: Record "Attribute Adjustment Line";
+                begin
+                    CurrPage.SetSelectionFilter(AttributeAdjLine);
+                    AttributeAdjLine.MarkedOnly(true);
+                    if AttributeAdjLine.FindSet() then
+                        repeat
+                            if PayrollAttributes.Get(AttributeAdjLine."Attribute Code") then
+                                if PayrollAttributes.Formula <> '' then begin
+                                    AttributeAdjLine.Validate("New Amount", AttributeAdjustmentMgt.GetAmountFromAttributeFormula(PayrollAttributes.Formula, AttributeAdjLine."Employee No."));
+                                    AttributeAdjLine.Modify(true);
+                                end;
+                        until AttributeAdjLine.Next() = 0;
+                    CurrPage.Update();
+                    Message('Amount has been updated successfully.');
                 end;
             }
             action("Payroll Attributes Usage")

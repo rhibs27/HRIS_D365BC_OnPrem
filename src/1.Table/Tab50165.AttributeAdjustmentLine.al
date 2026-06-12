@@ -56,9 +56,16 @@ table 50165 "Attribute Adjustment Line"
             trigger OnValidate()
             var
                 PayrollAttrUsage: Record "Payroll Attributes Usage";
+                PayrollAttributes: Record "Payroll Attributes";
+                AttributeAdjustmentMgt: Codeunit "Attribute Adjustment Mgt";
             begin
-                if PayrollAttrUsage.Get("Attribute Code", "Employee No.") then
-                    Validate("Old Amount", PayrollAttrUsage.Amount);
+                if PayrollAttributes.Get("Attribute Code") then
+                    if PayrollAttrUsage.Get("Attribute Code", "Employee No.") then begin
+                        if PayrollAttributes.Formula <> '' then
+                            Validate("Old Amount", AttributeAdjustmentMgt.GetAmountFromAttributeFormula(PayrollAttributes.Formula, "Employee No."))
+                        else
+                            Validate("Old Amount", PayrollAttrUsage.Amount);
+                    end;
                 if Rec."Attribute Code" <> xRec."Attribute Code" then
                     Clear("New Amount");
             end;
@@ -88,6 +95,10 @@ table 50165 "Attribute Adjustment Line"
             DataClassification = ToBeClassified;
         }
         field(12; "Formula Column Id Exists"; Boolean)
+        {
+            DataClassification = ToBeClassified;
+        }
+        field(13; "Monthly Adjustment"; Boolean)
         {
             DataClassification = ToBeClassified;
         }

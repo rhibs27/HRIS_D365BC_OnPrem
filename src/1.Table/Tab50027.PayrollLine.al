@@ -1752,12 +1752,11 @@ table 50027 "Payroll Line"
 
                         if PayrollAttributes."Deduct on Absent" then begin
 
-                            PostResignationDeductionAmount := AttributeAmount / FindTotalDays() * "Post Resignation Days";
+                            PostResignationDeductionAmount := AttributeAmount / FindTotalDays(PayrollHeader."From Date") * "Post Resignation Days";
                             if PGSetup."Skip Attribute Adjustment" then
                                 Attributeamount := AttributeAmount
                                                     + AttributeAmount / PayrollEngine.GetPreviousPayCycleCodeDays(PayrollHeader) * "Prior Present Days"
-                                                    - AttributeAmount / FindTotalDays() * "Days Before Joining";
-
+                                                    - AttributeAmount / FindTotalDays(PayrollHeader."From Date") * "Days Before Joining";
                             if PGSetup."Deduction Entries" then begin
                                 if PGSetup."Total Days From" = PGSetup."Total Days From"::Year then
                                     OnBeforeCalculateTotalAmount("Total Days", "Total Unpaid Days", AttributeAmount, IsHandled);
@@ -1773,7 +1772,11 @@ table 50027 "Payroll Line"
                         CalculateProRataAmtFromStartDate("Employee No.", PayrollAttributes.Code, AttributeAmount);
                         CalculateProRataAmtFromEndDate("Employee No.", PayrollAttributes.Code, AttributeAmount);
 
-                        AttributeAmount := AttributeAmount + GetBackdatedAmountEmployeeWiseDateWise("Employee No.", PayrollAttributes.Code) + GetAmountFromDeductionEntries("Employee No.", PayrollAttributes.Code, true) - PostResignationDeductionAmount;
+                        AttributeAmount := AttributeAmount
+                                        + GetBackdatedAmountEmployeeWiseDateWise("Employee No.", PayrollAttributes.Code)
+                                        + GetAmountFromDeductionEntries("Employee No.", PayrollAttributes.Code, true)
+                                        + GetMonthlyAdjustmentAmount("Employee No.", PayrollAttributes.Code)
+                                        - PostResignationDeductionAmount;
                         if PayrollAttributes.Subtype in [PayrollAttributes.Subtype::CIT, PayrollAttributes.Subtype::RF] then
                             AttributeAmount := AttributeAmount + GetOneTimeRFContributionAmount(PayrollAttributes.Code);
                         RoundAmount(AttributeAmount);
@@ -3105,6 +3108,7 @@ table 50027 "Payroll Line"
         PayrollAttrUsageHistory.SetRange("Attribute Code", AttrCode);
         PayrollAttrUsageHistory.SetFilter("Entry Date", '%1..%2', PayrollHeader."From Date", PayrollHeader."To Date");
         PayrollAttrUsageHistory.SetFilter("Start Date", '<>%1&<%2', 0D, PayrollHeader."From Date");
+        PayrollAttrUsageHistory.SetRange("Monthly Adjustment", false);
         PayrollAttrUsageHistory.SetRange(Reversed, false);
         if PayrollAttrUsageHistory.FindFirst() then begin
             GetPayCyclePeriodStart := HrMgt.GetPayCyclePeriod(PayrollAttrUsageHistory."Start Date", PayCyclePeriodBackdated);
@@ -3127,6 +3131,19 @@ table 50027 "Payroll Line"
                                             false) + ((PayrollAttrUsageHistory."New Amount" - PayrollAttrUsageHistory."Old Amount") * (NoOfMonths - 1)))
             end;
         end;
+    end;
+
+    local procedure GetMonthlyAdjustmentAmount(EmpCode: Code[20]; AttrCode: Code[20]): Decimal
+    var
+        PayrollAttrUsageHistory: Record "Attributes Usage History";
+    begin
+        PayrollAttrUsageHistory.SetRange("Employee No.", EmpCode);
+        PayrollAttrUsageHistory.SetRange("Attribute Code", AttrCode);
+        PayrollAttrUsageHistory.SetFilter("Entry Date", '%1..%2', PayrollHeader."From Date", PayrollHeader."To Date");
+        PayrollAttrUsageHistory.SetRange("Monthly Adjustment", true);
+        PayrollAttrUsageHistory.SetRange(Reversed, false);
+        if PayrollAttrUsageHistory.FindFirst() then
+            exit(PayrollAttrUsageHistory."New Amount");
     end;
 
     local procedure GetAmountFromDeductionEntries(EmployeeNo: Code[20]; AttributeCode: Code[20]; ForReversedEntries: Boolean): Decimal
@@ -3157,21 +3174,25 @@ table 50027 "Payroll Line"
             OnBeforeExitOfDifferentialAmount(PayrollHeader, ToDate, OldAmount, DifferentialAmount, IsHandled);
         if not IsHandled then begin
             NoOfDays := ToDate - FromDate + 1;
-            OneDayAmount := (NewAmount - OldAmount) / FindTotalDays();
+            OneDayAmount := (NewAmount - OldAmount) / FindTotalDays(FromDate);
             DifferentialAmount := OneDayAmount * NoOfDays;
         end;
         exit(DifferentialAmount)
     end;
 
-    local procedure FindTotalDays(): Decimal
+    local procedure FindTotalDays(FromDate: Date): Decimal
     var
         PayrollGenSetup: Record "Payroll General Setup";
+        HRMgt: Codeunit "HR Mgt.";
+        PayCyclePeriod: Record "Pay Cycle Period";
+
     begin
         PayrollGenSetup.Get();
         if PayrollGenSetup."Total Days From" = PayrollGenSetup."Total Days From"::Year then
             exit(PayrollGenSetup."Total Days" / 12)
         else
-            exit("Total Days"); // from payroll line
+            HRMgt.GetPayCyclePeriod(FromDate, PayCyclePeriod);
+        exit(PayCyclePeriod."End Date" - PayCyclePeriod."Start Date" + 1);
     end;
 
     local procedure PreviouslyPaidAmountToBeReduced(EmpCode: Code[20]; AttrCode: Code[20]; EffectiveDate: Date): Decimal
