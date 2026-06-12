@@ -70,6 +70,9 @@ table 50160 "Attributes Usage History"
         {
             Clustered = true;
         }
+        key(EmpAttrDate; "Employee No.", "Attribute Code", "Start Date")
+        {
+        }
     }
 
     trigger OnInsert()

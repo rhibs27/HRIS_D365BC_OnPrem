@@ -1584,7 +1584,7 @@ codeunit 50000 "Leave Mgt."
         end;
     end;
 
-    local procedure CalculateYearsBetweenDates(StartDate: Date; EndDate: Date): Decimal
+    procedure CalculateYearsBetweenDates(StartDate: Date; EndDate: Date): Decimal
     var
         StartYearValue, MiddleYearsValue, EndYearValue : Decimal;
         StartYearNumber, EndYearNumber, DaysInStartYear, DaysInEndYear : Integer;

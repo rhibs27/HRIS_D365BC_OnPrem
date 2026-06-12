@@ -213,11 +213,13 @@ page 50003 "Employee Payroll Adjustment"
         PayrollHeader.Modify;
     end;
 
+    protected var
+        PayrollDocNo: Text;
+
     var
         PayrollAdj: Record "Employee Payroll Adjustment";
         PayrollLine: Record "Payroll Line";
         PayrollColumnConfig: Record "Payroll Column Configuration";
-        PayrollDocNo: Text;
         RecRefs: RecordRef;
         FieldRefs: FieldRef;
         LineNo: Integer;

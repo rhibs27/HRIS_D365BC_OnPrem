@@ -115,8 +115,6 @@ page 50160 "Employee Home Loan Card"
                 {
                     Editable = false;
                     ApplicationArea = All;
-                    Style = Favorable;
-                    StyleExpr = Rec."Take-Home Salary" > 0;
                 }
                 field("Eligible Loan/Advance"; Rec."Eligible Loan/Advance")
                 {
