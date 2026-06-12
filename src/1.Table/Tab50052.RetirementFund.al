@@ -235,6 +235,14 @@ table 50052 "Retirement Fund"
                     Error('RF Contribution record already exists for Employee %1 and Attribute %2', "Employee No.", "Attribute Code");
             end;
         }
+        field(104; "Self Deposited CIT Amount"; Decimal)
+        {
+            DataClassification = CustomerContent;
+        }
+        field(105; "Self Deposited RF Amount"; Decimal)
+        {
+            DataClassification = CustomerContent;
+        }
         field(301; "Access Token"; Code[20])
         {
             DataClassification = ToBeClassified;

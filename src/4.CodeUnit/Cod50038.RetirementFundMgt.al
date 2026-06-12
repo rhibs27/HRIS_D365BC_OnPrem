@@ -255,6 +255,19 @@ codeunit 50038 "Retirement Fund Mgt"
         exit(Round(TotalProvidentFundProjected, 0.01, '='));
     end;
 
+    procedure ApproveRetirementFund(RetirementFund: Record "Retirement Fund")
+    var
+        Employee: Record Employee;
+    begin
+        if Employee.Get(RetirementFund."Employee No.") then begin
+            if RetirementFund."Self Deposited CIT Amount" <> 0 then
+                Employee."Lumpsum CIT (Not Actual)" := RetirementFund."Self Deposited CIT Amount";
+            if RetirementFund."Self Deposited RF Amount" <> 0 then
+                Employee."Lumpsum RF (Not Actual)" := RetirementFund."Self Deposited RF Amount";
+            Employee.Modify();
+        end;
+    end;
+
     [IntegrationEvent(false, false)]
     procedure OnBeforeInsertOfPayrollAttributeUsage(EmployeeNo: Code[20]; var IsHandled: Boolean);
     begin
@@ -266,6 +279,4 @@ codeunit 50038 "Retirement Fund Mgt"
     begin
         //To add additional contribution if any
     end;
-
 }
-

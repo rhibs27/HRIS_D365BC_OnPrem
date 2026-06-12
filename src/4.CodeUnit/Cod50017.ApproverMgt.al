@@ -629,10 +629,12 @@ codeunit 50017 "Approver Mgt"
                         EmployeeActivityType::Retirement:
                             begin
                                 RetirementFund.Get(RecRef.RecordId);
+                                //    HRMgt.ScreenRF(RetirementFund);
                                 RetirementFundMgt.GetRetirementFund(RetirementFund);
                                 RFContribution.SetRange("Document No.", DocumentNo);
                                 RFContribution.SetRange("Employee No.", Fieldref3.Value());
                                 RFContribution.ModifyAll("Approval Status", RFContribution."Approval Status"::Approved);
+                                RetirementFundMgt.ApproveRetirementFund(RetirementFund);
                             end;
                         EmployeeActivityType::"Late Attendance":
                             begin
@@ -926,6 +928,7 @@ codeunit 50017 "Approver Mgt"
                         EmployeeActivityType::Retirement:
                             begin
                                 RetirementFund.Get(RecRef.RecordId);
+                                //    HRMgt.ScreenRF(RetirementFund);
                                 RetirementFundMgt.GetRetirementFund(RetirementFund);
                                 RFContribution.SetRange("Document No.", DocumentNo);
                                 RFContribution.SetRange("Employee No.", Fieldref3.Value());
