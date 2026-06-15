@@ -730,6 +730,30 @@ codeunit 50035 "Email Mgt"
         end;
     end;
 
+    procedure LookupEmployeeForEmailID(): Text[500]
+    var
+        Employee: Record Employee;
+        EmployeePage: Page "Employee List";
+        EmailIDs: Text;
+    begin
+        Clear(Employee);
+        Clear(EmployeePage);
+        EmployeePage.SetRecord(Employee);
+        EmployeePage.SetTableView(Employee);
+        EmployeePage.LookupMode(true);
+        if EmployeePage.RunModal = ACTION::LookupOK then begin
+            EmployeePage.SetSelectionFilter(Employee);
+            if Employee.FindSet() then begin
+                repeat
+                    if EmailIDs <> '' then
+                        EmailIDs += ';';
+                    EmailIDs += Employee."Company E-Mail";
+                until Employee.Next() = 0;
+            end;
+            exit(EmailIDs);
+        end;
+    end;
+
     //Grievance Mail Notification-----------------------------------------------------
     procedure SendGrievanceNotificationEmail(GrievanceHeader: Record "Grievance Header"): Boolean
     var
