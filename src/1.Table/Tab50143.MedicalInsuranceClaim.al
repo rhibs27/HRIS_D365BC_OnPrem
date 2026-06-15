@@ -235,7 +235,7 @@ table 50143 "Medical Insurance Claim"
             DataClassification = ToBeClassified;
             Caption = 'Access Token';
         }
-        field(302; "Insured Name"; Text[50])
+        field(302; "Insured Name"; Text[100])
         {
             Caption = 'Insured Name';
 
@@ -266,7 +266,7 @@ table 50143 "Medical Insurance Claim"
             end;
 
         }
-        field(303; "Relation"; Code[10])
+        field(303; "Relation"; Code[100])
         {
             DataClassification = ToBeClassified;
         }
