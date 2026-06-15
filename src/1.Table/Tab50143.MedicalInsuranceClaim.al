@@ -266,7 +266,7 @@ table 50143 "Medical Insurance Claim"
             end;
 
         }
-        field(303; "Relation"; Code[100])
+        field(303; "Relation"; Text[100])
         {
             DataClassification = ToBeClassified;
         }
