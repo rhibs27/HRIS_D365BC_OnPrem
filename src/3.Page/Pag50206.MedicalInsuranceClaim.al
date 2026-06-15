@@ -125,6 +125,7 @@ page 50206 "Medical Insurance Claim"
                 }
                 field(Relation; Rec.Relation)
                 {
+                    Editable = false;
                     Caption = 'Relation';
                     ToolTip = 'Specifies the value of the Relation field';
                 }
