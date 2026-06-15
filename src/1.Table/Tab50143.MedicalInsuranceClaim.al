@@ -268,7 +268,6 @@ table 50143 "Medical Insurance Claim"
         }
         field(303; "Relation"; Text[100])
         {
-            Editable = false;
             DataClassification = ToBeClassified;
         }
         field(304; "Batch Id"; Integer)
