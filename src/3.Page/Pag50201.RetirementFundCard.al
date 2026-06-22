@@ -136,6 +136,16 @@ page 50201 "Retirement Fund Card"
                         ToolTip = 'Specifies the value of the CIT field.';
                         ApplicationArea = All;
                     }
+                    field("Self Deposited CIT Amount"; Rec."Self Deposited CIT Amount")
+                    {
+                        ToolTip = 'Specifies the value of the Self Deposited CIT Amount field.';
+                        ApplicationArea = All;
+                    }
+                    field("Self Deposited RF Amount"; Rec."Self Deposited RF Amount")
+                    {
+                        ToolTip = 'Specifies the value of the Self Deposited RF Amount field.';
+                        ApplicationArea = All;
+                    }
                     field("Attribute Code"; Rec."Attribute Code")
                     {
                         ToolTip = 'Specifies the value of the Attribute Code field.';
@@ -257,7 +267,7 @@ page 50201 "Retirement Fund Card"
 
                 trigger OnAction()
                 begin
-                    if HRMgt.ApplyForRetirementFund(Rec) then begin
+                    if RetirementFundMgt.ApplyForRetirementFund(Rec) then begin
                         IsApplied := true;
                         CurrPage.Close;
                     end;
@@ -385,6 +395,7 @@ page 50201 "Retirement Fund Card"
     var
         RecRef: RecordRef;
         HRMgt: Codeunit "HR Mgt.";
+        RetirementFundMgt: Codeunit "Retirement Fund Mgt";
         IsApplied: Boolean;
         IsScreened: Boolean;
         IsOpen: Boolean;

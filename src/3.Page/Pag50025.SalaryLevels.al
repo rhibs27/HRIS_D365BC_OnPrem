@@ -79,6 +79,11 @@ page 50025 "Salary Levels"
                     ToolTip = 'Specifies the value of the Leave Fare Allowance field.';
                     ApplicationArea = All;
                 }
+                field("Effective Date"; Rec."Effective Date")
+                {
+                    ToolTip = 'Specifies the value of the Effective Date field.';
+                    ApplicationArea = All;
+                }
                 field("Nepal Fooding Allowance"; Rec."Nepal Fooding Allowance")
                 {
                     ToolTip = 'Specifies the value of the Nepal Fooding Allowance field.';
@@ -267,18 +272,6 @@ page 50025 "Salary Levels"
     {
         area(Processing)
         {
-            action("Promotion Eligibilty Criteria")
-            {
-                Image = SetupList;
-                Promoted = true;
-                PromotedCategory = Process;
-                PromotedIsBig = true;
-                PromotedOnly = true;
-                RunObject = page "Promotion Eligibilty Criteria";
-                RunPageLink = "Salary Level" = field(Code);
-                ToolTip = 'Executes the Promotion Eligibilty Criteria action.';
-                ApplicationArea = All;
-            }
             action("&Archive")
             {
                 Image = Archive;
@@ -292,10 +285,9 @@ page 50025 "Salary Levels"
                     PayrollArchive: Record "Payroll Archive";
                     RecRef: RecordRef;
                 begin
-
                     RecRef.Open(Database::"Salary Level");
                     RecRef.Get(Rec.RecordId);
-                    PayrollArchive.RunArchive(RecRef.Number);
+                    PayrollArchive.RunArchive(RecRef.Number, Rec."Effective Date");
                 end;
             }
         }

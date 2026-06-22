@@ -2301,6 +2301,10 @@ codeunit 50002 "Loan Mgt."
         TotalDeductions := GetLastPostedDeductionForEmployee(EmpLoan."Employee No.", EmpLoan."Requested Loan Date") + MonthlyTax;
         TakeHome := CalculateTakeHome(GrossMonthly, TotalDeductions);
         EmpLoan."Take-Home Salary" := TakeHome;
+        if GrossMonthly <> 0 then
+            EmpLoan."DBR Ratio" := Round((TotalDeductions + EmpLoan.EMI) / GrossMonthly * 100, 0.01, '=')
+        else
+            EmpLoan."DBR Ratio" := 0;
         if EmpLoan."Applied Loan/Advance" <> 0 then
             CheckPermissibleLimit(GrossMonthly, TotalDeductions, EmpLoan);
     end;
@@ -2384,7 +2388,8 @@ codeunit 50002 "Loan Mgt."
         SurplusDeficit: Decimal;
         TotaldeductionWithCurrentEMI: Decimal;
         DBRRatio: Decimal;
-        DeductionExceedsLimitMsg: Label 'Total deductions (%1) exceed the permissible %4% Debt Burden limit of gross salary (Max Allowed: %2). Surplus/Deficit: %3. Current Loan EMI amount is %5';
+        CurrentDBRRatio: Decimal;
+        DeductionExceedsLimitMsg: Label 'Proposed Debt Burden Ratio (DBR) of %1% exceeds the maximum allowable limit of %2%. Please reduce the EMI amount or adjust the loan parameters to proceed.';
     begin
         HRSetup.Get();
         DBRRatio := HRSetup."DBR Ratio";
@@ -2396,7 +2401,9 @@ codeunit 50002 "Loan Mgt."
         TotaldeductionWithCurrentEMI := TotalDeductions + EmpLoanAdv.EMI;
         if TotaldeductionWithCurrentEMI > MaxAllowed then begin
             SurplusDeficit := Round(MaxAllowed - TotaldeductionWithCurrentEMI, 0.001, '=');
-            Error(DeductionExceedsLimitMsg, TotalDeductions, MaxAllowed, SurplusDeficit, DBRRatio, Round(EmpLoanAdv.EMI, 0.001, '='));
+            if GrossMonthly <> 0 then
+                CurrentDBRRatio := Round(TotaldeductionWithCurrentEMI / GrossMonthly * 100, 0.01, '=');
+            Error(DeductionExceedsLimitMsg, CurrentDBRRatio, DBRRatio);
         end;
     end;
 

@@ -574,6 +574,8 @@ table 50074 "Employee Edit"
     trigger OnInsert()
     var
         EmployeeEdit: Record "Employee Edit";
+        IsHandled: Boolean;
+        SkipApproval: Boolean;
     begin
         if "Requested Date" = 0D then
             "Requested Date" := Today;
@@ -598,7 +600,9 @@ table 50074 "Employee Edit"
                         EmployeeEdit.SetLoadFields("No.");
                         while EmployeeEdit.Get("No.") do
                             "No." := NoSeriesMgt.GetNextNo("No. Series");
-                        ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
+                        OnBeforeInsertApproval(Rec, SkipApproval);
+                        if not SkipApproval then
+                            ApproverMgt.InsertApproval("Employee No.", "No.", Type, "Approval Status");
                     end;
             end;
 
@@ -737,5 +741,10 @@ table 50074 "Employee Edit"
             else
                 Error('Claimed Type Effective Date cannot be a future date');
         end;
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnBeforeInsertApproval(var Rec: Record "Employee Edit"; var SkipApproval: Boolean)
+    begin
     end;
 }

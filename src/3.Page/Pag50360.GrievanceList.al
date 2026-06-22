@@ -1,4 +1,4 @@
-page 50360 "Grievance List"
+page 50450 "Grievance List"
 {
     PageType = List;
     SourceTable = "Grievance Header";
@@ -34,21 +34,17 @@ page 50360 "Grievance List"
                     ToolTip = 'Specifies the date the grievance was filed.';
                     ApplicationArea = All;
                 }
-                field(Category; Rec.Category)
-                {
-                    ToolTip = 'Specifies the category of the grievance.';
-                    ApplicationArea = All;
-                }
                 field(Priority; Rec.Priority)
                 {
                     ToolTip = 'Specifies the priority level of the grievance.';
                     ApplicationArea = All;
                 }
-                field(Subject; Rec.Subject)
+                field("Subject Code"; Rec."Subject Code")
                 {
                     ToolTip = 'Specifies the subject of the grievance.';
                     ApplicationArea = All;
                 }
+
                 field("Approval Status"; Rec."Approval Status")
                 {
                     ToolTip = 'Specifies the current approval status of the grievance.';

@@ -5,7 +5,7 @@ page 50230 "Overtime Bulk List"
     CardPageId = "Overtime Bulk Card";
     PageType = List;
     SourceTable = "OverTime";
-    SourceTableView = where(type = filter("Employee Activity Type"::"Overtime Bulk"));
+    SourceTableView = sorting("No.") order(descending) where(type = filter("Employee Activity Type"::"Overtime Bulk"));
     UsageCategory = Lists;
     ModifyAllowed = false;
     layout

@@ -16,8 +16,6 @@ codeunit 50035 "Email Mgt"
         EmpLoan: Record "Employee Loan/Advance";
         HRSetup: Record "Human Resources Setup";
         EmployeeTransfer: Record "Employee Transfer";
-        TrainLine: Record "Training Line";
-        TrainHead: Record "Training Header";
         loanMgt: Codeunit "Loan Mgt.";
         EngNep: Record "English-Nepali Date";
         EmployeeActivityJournal: Record "Employee Activity Journal";
@@ -389,28 +387,6 @@ codeunit 50035 "Email Mgt"
                             CodeunitEmailMessage.AppendToBody('Reason for variation in claim amount' + Colon);
                         end;
                     end;
-                //training header
-                DATABASE::"Training Header":
-                    begin
-                        TrainHead.Get(DocumentNo);
-                        TrainLine.Reset;
-                        TrainLine.SetRange("Training No.", TrainHead."No.");
-                        TrainLine.SetFilter("Trainer Type", '<>%1', TrainLine."Trainer Type"::External);
-                        TrainLine.SetFilter(Type, '<>%1', TrainLine.Type::Vendor);
-                        if TrainLine.Find('-') then
-                            repeat
-                                Employee.Get(TrainLine."Employee Code");
-                                Employee.TestField("Company E-Mail");
-                                EmailReceipientText.add(Employee."Company E-Mail");
-                            until TrainLine.Next = 0;
-                        GetTrainingBody(TrainHead);
-                    end;
-                //vacancy header
-                DATABASE::Candidate:
-                    begin
-                        // EmailReceipientText.add(Candidate."E-Mail");
-                        // GetCandidateBody(Candidate);
-                    end;
                 DATABASE::"Allowance Assignment Header":
                     begin
                         PRSetup.Get;
@@ -456,25 +432,6 @@ codeunit 50035 "Email Mgt"
             if not ((EmailReceipientText.Count = 1) and (EmailReceipientText.Get(1) = '')) then
                 Email.Send(CodeunitEmailMessage);
         end;
-    end;
-
-    procedure GetEmailReceipents(TraininNo: Code[20]): Text
-    var
-        TrainingLine: Record "Training Line";
-        ReceipentText: Text;
-    begin
-        TrainingLine.Reset;
-        TrainingLine.SetRange("Training No.", TraininNo);
-        TrainingLine.SetRange(Type, TrainingLine.Type::Trainee);
-        if TrainingLine.Find('-') then
-            repeat
-                Employee.Get(TrainingLine."Employee Code");
-                if ReceipentText = '' then
-                    ReceipentText := Employee."Company E-Mail"
-                else
-                    ReceipentText += ';' + Employee."Company E-Mail";
-            until TrainingLine.Next = 0;
-        exit(ReceipentText);
     end;
 
     procedure SendLeaveFromTemplate(DocumentType: enum "Employee Activity Type";
@@ -574,45 +531,9 @@ codeunit 50035 "Email Mgt"
         end;
     end;
 
-    local procedure GetTrainingBody(var TrainHeader: Record "Training Header")
-    var
-        BodyText1: Text;
-        TrainLine: Record "Training Line";
-    begin
-        BodyText1 := '<table style="width:100%">' +
-               '<tr>' +
-                 '<td><strong>' + TrainLine.FieldCaption("Employee Name") + '</strong></td>' +
-                 '<td><strong>' + TrainLine.FieldCaption("Trainer Date") + '</strong></td>' +
-                 '<td><strong>' + TrainLine.FieldCaption("Name of Organization") + '</strong></td>' +
-                 '<td><strong>' + TrainLine.FieldCaption("Start Time") + '</strong></td>' +
-                 '<td><strong>' + TrainLine.FieldCaption("End Time") + '</strong></td>' +
-               '</tr>';
-        TrainLine.Reset;
-        TrainLine.SetRange("Training No.", TrainHeader."No.");
-        TrainLine.SetRange(Type, TrainLine.Type::Trainer);
-        if TrainLine.Find('-') then
-            repeat
-                BodyText1 += '<tr>' +
-                                '<td>' + TrainLine."Employee Name" + '</td>' +
-                                '<td>' + Format(TrainLine."Trainer Date") + '</td>' +
-                                '<td>' + TrainLine."Name of Organization" + '</td>' +
-                                '<td>' + Format(TrainLine."Start Time") + '</td>' +
-                                '<td>' + Format(TrainLine."End Time") + '</td>' +
-                              '</tr>';
-            until TrainLine.Next = 0;
-        BodyText1 += '</table>';
-        CodeunitEmailMessage.AppendToBody(TrainHeader.FieldCaption(Description) + Colon + Format(TrainHeader.Description) + '<br>');
-        CodeunitEmailMessage.AppendToBody(TrainHeader.FieldCaption("Start Date") + Colon + Format(TrainHeader."Start Date") + '<br>');
-        CodeunitEmailMessage.AppendToBody(TrainHeader.FieldCaption("End Date") + Colon + Format(TrainHeader."End Date") + '<br>');
-        CodeunitEmailMessage.AppendToBody(TrainHeader.FieldCaption("Start Time") + Colon + Format(TrainHeader."Start Time") + '<br>');
-        CodeunitEmailMessage.AppendToBody(TrainHeader.FieldCaption(Venue) + Colon + Format(TrainHeader.Venue) + '<br>');
-        CodeunitEmailMessage.AppendToBody('<br>' + BodyText1 + '<br>');
-    end;
-
     local procedure GetTransferBody(var EmployeeTransfer: Record "Employee Transfer")
     var
         BodyText1: Text;
-        TrainLine: Record "Training Line";
         ProvinceVar: Record Province;
         GLSetup: Record "General Ledger Setup";
         OrganizationStructureList: Record "Organization Structure List";
@@ -732,67 +653,6 @@ codeunit 50035 "Email Mgt"
         CodeunitEmailMessage.AppendToBody('<br><br>');
     end;
 
-    procedure SendEmailOfferLetter(VacancyCode: Code[20]; Candidate: Record Candidate)
-    var
-        CompanyInfo: Record "Company Information";
-        // SMTPSetup: Record "SMTP Mail Setup";
-        EmailTemplate: Record "Email Template";
-        HRSetup: Record "Human Resources Setup";
-        EmailMessage: Record "Email Template Message";
-        Header: Text;
-        Body: Text;
-        Footer: Text;
-        Filename: Text;
-        EmailReceipent: List of [Text];
-        OfferLetter: Report "Offer Letter2";
-        Cand: Record Candidate;
-        EmailReceipentRec: Record "Email Template Recipient";
-        CC: List of [Text];
-        bCC: List of [Text];
-    begin
-        CompanyInfo.Get;
-        // SMTPSetup.Get;
-        Clear(CodeunitEmailMessage);
-        HRSetup.Get;
-        if EmailTemplate.Get(HRSetup."Offer Letter Sent") then begin
-            Clear(Footer);
-            Clear(Header);
-            Clear(Body);
-            // SMTPMail.CreateMessage(CompanyInfo.Name, SMTPSetup."User ID", Candidate."E-Mail", EmailTemplate.Subject, '', true);
-            // CodeunitEmailMessage.Create(Candidate."E-Mail", EmailTemplate.Subject, '');nilesh
-            EmailMessage.SetRange("Template Code", EmailTemplate.Code);
-            if EmailMessage.FindFirst then
-                repeat
-                    case EmailMessage.Type of
-                        EmailMessage.Type::Header:
-                            Header := Header + EmailMessage."Body Message";
-                        EmailMessage.Type::Body:
-                            Body := Body + EmailMessage."Body Message";
-                        EmailMessage.Type::Footer:
-                            Footer := Footer + EmailMessage."Body Message";
-                    end;
-                until EmailMessage.Next = 0;
-            CodeunitEmailMessage.AppendToBody(Header);
-            CodeunitEmailMessage.AppendToBody('<br><br>');
-            CodeunitEmailMessage.AppendToBody(Body);
-            CodeunitEmailMessage.AppendToBody('<br><br>');
-            CodeunitEmailMessage.AppendToBody(Footer);
-            EmailReceipentRec.Reset;
-            EmailReceipentRec.SetRange("Email Template Code", EmailTemplate.Code);
-            EmailReceipentRec.SetRange("Recipient Type", EmailReceipentRec."Recipient Type"::Cc);
-            if EmailReceipentRec.FindFirst then
-                repeat
-                    cc.Add(EmailReceipentRec."Email Recipients");
-                until EmailReceipentRec.Next = 0;
-            EmailReceipent.add(Candidate."E-Mail");
-            CodeunitEmailMessage.Create(EmailReceipent, EmailTemplate.Subject, '', true, CC, bcc);
-            if Email.Send(CodeunitEmailMessage) then
-                Message('Successfully Sent')
-            else
-                Message('Not Sent');
-        end;
-    end;
-
     procedure ResignationRejectEmailSend(EmployeeNo: Code[20])
     var
         EmpRec: Record Employee;
@@ -870,316 +730,289 @@ codeunit 50035 "Email Mgt"
         end;
     end;
 
-    procedure SendAppointmentLetter(VacancyCode: Code[20]; Candidate: Record Candidate)
+    procedure LookupEmployeeForEmailID(): Text[500]
     var
-        CompanyInfo: Record "Company Information";
-        // SMTPSetup: Record "SMTP Mail Setup";
-        EmailTemplate: Record "Email Template";
-        HRSetup: Record "Human Resources Setup";
-        EmailMessage: Record "Email Template Message";
-        Header: Text;
-        Body: Text;
-        Footer: Text;
-        Filename: Text;
-        OfferLetter: Report "Offer Letter2";
-        Cand: Record Candidate;
-        tmpBlob: Codeunit "Temp Blob";
-        recRef: RecordRef;
-        OutStr: OutStream;
-        InStr: InStream;
-        format: ReportFormat;
-        CodeunitEmailMessage: Codeunit "Email Message";
-        Email: Codeunit Email;
+        Employee: Record Employee;
+        EmployeePage: Page "Employee List";
+        EmailIDs: Text;
     begin
-        CompanyInfo.Get;
-        // SMTPSetup.Get;
-        Clear(CodeunitEmailMessage);
-        Clear(InStr);
-        HRSetup.Get;
-        //Candidate.Reset;
-        //Candidate.SetRange("Vacancy Code",VacancyCode);
-        //IF Candidate.GET(CandidateNo) THEN begin
-        //IF Candidate.FindFirst() THEN begin
-        /*repeat
-          IF SendMailTo='' THEN
-          SendMailTo+=Interviewer."Interviewer Email"
-          ELSE
-            SendMailTo+=Interviewer."Interviewer Email"+';'
-        until Interviewer.NEXT =0;
-        */
-        if EmailTemplate.Get(HRSetup."Appointment Letter Sent") then begin
-            Clear(Footer);
-            Clear(Header);
-            Clear(Body);
-            // SMTPMail.CreateMessage(CompanyInfo.Name, SMTPSetup."User ID", Candidate."E-Mail", EmailTemplate.Subject, '', true);
-            CodeunitEmailMessage.Create(Candidate."E-Mail", EmailTemplate.Subject, '');
-            EmailMessage.SetRange("Template Code", EmailTemplate.Code);
-            if EmailMessage.FindFirst then
+        Clear(Employee);
+        Clear(EmployeePage);
+        EmployeePage.SetRecord(Employee);
+        EmployeePage.SetTableView(Employee);
+        EmployeePage.LookupMode(true);
+        if EmployeePage.RunModal = ACTION::LookupOK then begin
+            EmployeePage.SetSelectionFilter(Employee);
+            if Employee.FindSet() then begin
                 repeat
-                    case EmailMessage.Type of
-                        EmailMessage.Type::Header:
-                            Header := Header + EmailMessage."Body Message";
-                        EmailMessage.Type::Body:
-                            Body := Body + EmailMessage."Body Message";
-                        EmailMessage.Type::Footer:
-                            Footer := Footer + EmailMessage."Body Message";
-                    end;
-                until EmailMessage.Next = 0;
-            CodeunitEmailMessage.AppendToBody(Header);
-            CodeunitEmailMessage.AppendToBody('<br><br>');
-            CodeunitEmailMessage.AppendToBody(Body);
-            CodeunitEmailMessage.AppendToBody('<br><br>');
-            CodeunitEmailMessage.AppendToBody(Footer);
-            Filename := 'C:\Business Central\Setup\appointmentletter.pdf';
-            Cand.Reset;
-            Cand.SetRange("No.", Candidate."No.");
-            recRef.GetTable(Candidate);
-            tmpBlob.CreateOutStream(OutStr);
-            REPORT.SaveAs(REPORT::"Appointment Letter", '', format::Pdf, OutStr, recRef);
-            tmpBlob.CreateInStream(InStr);
-            CodeunitEmailMessage.AddAttachment(Filename, '.pdf', InStr);
-            //    OfferLetter.SAVEASPDF(Filename);
-            // SMTPMail.AddAttachment(Filename, 'appointmentletter.pdf');
-            if Email.Send(CodeunitEmailMessage) then
-                Message('Successfully Sent')
-            else
-                Message('Not Sent');
+                    if EmailIDs <> '' then
+                        EmailIDs += ';';
+                    EmailIDs += Employee."Company E-Mail";
+                until Employee.Next() = 0;
+            end;
+            exit(EmailIDs);
         end;
-        //  end;
     end;
 
-    procedure SendOfferLetter(VacancyCode: Code[20]; Candidate: Record Candidate)
+    //Grievance Mail Notification-----------------------------------------------------
+    procedure SendGrievanceNotificationEmail(GrievanceHeader: Record "Grievance Header"): Boolean
     var
-        CompanyInfo: Record "Company Information";
-        // SMTPSetup: Record "SMTP Mail Setup";
         EmailTemplate: Record "Email Template";
-        HRSetup: Record "Human Resources Setup";
-        EmailMessage: Record "Email Template Message";
-        Header: Text;
-        Body: Text;
-        Footer: Text;
-        Filename: Text;
-        OfferLetter: Report "Offer Letter2";
-        Cand: Record Candidate;
-        tmpBlob: Codeunit "Temp Blob";
-        recRef: RecordRef;
-        OutStr: OutStream;
-        InStr: InStream;
-        format: ReportFormat;
-        CodeunitEmailMessage: Codeunit "Email Message";
+        EmailTemplateMessage: Record "Email Template Message";
+        EmailTemplateRecipient: Record "Email Template Recipient";
+        Employee: Record Employee;
+        EmailBody: Text;
+        EmailSubject: Text;
+        Recipients: Text;
+        EmailMessage: Codeunit "Email Message";
         Email: Codeunit Email;
     begin
-        CompanyInfo.Get;
-        // SMTPSetup.Get;
-        Clear(CodeunitEmailMessage);
-        Clear(InStr);
-        HRSetup.Get;
-        //Candidate.Reset;
-        //Candidate.SetRange("Vacancy Code",VacancyCode);
-        //IF Candidate.GET(CandidateNo) THEN begin
-        //IF Candidate.FindFirst() THEN begin
-        /*repeat
-          IF SendMailTo='' THEN
-          SendMailTo+=Interviewer."Interviewer Email"
-          ELSE
-            SendMailTo+=Interviewer."Interviewer Email"+';'
-        until Interviewer.NEXT =0;
-        */
-        if EmailTemplate.Get(HRSetup."Offer Letter Sent") then begin
-            Clear(Footer);
-            Clear(Header);
-            Clear(Body);
-            // SMTPMail.CreateMessage(CompanyInfo.Name, SMTPSetup."User ID", Candidate."E-Mail", EmailTemplate.Subject, '', true);
-            CodeunitEmailMessage.Create(Candidate."E-Mail", EmailTemplate.Subject, '');
-            EmailMessage.SetRange("Template Code", EmailTemplate.Code);
-            if EmailMessage.FindFirst then
-                repeat
-                    case EmailMessage.Type of
-                        EmailMessage.Type::Header:
-                            Header := Header + EmailMessage."Body Message";
-                        EmailMessage.Type::Body:
-                            Body := Body + EmailMessage."Body Message";
-                        EmailMessage.Type::Footer:
-                            Footer := Footer + EmailMessage."Body Message";
-                    end;
-                until EmailMessage.Next = 0;
-            CodeunitEmailMessage.AppendToBody(Header);
-            CodeunitEmailMessage.AppendToBody('<br><br>');
-            CodeunitEmailMessage.AppendToBody(Body);
-            CodeunitEmailMessage.AppendToBody('<br><br>');
-            CodeunitEmailMessage.AppendToBody(Footer);
-            Filename := 'C:\Business Central\Setup\offerletter.pdf';
-            Cand.Reset;
-            Cand.SetRange("No.", Candidate."No.");
-            recRef.GetTable(Candidate);
-            tmpBlob.CreateOutStream(OutStr);
-            REPORT.SaveAs(REPORT::"Offer Letter", '', format::Pdf, OutStr, recRef);
-            tmpBlob.CreateInStream(InStr);
-            CodeunitEmailMessage.AddAttachment(Filename, '.pdf', InStr);
-            //    OfferLetter.SAVEASPDF(Filename);
-            // SMTPMail.AddAttachment(Filename, 'offerletter.pdf');
-            if Email.send(CodeunitEmailMessage) then
-                Message('Successfully Sent')
-            else
-                Message('Not Sent');
-        end;
-        //  end;
-    end;
+        EmailTemplate.Reset();
+        EmailTemplate.SetRange("Document Type", EmailTemplate."Document Type"::Grievance);
+        if not EmailTemplate.FindFirst() then
+            Error('Email template is not configured.');
 
-    procedure InterviewScheduleEmailToCandidate(VacancyCode: Code[20]; IsReschedule: Boolean)
-    var
-        Candidate: Record Candidate;
-        CompanyInfo: Record "Company Information";
-        // SMTPSetup: Record "SMTP Mail Setup";
-        EmailTemplate: Record "Email Template";
-        HRSetup: Record "Human Resources Setup";
-        EmailMessage: Record "Email Template Message";
-        CodeunitEmailMessage: Codeunit "Email Message";
-        Header: Text;
-        Body: Text;
-        Footer: Text;
-        Counter: Integer;
-        CCReceipientEmail: List of [Text];
-        BCCReciepientEmail: List of [Text];
-        Email: Codeunit Email;
-    begin
-        CompanyInfo.Get;
-        // SMTPSetup.Get;
-        Clear(CodeunitEmailMessage);
-        HRSetup.Get;
-        Candidate.Reset;
-        Counter := 0;
-        Candidate.SetRange("Vacancy Code", VacancyCode);
-        if IsReschedule then begin
-            HRSetup.TestField("Reschedule Vacancy Mail Cand.");
-            EmailTemplate.Get(HRSetup."Reschedule Vacancy Mail Cand.");
-        end else begin
-            HRSetup.TestField("Interview Schedule Candidate");
-            EmailTemplate.Get(HRSetup."Interview Schedule Candidate");
-        end;
-        if Candidate.FindFirst then
-            repeat
-                Clear(Footer);
-                Clear(Header);
-                Clear(Body);
-                // SMTPMail.CreateMessage(CompanyInfo.Name, SMTPSetup."User ID", Candidate."E-Mail", EmailTemplate.Subject, '', true);
-                CodeunitEmailMessage.Create(Candidate."E-Mail", EmailTemplate."Subject", '');
-                EmailMessage.SetRange("Template Code", EmailTemplate.Code);
-                if EmailMessage.FindFirst then
-                    repeat
-                        case EmailMessage.Type of
-                            EmailMessage.Type::Header:
-                                Header := Header + EmailMessage."Body Message";
-                            EmailMessage.Type::Body:
-                                Body := Body + EmailMessage."Body Message";
-                            EmailMessage.Type::Footer:
-                                Footer := Footer + EmailMessage."Body Message";
-                        end;
-                    until EmailMessage.Next = 0;
-                CodeunitEmailMessage.AppendToBody(Header);
-                CodeunitEmailMessage.AppendToBody('<br><br>');
-                CodeunitEmailMessage.AppendToBody(Body);
-                CodeunitEmailMessage.AppendToBody('<br><br>');
-                CodeunitEmailMessage.AppendToBody(Candidate.FieldCaption("Interview Date") + Colon + Format(Candidate."Interview Date"));
-                CodeunitEmailMessage.AppendToBody(Candidate.FieldCaption("Interview Time") + Colon + Format(Candidate."Interview Time"));
-                CodeunitEmailMessage.AppendToBody('<br><br>');
-                CodeunitEmailMessage.AppendToBody(Footer);
-                if Email.Send(CodeunitEmailMessage) then
-                    Counter += 1;
-            until Candidate.Next = 0;
-        if Counter <> 0 then
-            Message('Mail Sent');
-    end;
+        if not GrievanceHeader.Anonymous then
+            if not (Employee.Get(GrievanceHeader."Employee No.")) then
+                Error('Employee %1 not found.', GrievanceHeader."Employee No.");
 
-    procedure CandidateListmailToInterviewer(VacancyCode: Code[20]; Reschedule: Boolean)
-    var
-        CompanyInfo: Record "Company Information";
-        // SMTPSetup: Record "SMTP Mail Setup";
-        EmailTemplate: Record "Email Template";
-        HRSetup: Record "Human Resources Setup";
-        EmailMessage: Record "Email Template Message";
-        Header: Text;
-        Body: Text;
-        Footer: Text;
-        Interviewer: Record Interviewer;
-        SendMailTo: Text;
-        InterviewerEmail: Report "Interviewer Email";
-        Filename: Text;
-        VacancyHeader: Record "Vacancy Header";
-        // FileMgt: Codeunit "File Management";
-        Candidate: Record Candidate;
-        OutStr: OutStream;
-        InStr: InStream;
-        TempBlob: Codeunit "Temp Blob";
-        // tmpBlob: Codeunit "Temp Blob";
-        recRef: RecordRef;
-        format: ReportFormat;
-        CodeunitEmailMessage: Codeunit "Email Message";
-        Email: Codeunit Email;
-        inStreamReport: InStream;
-    begin
-        CompanyInfo.Get;
-        // SMTPSetup.Get;
-        Clear(inStreamReport);
-        Clear(CodeunitEmailMessage);
-        HRSetup.Get;
-        VacancyHeader.Get(VacancyCode);
-        Candidate.Reset;
-        Candidate.SetRange("Vacancy Code", VacancyCode);
-        Candidate.SetRange(Status, Candidate.Status::"Interview Scheduled");
-        //Filename:='C:\Business Central\Setup\interviewerlist.pdf';
-        recRef.GetTable(Candidate);
-        TempBlob.CreateOutStream(OutStr);
-        Filename := VacancyCode + '.pdf';
-        REPORT.SaveAs(REPORT::"Interviewer Email", '', format::Pdf, OutStr, recRef);
-        Interviewer.Reset;
-        Interviewer.SetRange("Vacancy Code", VacancyCode);
-        if Interviewer.FindFirst then
-            repeat
-                if SendMailTo = '' then
-                    SendMailTo += Interviewer."Interviewer Email"
-                else
-                    SendMailTo += ';' + Interviewer."Interviewer Email";
-            until Interviewer.Next = 0;
-        if Reschedule then begin
-            HRSetup.TestField("ReSchedule Vancacy Mail Int.");
-            EmailTemplate.Get(HRSetup."ReSchedule Vancacy Mail Int.");
-        end else begin
-            HRSetup.TestField("Interview Schedule Interviewer");
-            EmailTemplate.Get(HRSetup."Interview Schedule Interviewer");
-        end;
-        Clear(Footer);
-        Clear(Header);
-        Clear(Body);
-        // SMTPMail.CreateMessage(CompanyInfo.Name, SMTPSetup."User ID", SendMailTo, EmailTemplate.Subject, '', true);
-        CodeunitEmailMessage.Create(SendMailTo, EmailTemplate.Subject, '');
-        EmailMessage.SetRange("Template Code", EmailTemplate.Code);
-        if EmailMessage.FindFirst then
-            repeat
-                case EmailMessage.Type of
-                    EmailMessage.Type::Header:
-                        Header := Header + EmailMessage."Body Message";
-                    EmailMessage.Type::Body:
-                        Body := Body + EmailMessage."Body Message";
-                    EmailMessage.Type::Footer:
-                        Footer := Footer + EmailMessage."Body Message";
-                end;
-            until EmailMessage.Next = 0;
-        CodeunitEmailMessage.AppendToBody(Header);
-        CodeunitEmailMessage.AppendToBody('<br><br>');
-        CodeunitEmailMessage.AppendToBody(Body);
-        CodeunitEmailMessage.AppendToBody('<br><br>');
-        CodeunitEmailMessage.AppendToBody(Footer);
-        TempBlob.CreateInStream(InStr);
-        CodeunitEmailMessage.AddAttachment(Filename, '.pdf', InStr);
-        // SMTPMail.AddAttachment(Filename, 'interviewerlist');
-        if Email.send(CodeunitEmailMessage) then
-            Message('Successfully Sent')
+        // Build email subject
+        EmailSubject := EmailTemplate.Subject;
+        EmailSubject := StrSubstNo(EmailSubject, GrievanceHeader."No.", GrievanceHeader."Employee Name");
+
+        // Build HTML email body with visually appealing format
+        EmailBody := BuildGrievanceEmailBody(GrievanceHeader, EmailTemplate);
+        if not GrievanceHeader.Anonymous then
+            Recipients := GetGrievanceEmailRecipients(GrievanceHeader."Subject Code", GrievanceHeader."Employee No.")
         else
-            Message('Not Sent');
-        Clear(Filename);
+            Recipients := GetGrievanceEmailRecipients(GrievanceHeader."Subject Code", '');
+
+        if Recipients = '' then
+            Error('No email recipients configured for grievance for %1 as subject.', GrievanceHeader."Subject Desc");
+
+        // Create and send email
+        EmailMessage.Create(Recipients, EmailSubject, EmailBody, true);
+        if not Email.Send(EmailMessage, Enum::"Email Scenario"::Default) then begin
+            LogGrievanceEmailError(GrievanceHeader."No.", EmailSubject, Recipients, GrievanceHeader.Anonymous);
+            exit(false);
+        end;
+
+        // Log successful email send
+        LogGrievanceEmailSuccess(GrievanceHeader."No.", EmailSubject, Recipients, GrievanceHeader.Anonymous);
+        exit(true);
     end;
 
+    local procedure BuildGrievanceEmailBody(GrievanceHeader: Record "Grievance Header"; EmailTemplate: Record "Email Template"): Text
+    var
+        EmailBody: Text;
+        Employee: Record Employee;
+        CompanyInfo: Record "Company Information";
+    begin
+        CompanyInfo.Get();
+        if Employee.Get(GrievanceHeader."Employee No.") then;
+
+        // Build HTML email with professional styling
+        EmailBody := '<html>';
+        EmailBody += '<head>';
+        EmailBody += '<style>';
+        EmailBody += 'body { font-family: "Segoe UI", Arial, sans-serif; line-height: 1.6; color: #333; }';
+        EmailBody += '.container { max-width: 600px; margin: 0 auto; }';
+        EmailBody += '.header { background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%); color:  #333; padding: 30px; text-align: center; border-radius: 8px 8px 0 0; }';
+        EmailBody += '.header h1 { margin: 0; font-size: 24px; }';
+        EmailBody += '.header p { margin: 5px 0 0 0; font-size: 14px; opacity: 0.9; }';
+        EmailBody += '.content { background: #f9f9f9; padding: 30px; border-left: 4px solid #2a5298; }';
+        EmailBody += '.section { margin-bottom: 25px; }';
+        EmailBody += '.section-title { background: #2a5298; color: white; padding: 10px 15px; font-weight: bold; margin-bottom: 15px; border-radius: 4px; font-size: 14px; text-transform: uppercase; letter-spacing: 0.5px; }';
+        EmailBody += '.section-content { background: white; padding: 15px; border-radius: 4px; }';
+        EmailBody += '.field-row { display: flex; margin-bottom: 12px; }';
+        EmailBody += '.field-label { font-weight: bold; color: #1e3c72; min-width: 150px; }';
+        EmailBody += '.field-value { color: #555; flex: 1; word-break: break-word; }';
+        EmailBody += '.status { padding: 8px 12px; border-radius: 4px; display: inline-block; font-size: 12px; font-weight: bold; }';
+        EmailBody += '.status-open { background-color: #fff3cd; color: #856404; }';
+        EmailBody += '.status-submitted { background-color: #cce5ff; color: #004085; }';
+        EmailBody += '.status-settled { background-color: #d4edda; color: #155724; }';
+        EmailBody += '.status-rejected { background-color: #f8d7da; color: #721c24; }';
+        EmailBody += '.divider { border-top: 1px solid #ddd; margin: 20px 0; }';
+        EmailBody += '.footer { background: #f0f0f0; padding: 15px; text-align: center; font-size: 12px; color: #666; border-radius: 0 0 8px 8px; }';
+        EmailBody += '.footer p { margin: 5px 0; }';
+        EmailBody += '.button { display: inline-block; background: #2a5298; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px; font-weight: bold; margin-top: 10px; }';
+        EmailBody += '.priority-high { color: #dc3545; font-weight: bold; }';
+        EmailBody += '.priority-medium { color: #fd7e14; font-weight: bold; }';
+        EmailBody += '.priority-low { color: #28a745; font-weight: bold; }';
+        EmailBody += '.description-box { background: #f5f5f5; padding: 12px; border-left: 3px solid #2a5298; margin-top: 10px; border-radius: 3px; white-space: pre-wrap; word-wrap: break-word; }';
+        EmailBody += '</style>';
+        EmailBody += '</head>';
+        EmailBody += '<body>';
+        EmailBody += '<div class="container">';
+
+        // Header
+        EmailBody += '<div class="header">';
+        EmailBody += '<h1>Grievance Management System</h1>';
+        EmailBody += StrSubstNo('<p>%1</p>', CompanyInfo.Name);
+        EmailBody += '</div>';
+
+        // Main Content
+        EmailBody += '<div class="content">';
+
+        // Greeting
+        if not GrievanceHeader.Anonymous then
+            EmailBody += StrSubstNo('<p>Dear <strong>%1</strong>,</p>', Employee."Full Name");
+        EmailBody += '<p>The grievance has been received and registered in our system. Below are the details of your grievance:</p>';
+
+        // Grievance Details Section
+        EmailBody += '<div class="section">';
+        EmailBody += '<div class="section-title">Grievance Details</div>';
+        EmailBody += '<div class="section-content">';
+        EmailBody += '<div class="field-row">';
+        EmailBody += StrSubstNo('<div class="field-label">Grievance No.:</div><div class="field-value"><strong>%1</strong></div>', GrievanceHeader."No.");
+        EmailBody += '</div>';
+        EmailBody += '<div class="field-row">';
+        EmailBody += StrSubstNo('<div class="field-label">Grievance Date:</div><div class="field-value">%1</div>', Format(GrievanceHeader."Grievance Date", 0, '<Day>, <Month text>, <Year4>'));
+        EmailBody += '</div>';
+        EmailBody += '<div class="field-row">';
+        EmailBody += StrSubstNo('<div class="field-label">Subject:</div><div class="field-value">%1</div>', GrievanceHeader."Subject Desc");
+        EmailBody += '</div>';
+        EmailBody += '<div class="field-row">';
+        EmailBody += '<div class="field-label">Status:</div>';
+        EmailBody += '<div class="field-value">';
+        EmailBody += GetStatusBadgeHTML(GrievanceHeader."Approval Status");
+        EmailBody += '</div>';
+        EmailBody += '</div>';
+        EmailBody += '<div class="field-row">';
+        EmailBody += StrSubstNo('<div class="field-label">Priority:</div><div class="field-value"><span class="priority-%1">%2</span></div>',
+            GetPriorityClass(GrievanceHeader.Priority), Format(GrievanceHeader.Priority));
+        EmailBody += '</div>';
+        EmailBody += '</div>';
+        EmailBody += '</div>';
+
+        // Grievance Description
+        EmailBody += '<div class="section">';
+        EmailBody += '<div class="section-title"> Description</div>';
+        EmailBody += '<div class="section-content">';
+        EmailBody += StrSubstNo('<div class="description-box">%1</div>', GrievanceHeader.Description);
+        EmailBody += '</div>';
+        EmailBody += '</div>';
+
+        // Additional Information
+        if GrievanceHeader."Against Employee No." <> '' then begin
+            EmailBody += '<div class="section">';
+            EmailBody += '<div class="section-title">Against Employee</div>';
+            EmailBody += '<div class="section-content">';
+            EmailBody += '<div class="field-row">';
+            EmailBody += StrSubstNo('<div class="field-label">Name:</div><div class="field-value">%1</div>', GrievanceHeader."Against Employee Name");
+            EmailBody += '</div>';
+            EmailBody += '</div>';
+            EmailBody += '</div>';
+        end;
+
+        // Next Steps
+        EmailBody += '<div class="section">';
+        EmailBody += '<div class="section-title">Next Steps</div>';
+        EmailBody += '<div class="section-content">';
+        EmailBody += '<p>The grievance will be reviewed by the HR department within the stipulated timeframe based on its priority. You will be notified of any updates or actions taken regarding your grievance.</p>';
+        EmailBody += '<p><strong>What to expect:</strong></p>';
+        EmailBody += '<ul>';
+        EmailBody += '<li>Initial review by HR department</li>';
+        EmailBody += '<li>Investigation if required</li>';
+        EmailBody += '<li>Resolution or further action</li>';
+        EmailBody += '</ul>';
+        EmailBody += '</div>';
+        EmailBody += '</div>';
+
+        // Support Section
+        EmailBody += '<div class="section">';
+        EmailBody += '<div class="section-title">Need Help?</div>';
+        EmailBody += '<div class="section-content">';
+        EmailBody += '<p>If you have any questions or need to provide additional information, please contact the HR department.</p>';
+        EmailBody += '</div>';
+        EmailBody += '</div>';
+
+        EmailBody += '</div>';
+
+        // Footer
+        EmailBody += '<div class="footer">';
+        EmailBody += '<p><strong>This is an automated message</strong></p>';
+        EmailBody += StrSubstNo('<p>Sent on: %1</p>', Format(CurrentDateTime, 0, '<Day>, <Month text>, <Year4> at <Hours24>:<Minutes>:<Seconds>'));
+        EmailBody += '<p>Please do not reply to this email. Contact HR for assistance.</p>';
+        EmailBody += StrSubstNo('<p>© %1</p>', CompanyInfo.Name);
+        EmailBody += '</div>';
+
+        EmailBody += '</div>';
+        EmailBody += '</body>';
+        EmailBody += '</html>';
+
+        exit(EmailBody);
+    end;
+
+    local procedure GetStatusBadgeHTML(Status: Enum "Approval Status"): Text
+    var
+        StatusHTML: Text;
+    begin
+        case Status of
+            Status::" ":
+                StatusHTML := '<span class="status status-open">◝ DRAFT</span>';
+            Status::Open:
+                StatusHTML := '<span class="status status-open">◝ OPEN</span>';
+            Status::Submitted:
+                StatusHTML := '<span class="status status-submitted">◝ SUBMITTED</span>';
+            Status::Settled:
+                StatusHTML := '<span class="status status-settled">✓ RESOLVED</span>';
+            Status::Rejected:
+                StatusHTML := '<span class="status status-rejected">✕ REJECTED</span>';
+            Status::Withdrawn:
+                StatusHTML := '<span class="status status-open">↶ WITHDRAWN</span>';
+            else
+                StatusHTML := '<span class="status">PENDING</span>';
+        end;
+        exit(StatusHTML);
+    end;
+
+    local procedure GetPriorityClass(Priority: Enum "Grievance Priority"): Text
+    begin
+        case Priority of
+            Priority::P1:
+                exit('high');
+            Priority::P2:
+                exit('medium');
+            Priority::P3:
+                exit('low');
+            else
+                exit('medium');
+        end;
+    end;
+
+    local procedure GetGrievanceEmailRecipients(SubjectCode: Code[20]; EmployeeNo: Code[20]): Text
+    var
+        GrievanceCategories: Record "Grievance Category";
+        Employee: Record Employee;
+        Recipients: Text;
+    begin
+        Clear(Recipients);
+
+        if Employee.Get(EmployeeNo) and (Employee."Company E-Mail" <> '') then
+            Recipients += Employee."Company E-Mail" + ';';
+
+        GrievanceCategories.Reset();
+        GrievanceCategories.SetRange(Code, SubjectCode);
+        if GrievanceCategories.FindFirst() then
+            Recipients += GrievanceCategories."Email IDs";
+
+        exit(Recipients);
+    end;
+
+    local procedure LogGrievanceEmailSuccess(GrievanceNo: Code[20]; EmailSubject: Text; Recipients: Text; IsAnonymous: Boolean)
+    var
+        GrievanceMgt: Codeunit "Grievance Mgt";
+    begin
+        GrievanceMgt.AddComment(GrievanceNo, StrSubstNo('Email notification sent successfully. Subject: %1', EmailSubject), IsAnonymous);
+    end;
+
+    local procedure LogGrievanceEmailError(GrievanceNo: Code[20]; EmailSubject: Text; Recipients: Text; IsAnonymous: Boolean)
+    var
+        GrievanceMgt: Codeunit "Grievance Mgt";
+    begin
+        GrievanceMgt.AddComment(GrievanceNo, StrSubstNo('Email notification FAILED. Subject: %1.', EmailSubject), IsAnonymous);
+    end;
 
     [IntegrationEvent(false, false)]
     local procedure CheckForSkipMail(Employee: Record Employee; var IsHandled: Boolean);

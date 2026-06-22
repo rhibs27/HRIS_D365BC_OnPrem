@@ -700,7 +700,7 @@ page 50066 "Transfer Card"
 
                 trigger OnAction()
                 begin
-                    if Confirm('Do you want to hold this document?', false) then begin
+                    if Confirm('Do you want to resume this document?', false) then begin
                         Rec.Validate("Approval Status", Rec."Approval Status"::Approved);
                         Rec.Modify();
                         Message('Transfer Document is Resumed');
@@ -871,11 +871,7 @@ page 50066 "Transfer Card"
                 end;
     end;
 
-    var
-        HRMgt: Codeunit "HR Mgt.";
-        TransferMgt: Codeunit "Transfer Mgt.";
-        Approval: Record "Approval HRMS";
-
+    protected var
         ProvinceEdit: Boolean;
         DepartEdit: Boolean;
         UnitEdit: Boolean;
@@ -893,6 +889,11 @@ page 50066 "Transfer Card"
         IsACK: Boolean;
         IsCancelled: Boolean;
         OnHold: Boolean;
+
+    var
+        HRMgt: Codeunit "HR Mgt.";
+        TransferMgt: Codeunit "Transfer Mgt.";
+        Approval: Record "Approval HRMS";
         ApproverMgt: Codeunit "Approver Mgt";
         RecRef: RecordRef;
 

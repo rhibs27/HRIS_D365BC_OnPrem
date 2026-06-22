@@ -4,7 +4,6 @@ page 50395 "Grievance Card"
     SourceTable = "Grievance Header";
     ApplicationArea = All;
     Caption = 'Grievance Card';
-    DeleteAllowed = false;
     InsertAllowed = false;
 
     layout
@@ -50,12 +49,6 @@ page 50395 "Grievance Card"
                     ToolTip = 'Specifies the current approval status of the grievance.';
                     ApplicationArea = All;
                 }
-                field(Anonymous; Rec.Anonymous)
-                {
-                    Editable = IsOpen;
-                    ToolTip = 'Specifies if the grievance is filed anonymously.';
-                    ApplicationArea = All;
-                }
             }
             group(Placement)
             {
@@ -80,10 +73,16 @@ page 50395 "Grievance Card"
             group("Grievance Details")
             {
                 Caption = 'Grievance Details';
-                field(Category; Rec.Category)
+                field("Subject Code"; Rec."Subject Code")
                 {
                     Editable = IsOpen;
                     ToolTip = 'Specifies the category of the grievance.';
+                    ApplicationArea = All;
+                }
+                field("Subject Desc"; Rec."Subject Desc")
+                {
+                    Editable = false;
+                    ToolTip = 'Specifies the subject of the grievance.';
                     ApplicationArea = All;
                 }
                 field(Priority; Rec.Priority)
@@ -98,10 +97,10 @@ page 50395 "Grievance Card"
                     ToolTip = 'Specifies the severity level of the grievance (S1=Critical, S2=High, S3=Medium, S4=Low).';
                     ApplicationArea = All;
                 }
-                field(Subject; Rec.Subject)
+                field("Description"; Rec."Description")
                 {
                     Editable = IsOpen;
-                    ToolTip = 'Specifies the subject of the grievance.';
+                    ToolTip = 'Specifies the description of the grievance.';
                     ApplicationArea = All;
                 }
                 field("Against Employee No."; Rec."Against Employee No.")
@@ -114,6 +113,12 @@ page 50395 "Grievance Card"
                 {
                     Editable = false;
                     ToolTip = 'Specifies the name of the employee the grievance is against.';
+                    ApplicationArea = All;
+                }
+                field(Anonymous; Rec.Anonymous)
+                {
+                    Editable = IsOpen;
+                    ToolTip = 'Specifies if the grievance is filed anonymously.';
                     ApplicationArea = All;
                 }
             }
@@ -224,7 +229,7 @@ page 50395 "Grievance Card"
                 begin
                     if not Confirm('Add a comment to this grievance?', false) then
                         exit;
-                    GrievanceMgt.AddComment(Rec."No.", CommentText);
+                    GrievanceMgt.AddComment(Rec."No.", CommentText, Rec.Anonymous);
                     CurrPage."Grievance Comments".Page.Update();
                 end;
             }

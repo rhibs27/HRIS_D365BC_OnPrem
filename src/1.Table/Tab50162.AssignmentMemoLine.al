@@ -343,10 +343,12 @@ table 50162 "Assignment Memo Line"
         end;
 
         LeaveEarn.SetRange("Claimed Document No.", "Document No.");
-        if LeaveEarn.FindSet() then begin
-            LeaveEarn.ModifyAll("Claimed Document No.", '');
-            LeaveEarn.ModifyAll(Claimed, false);
-        end;
+        if LeaveEarn.FindSet() then
+            repeat
+                LeaveEarn.Validate("Claimed Document No.", '');
+                LeaveEarn.Validate(Claimed, false);
+                LeaveEarn.Modify(True)
+            until LeaveEarn.Next() = 0;
     end;
 
     trigger OnInsert()
@@ -435,6 +437,52 @@ table 50162 "Assignment Memo Line"
         end;
     end;
 
+    procedure GetAllowanceConfigAmount(PayrollArchive: Record "Payroll Archive"): Decimal
+    var
+        MonthlyAmt: Decimal;
+        NoofDaysInMonth: Integer;
+        AssignmentmemoHdr: Record "Assignment Memo Header";
+        IsHandled: Boolean;
+        Results: Decimal;
+    begin
+        // OnBeforGetAllowanceConfigAmount(AllowanceConfig, Rec, IsHandled, Results);
+        if IsHandled then
+            exit(Results);
+
+        AssignmentmemoHdr.Get("Document No.");
+        if "From Date" <> 0D then
+            NoofDaysInMonth := GetNoofDaysInMonth("From Date")
+        else
+            NoofDaysInMonth := GetNoofDaysInMonth(AssignmentmemoHdr."From Date");
+
+        if PayrollArchive."Earning Cycle" = PayrollArchive."Earning Cycle"::Daily then
+            exit(PayrollArchive."Attribute Amount");
+
+        if PayrollArchive.Source in [PayrollArchive.Source::Direct, PayrollArchive.Source::Leave] then
+            if PayrollArchive.Formula = '' then
+                exit(PayrollArchive."Attribute Amount")
+            else begin
+                // OnBeforeCalculateAssignmentProrataAmount(MonthlyAmt, PayrollArchive, Rec, NoofDaysInMonth, IsHandled);
+                if not IsHandled then
+                    exit(AllowanceConfiguration.EvaluateAmountForEmployee(PayrollArchive.Formula, "Employee No."))
+                else
+                    exit(MonthlyAmt);
+            end;
+
+        if PayrollArchive.Source in [PayrollArchive.Source::Assignment, PayrollArchive.Source::Shift] then begin
+            if PayrollArchive.Formula = '' then
+                MonthlyAmt := PayrollArchive."Attribute Amount"
+            else begin
+                // OnBeforeCalculateAssignmentProrataAmount(MonthlyAmt, PayrollArchive, Rec, NoofDaysInMonth, IsHandled);
+                if not IsHandled then
+                    MonthlyAmt := AllowanceConfiguration.EvaluateAmountForEmployee(PayrollArchive.Formula, "Employee No.");
+            end;
+
+            exit(Round(MonthlyAmt / NoofDaysInMonth, 0.0001, '='));
+        end;
+    end;
+
+
     procedure CheckandValidateTheDates(DateToCheck: Date)
     var
         AssignmentmemoHdr: Record "Assignment Memo Header";
@@ -498,16 +546,17 @@ table 50162 "Assignment Memo Line"
     procedure CalculateAmountForLine()
     var
         IsHandled: Boolean;
+        PayrollArchive: Record "Payroll Archive";
     begin
         if "Payroll Attribute Code" <> '' then begin
             OnBeforeCalculateAmountForLine(Rec, IsHandled);
 
             if IsHandled then
                 exit;
-
             AllowanceConfiguration.Reset();
             AllowanceConfiguration.SetRange("Payroll Attribute", "Payroll Attribute Code");
             AllowanceConfiguration.SetFilter("ATM Site", '%1|%2', "ATM Site"::" ", "ATM Site");
+            AllowanceConfiguration.SetFilter("Effective Date", '<=%1', "From Date");
             if AllowanceConfiguration.FindSet() then begin
                 repeat
                     if AllowanceConfiguration.IsValidAllowanceConfigurationForEmployee(AllowanceConfiguration, "Employee No.", "To Date") then
@@ -515,6 +564,19 @@ table 50162 "Assignment Memo Line"
                     if "Allowance Amount" <> 0 then
                         break;
                 until AllowanceConfiguration.Next() = 0;
+            end else begin
+                PayrollArchive.SetRange("Table No.", AllowanceConfiguration.RecordId.TableNo);
+                PayrollArchive.SetRange("Payroll Attribute", "Payroll Attribute Code");
+                PayrollArchive.SetFilter("ATM Site", '%1|%2', "ATM Site"::" ", "ATM Site");
+                PayrollArchive.SetFilter("Effective Date", '..%1', "From Date");
+                PayrollArchive.SetFilter("Expire Date", '%1|>=%2', 0D, "From Date");
+                if PayrollArchive.FindSet() then
+                    repeat
+                        if AllowanceConfiguration.IsValidAllowanceConfigurationForEmployee(PayrollArchive, "Employee No.", "To Date") then
+                            "Allowance Amount" := GetAllowanceConfigAmount(PayrollArchive);
+                        if "Allowance Amount" <> 0 then
+                            break;
+                    until PayrollArchive.Next() = 0;
             end;
         end;
     end;

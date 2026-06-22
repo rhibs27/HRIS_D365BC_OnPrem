@@ -55,7 +55,7 @@ report 50032 "Insert Grade"
 
     local procedure APRFY()
     var
-        AppraisalRec: Record Appraisal;
+        // AppraisalRec: Record Appraisal;
         GradeEntry: Record "Grade Entry";
         TempGrade: Integer;
     begin
@@ -72,18 +72,18 @@ report 50032 "Insert Grade"
             SalaryGradeRec.Get(Employee."Salary Grade");
             GradePercent := SalaryGradeRec."Grade Percentage";
 
-            AppraisalRec.Reset;
-            AppraisalRec.SetRange("Employee Code", Employee."No.");
-            if AppraisalRec.FindFirst then begin
-                if Format(AppraisalRec."Final Grading") = HRSetup."APR Grade 2 Increment" then begin
-                    Evaluate(TempGrade, SalaryGradeRec.Code);
-                    GradeEntry.Grade := Format(TempGrade + 2);
-                end
-                else if Format(AppraisalRec."Final Grading") = HRSetup."APR Grade 1 Increment" then begin
-                    Evaluate(TempGrade, SalaryGradeRec.Code);
-                    GradeEntry.Grade := Format(TempGrade + 2);
-                end;
-            end;
+            // AppraisalRec.Reset;
+            // AppraisalRec.SetRange("Employee Code", Employee."No.");
+            // if AppraisalRec.FindFirst then begin
+            //     if Format(AppraisalRec."Final Grading") = HRSetup."APR Grade 2 Increment" then begin
+            //         Evaluate(TempGrade, SalaryGradeRec.Code);
+            //         GradeEntry.Grade := Format(TempGrade + 2);
+            //     end
+            //     else if Format(AppraisalRec."Final Grading") = HRSetup."APR Grade 1 Increment" then begin
+            //         Evaluate(TempGrade, SalaryGradeRec.Code);
+            //         GradeEntry.Grade := Format(TempGrade + 2);
+            //     end;
+            // end;
             GradeEntry."Posting Date" := CalcDate(HRSetup."Grade Adjustment Period", GradeEntry."Posting Date");
             GradeEntry.Insert(true);
             Employee."Salary Grade" := GradeEntry.Grade;

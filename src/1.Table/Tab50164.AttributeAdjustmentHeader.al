@@ -37,10 +37,10 @@ table 50164 "Attribute Adjustment Header"
             TableRelation = "Pay Cycle Period".Period where("Pay Cycle Code" = field("Pay Cycle Code"),
                                                             "Pay Cycle Term" = field("Pay Cycle Term"));
         }
-        field(80; "Adjustment Type"; Enum "Employee Activity Type")
+        field(80; "Adjustment Type"; Enum "Service Event")
         {
             Caption = 'Adjustment Type';
-            ValuesAllowed = " ", Promotion, Confirmation, "Employee Transfer";
+            ValuesAllowed = " ", Promotion, Confirmation, "Transfer";
         }
         field(90; "Approval Status"; Enum "Approval Status")
         {

@@ -107,6 +107,7 @@ codeunit 50008 "Payroll Engine"
         HLInsAmt: Decimal;
         Text001: Label 'Over Time Employee Import Successfully.';
         HomeLoanInsuranceTieUP: Record "Employee Loan/Advance";
+        LeavePeriod: Record "Accounting Period";
 
     local procedure GetAttendanceSetup()
     begin
@@ -460,6 +461,7 @@ codeunit 50008 "Payroll Engine"
                 end;
             end;
         end;
+        PayrollLine.RoundAmount(MonthlyTax);
         PayrollLine.RoundAmount(SocialSecurityTaxAmount);
         if SocialSecurityTaxAmount >= MonthlyTax then
             MonthlyTax := SocialSecurityTaxAmount;
@@ -572,8 +574,10 @@ codeunit 50008 "Payroll Engine"
         PayrollAttributes: Record "Payroll Attributes";
         PayrollColumnConfiguration: Record "Payroll Column Configuration";
         UsageAmount: Decimal;
+        PayingFrequency: Decimal;
         RecRefs: RecordRef;
         FieldRefs: FieldRef;
+        IsHandle: Boolean;
     begin
         ProjectionEarning := 0;
         ProjectedNonPaymentBenefit := 0;
@@ -583,7 +587,7 @@ codeunit 50008 "Payroll Engine"
         PayrollAttributesUsage.SetFilter(Type, '%1|%2', PayrollAttributesUsage.Type::Benefits, PayrollAttributesUsage.Type::"Non-Payment");
         if PayrollAttributesUsage.FindFirst then
             repeat
-                PayrollAttributesUsage.CalcFields("Formula Exists");
+                PayrollAttributesUsage.CalcFields("Formula Exists", Subtype);
                 UsageAmount := 0;
                 if PayrollAttributes.Get(PayrollAttributesUsage.Code) then begin
                     if (PayrollAttributes.Status = PayrollAttributes.Status::Active) and
@@ -605,10 +609,13 @@ codeunit 50008 "Payroll Engine"
                                     ProjectionEarning += UsageAmount * GetAttributeWiseProjectionMonth(PayrollAttributesUsage, RemainingMonth)
                                 else
                                     ProjectionEarning += UsageAmount * RemainingMonth;
-
-                            end else
-                                ProjectionEarning += UsageAmount * GetPayFrequency(PayrollAttributesUsage, PayrollAttributes);
-
+                            end else begin
+                                IsHandle := false;
+                                PayingFrequency := GetPayFrequency(PayrollAttributesUsage, PayrollAttributes);
+                                OnAfterCalcProjectionEarning(PayrollAttributesUsage, UsageAmount, ProjectionEarning, ProjectedNonPaymentBenefit, RemainingMonth, PayingFrequency, IsHandle);
+                                if not IsHandle then
+                                    ProjectionEarning += UsageAmount * PayingFrequency;
+                            end;
                         if PayrollAttributes.Type = PayrollAttributes.Type::"Non-Payment" then
                             if PayrollAttributes."Apply Every Month" then begin
                                 if PayrollAttributesUsage."End Date" <> 0D then
@@ -805,7 +812,7 @@ codeunit 50008 "Payroll Engine"
         exit(NumberStack[NsNo]);
     end;
 
-    local procedure CalculateValue(Number1: Decimal; Number2: Decimal; Opt: Code[20]): Decimal
+    procedure CalculateValue(Number1: Decimal; Number2: Decimal; Opt: Code[20]): Decimal
     begin
         case Opt of
             '*':
@@ -819,7 +826,7 @@ codeunit 50008 "Payroll Engine"
         end;
     end;
 
-    local procedure CheckPrecedence(Opt: Code[20]): Integer
+    procedure CheckPrecedence(Opt: Code[20]): Integer
     begin
         if (Opt = '*') or (Opt = '/') then
             exit(2);
@@ -919,6 +926,11 @@ codeunit 50008 "Payroll Engine"
                 exit(PayrollHeader."Pay Cycle Period")
             else
                 exit(LastPayCyclePeriod);
+    end;
+
+    procedure GetPayingFrequency(PayrollAttributesUsage: Record "Payroll Attributes Usage"; PayrollAttributes: Record "Payroll Attributes"): Integer
+    begin
+        exit(GetPayFrequency(PayrollAttributesUsage, PayrollAttributes));
     end;
 
     local procedure GetPayFrequency(PayrollAttributesUsage: Record "Payroll Attributes Usage"; PayrollAttributes: Record "Payroll Attributes"): Integer
@@ -1470,6 +1482,7 @@ codeunit 50008 "Payroll Engine"
     var
         SalaryDeductionEntries: Record "Salary Deduction Entry";
         PayCyclePeriod, PreviousPayCyclePeriod : Record "Pay Cycle Period";
+        EmployeeAttendance: Record "Employee Attendance & Activity";
     begin
         if PayCyclePeriod.Get(PayrollHeader."Pay Cycle Code", PayrollHeader."Pay Cycle Term", PayrollHeader."Pay Cycle Period") then;
         if PreviousPayCyclePeriod.Get(PayrollHeader."Pay Cycle Code", PayrollHeader."Pay Cycle Term", PayrollHeader."Pay Cycle Period" - 1) then;
@@ -1496,6 +1509,13 @@ codeunit 50008 "Payroll Engine"
 
             SalaryDeductionEntries.SetRange("Deduction Date", PreviousPayCyclePeriod."Pay Date", PreviousPayCyclePeriod."End Date");
             PayrollLine.Validate("Prior Absent Days", SalaryDeductionEntries.Count());
+
+            EmployeeAttendance.Reset();
+            EmployeeAttendance.SetRange("Attendance Date", PayrollHeader."From Date", PayCyclePeriod."Pay Date");
+            EmployeeAttendance.SetRange("Employee No.", PayrollLine."Employee No.");
+            EmployeeAttendance.SetRange("Pay Type", "Leave Pay Type"::Paid);
+            EmployeeAttendance.SetFilter("Pending Leave Request Doc No.", '<>%1', '');
+            PayrollLine.Validate("Leave Days", PayrollLine."Leave Days" + EmployeeAttendance.Count);
         end;
     end;
 
@@ -2324,8 +2344,10 @@ codeunit 50008 "Payroll Engine"
         PayrollAttributes: Record "Payroll Attributes";
         PayrollColumnConfiguration: Record "Payroll Column Configuration";
         UsageAmount: Decimal;
+        PayingFrequency: Integer;
         RecRefs: RecordRef;
         FieldRefs: FieldRef;
+        IsHandle: Boolean;
     begin
         TaxAtOnceProjectionEarning := 0;
         TaxAtOnceProjectedNonPayments := 0;
@@ -2335,7 +2357,7 @@ codeunit 50008 "Payroll Engine"
         PayrollAttributesUsage.SetRange(Type, PayrollAttributesUsage.Type::Benefits);
         if PayrollAttributesUsage.FindFirst then
             repeat
-                PayrollAttributesUsage.CalcFields("Formula Exists");
+                PayrollAttributesUsage.CalcFields("Formula Exists", Subtype);
                 UsageAmount := 0;
                 if PayrollAttributes.Get(PayrollAttributesUsage.Code) then begin
                     if (PayrollAttributes.Status = PayrollAttributes.Status::Active) and
@@ -2353,7 +2375,11 @@ codeunit 50008 "Payroll Engine"
                             else
                                 TaxAtOnceProjectionEarning += UsageAmount * RemainingMonth
                         end else begin
-                            TaxAtOnceProjectionEarning += UsageAmount * GetPayFrequency(PayrollAttributesUsage, PayrollAttributes);
+                            IsHandle := false;
+                            PayingFrequency := GetPayFrequency(PayrollAttributesUsage, PayrollAttributes);
+                            OnAfterCalcTaxOnProjectionEarning(PayrollAttributesUsage, UsageAmount, TaxAtOnceProjectionEarning, ProjectedNonPaymentBenefit, RemainingMonth, PayingFrequency, IsHandle);
+                            if not IsHandle then
+                                TaxAtOnceProjectionEarning += UsageAmount * PayingFrequency;
                         end;
                     end;
                 end;
@@ -3017,18 +3043,18 @@ codeunit 50008 "Payroll Engine"
                     if FirstTime then begin
                         RemoteAreaDeduction := RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
                                               * (PGSetup."Payroll Fiscal Year End Date" - ServiceHistory."Effective Date" + 1);
-                        FirstTime := false;
-                        FinalDate := ServiceHistory."Effective Date";
                     end else begin
                         RemoteAreaDeduction += RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
                                             * (FinalDate - ServiceHistory."Effective Date");
-                        FinalDate := ServiceHistory."Effective Date";
                     end;
                 end;
+                FinalDate := ServiceHistory."Effective Date";
+                FirstTime := false;
             until ServiceHistory.Next(-1) = 0;
 
             //** to calculate the remote area deduction if employment date is in previous fiscal year...
             if Employee."Employment Date" < PGSetup."Payroll Fiscal Year Start Date" then begin
+                Clear(OrganationStructureList);
                 ServiceHistory.Reset;
                 ServiceHistory.SetRange("Employee No.", Employee."No.");
                 ServiceHistory.SetRange("Effective Date", InitalDate, FinalDate);
@@ -3039,7 +3065,6 @@ codeunit 50008 "Payroll Engine"
                         if OrganationStructureList.Get(OrganationStructureList.Type::"Extension Counter", ServiceHistory."Extension Counter (From)") then;
                     end else
                         if OrganationStructureList.Get(ServiceHistory."Deputation On(From)", ServiceHistory."Deputation Code (From)") then;
-
                     if RemoteArea.Get(OrganationStructureList."Remote Area Reduction") then begin
                         RemoteAreaDeduction += RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
                                                * (ServiceHistory."Effective Date" - InitalDate);
@@ -3055,7 +3080,7 @@ codeunit 50008 "Payroll Engine"
                 RemoteAreaDeduction := RemoteArea."Remote Area Deduction" / (PGSetup."Payroll Fiscal Year End Date" - PGSetup."Payroll Fiscal Year Start Date" + 1)
                                         * (PGSetup."Payroll Fiscal Year End Date" - InitalDate + 1);
         end;
-        PayrollLine."Remote Area Deduction" := RemoteAreaDeduction;
+        PayrollLine."Remote Area Deduction" := Round(RemoteAreaDeduction, 0.01, '=');
     end;
 
     procedure LoadDashainBonus(EmployeeType: enum "Employee Type"; PayrollDocNo: Code[20];
@@ -3185,7 +3210,7 @@ codeunit 50008 "Payroll Engine"
         TempLeaveCode := LeaveTypeSetup.Code;
         PGSetup.Get();
         LeaveEarn.Reset();
-        LeaveEarn.SetRange("Posted Date", PGSetup."Payroll Fiscal Year Start Date", PGSetup."Payroll Fiscal Year End Date");
+        LeaveEarn.SetRange("Posted Date", LeavePeriod.GetLeaveYearStartDate(WorkDate()), LeavePeriod.GetLeaveYearEndDate(WorkDate()));
         LeaveEarn.SetRange(Type, LeaveEarn.Type::Used, LeaveEarn.Type::Cancelled);
         LeaveEarn.SetRange("Payroll Posted", false);
         LeaveEarn.SetRange("Leave Code", TempLeaveCode);
@@ -3262,6 +3287,7 @@ codeunit 50008 "Payroll Engine"
             end;
         end;
     end;
+
 
     local procedure GetSettlementAttendance(var SettlementLine: Record "Payroll Line"; var SettlementHeader: Record "Payroll Header")
     var
@@ -3714,4 +3740,13 @@ codeunit 50008 "Payroll Engine"
         //You can add custom logic here if needed.
     end;
 
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterCalcProjectionEarning(PayrollAttributesUsage: Record "Payroll Attributes Usage"; var UsageAmount: Decimal; var ProjectionEarning: Decimal; var ProjectedNonPaymentBenefit: Decimal; RemainingMonth: Decimal; PayingFrequency: Integer; var IsHandle: Boolean)
+    begin
+    end;
+
+    [IntegrationEvent(false, false)]
+    local procedure OnAfterCalcTaxOnProjectionEarning(PayrollAttributesUsage: Record "Payroll Attributes Usage"; var UsageAmount: Decimal; var TaxAtOnceProjectionEarning: Decimal; var ProjectedNonPaymentBenefit: Decimal; RemainingMonth: Decimal; PayingFrequency: Integer; var IsHandle: Boolean)
+    begin
+    end;
 }

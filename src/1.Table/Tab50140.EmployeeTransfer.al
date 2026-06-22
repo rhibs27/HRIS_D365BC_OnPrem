@@ -641,11 +641,13 @@ table 50140 "Employee Transfer"
             TableRelation = "Organization Structure List".Code WHERE(Type = filter("Deputation Type"::Branch), Blocked = filter(false));
             trigger OnValidate()
             begin
-                Clear("Extension Counter (To)");
-                Clear("Extension Name To");
-                Clear("Branch Name To");
-                Clear("Province Code (To)");
-                Clear("Province Name To");
+                if "To Branch" <> xRec."To Branch" then begin
+                    Clear("Extension Counter (To)");
+                    Clear("Extension Name To");
+                    Clear("Branch Name To");
+                    Clear("Province Code (To)");
+                    Clear("Province Name To");
+                end;
                 ValidateDeputationOnTo();
             end;
         }
@@ -1001,7 +1003,7 @@ table 50140 "Employee Transfer"
             "Deputation on"::Province:
                 if OrganizationStructureList.Get(OrganizationStructureList.Type::Province, "Province Code (to)") then begin
                     Validate("Deputation On Code To", OrganizationStructureList.Code);
-                    Validate("Province Name To", OrganizationStructureList."Province Name");
+                    Validate("Province Name To", OrganizationStructureList.Name);
                 end;
         end;
     end;

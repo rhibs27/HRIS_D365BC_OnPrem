@@ -16,10 +16,10 @@ report 50129 "Current Date Transfer Update"
                 begin
                     if GeneralTransferUpdate then
                         ApprovedTransferUpdateEmployee;
-                    if CompensatoryLeaveEarnUpdate then
-                        InsertCompensatorydaysLeave;
-                    if UpdateCompensatoryDays then
-                        UpdateCompensatoryDayCalc;
+                    // if CompensatoryLeaveEarnUpdate then
+                    //     InsertCompensatorydaysLeave;
+                    // if UpdateCompensatoryDays then
+                    //     UpdateCompensatoryDayCalc;
                     if UpdateHolidayCounterAmount then
                         UpdateHolidayCounterAmtCalc;
                     if UpdateFestivalCounterAmount then
@@ -157,7 +157,7 @@ report 50129 "Current Date Transfer Update"
     var
         leaveMgt: Codeunit "Leave Mgt.";
     begin
-        CompensatoryFilter;
+        // CompensatoryFilter;
         CompLeaveOverTime.CalcSums(CompLeaveOverTime."Compensatory Days");
 
         if CompLeaveOverTime."Compensatory Days" > 1 then begin
@@ -174,7 +174,7 @@ report 50129 "Current Date Transfer Update"
             LeaveEarn.Validate("Posted Date", Today);
             LeaveEarn.Validate("Balancing Days", CompLeaveOverTime."Compensatory Days");
             LeaveEarn.Insert(true);
-            CompensatoryFilter;
+            // CompensatoryFilter;
             if CompLeaveOverTime.FindSet then
                 repeat
                     CompLeaveOverTime.Validate("OT Disbursed", true);
@@ -183,30 +183,30 @@ report 50129 "Current Date Transfer Update"
         end;
     end;
 
-    local procedure CompensatoryFilter()
-    begin
-        PayrollGenSetup.Get;
-        CompLeaveOverTime.Reset;
-        CompLeaveOverTime.SetRange("Employee No.", Employee."No.");
-        CompLeaveOverTime.SetRange(Type, CompLeaveOverTime.Type::Overtime);
-        CompLeaveOverTime.SetRange("Approval Status", CompLeaveOverTime."Approval Status"::Approved);
-        CompLeaveOverTime.SetRange("OT Disbursed", false);
-        CompLeaveOverTime.SetRange("Encashment Code", PayrollGenSetup."Compensatory Leave");
-        CompLeaveOverTime.SetRange("Start Date", PayrollGenSetup."Payroll Fiscal Year Start Date", PayrollGenSetup."Payroll Fiscal Year End Date");
-    end;
+    // local procedure CompensatoryFilter()
+    // begin
+    //     PayrollGenSetup.Get;
+    //     CompLeaveOverTime.Reset;
+    //     CompLeaveOverTime.SetRange("Employee No.", Employee."No.");
+    //     CompLeaveOverTime.SetRange(Type, CompLeaveOverTime.Type::Overtime);
+    //     CompLeaveOverTime.SetRange("Approval Status", CompLeaveOverTime."Approval Status"::Approved);
+    //     CompLeaveOverTime.SetRange("OT Disbursed", false);
+    //     CompLeaveOverTime.SetRange("Encashment Code", PayrollGenSetup."Compensatory Leave");
+    //     CompLeaveOverTime.SetRange("Start Date", PayrollGenSetup."Payroll Fiscal Year Start Date", PayrollGenSetup."Payroll Fiscal Year End Date");
+    // end;
 
-    local procedure UpdateCompensatoryDayCalc()
-    begin
-        PayrollGenSetup.Get;
-        CommonFilter;
-        OverTime.SetRange("Encashment Code", PayrollGenSetup."Compensatory Leave");
-        OverTime.SetRange("Compensatory Days", 0);
-        if OverTime.FindSet then
-            repeat
-                OverTime."Compensatory Days" := Round(OverTime."Estimated Hours" / PayrollGenSetup."Compensatory Leave Hour", 0.01, '>');
-                OverTime.Modify;
-            until OverTime.Next = 0;
-    end;
+    // local procedure UpdateCompensatoryDayCalc()
+    // begin
+    //     PayrollGenSetup.Get;
+    //     CommonFilter;
+    //     OverTime.SetRange("Encashment Code", PayrollGenSetup."Compensatory Leave");
+    //     OverTime.SetRange("Compensatory Days", 0);
+    //     if OverTime.FindSet then
+    //         repeat
+    //             OverTime."Compensatory Days" := Round(OverTime."Estimated Hours" / PayrollGenSetup."Compensatory Leave Hour", 0.01, '>');
+    //             OverTime.Modify;
+    //         until OverTime.Next = 0;
+    // end;
 
     local procedure UpdateHolidayCounterAmtCalc()
     begin

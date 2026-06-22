@@ -7,7 +7,10 @@ table 50108 "Insurance Premium Setup"
 
     fields
     {
-        field(1; "Insurance Company"; Enum "Insurance Tieup") { }
+        field(1; "Insurance Company"; Code[20])
+        {
+            TableRelation = "Insurance Company";
+        }
         field(2; Age; Decimal) { }
         field(3; Period; Decimal) { }
         field(4; Value; Decimal)

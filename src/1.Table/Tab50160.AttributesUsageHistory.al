@@ -51,7 +51,7 @@ table 50160 "Attributes Usage History"
         {
             Caption = 'End Date';
         }
-        field(11; "Source Document Type"; Enum "Employee Activity Type")
+        field(11; "Source Document Type"; Enum "Service Event")
         {
             Caption = 'Source Document Type';
         }
@@ -59,12 +59,19 @@ table 50160 "Attributes Usage History"
         {
             Caption = 'Source Document No.';
         }
+        field(13; "Monthly Adjustment"; Boolean)
+        {
+            Caption = 'Monthly Adjustment';
+        }
     }
     keys
     {
         key(PK; "Entry No.")
         {
             Clustered = true;
+        }
+        key(EmpAttrDate; "Employee No.", "Attribute Code", "Start Date")
+        {
         }
     }
 

@@ -201,17 +201,19 @@ page 50246 "Overtime Bulk Card"
         SetLayout();
     end;
 
+    protected var
+        IsOpen: Boolean;
+        IsPending: Boolean;
+        IsApprove: Boolean;
+        RecRef: RecordRef;
+        StatusView: Boolean;
+        ApprovalStatusView: Boolean;
+
     var
-        IsOpen: Boolean; // Used to determine if the page is open for editing
-        IsPending: Boolean; // Used to determine if the approval status is pending
-        IsApprove: Boolean; // Used to determine if the approval status is approved
-        RecRef: RecordRef; // Used to reference the current record
         OvertimeMgt: Codeunit "OverTime Mgt";
         OvertimeLine: Record "Overtime Line";
         ApproverMgt: Codeunit "Approver Mgt";
         HRMgt: Codeunit "HR Mgt.";
-        StatusView: Boolean; // Used to determine if the status view is visible
-        ApprovalStatusView: Boolean; // Used to determine if the approval status view is visible
 
     procedure SetLayout()
     begin
