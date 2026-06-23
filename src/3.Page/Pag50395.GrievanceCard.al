@@ -184,6 +184,12 @@ page 50395 "Grievance Card"
                     ApplicationArea = All;
                 }
             }
+            part(Attachements; "Attachment Subform")
+            {
+                Caption = 'Attachements';
+                SubPageLink = "No." = field("No.");
+                ApplicationArea = All;
+            }
             part("Grievance Comments"; "Grievance Comment Subform")
             {
                 Caption = 'Comments';
